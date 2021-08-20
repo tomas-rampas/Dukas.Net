@@ -23,4 +23,16 @@
       <ProjectReference Include="..\Bi5.Net\Bi5.Net.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="DataSamples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="DataSamples\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="DataSamples\**" />
+    </ItemGroup>
+
 </Project>
