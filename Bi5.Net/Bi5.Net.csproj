@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Title>Bi5.Net</Title>
+        <Authors>Tomas Rampas</Authors>
+        <Description>Convert Dukascopy's  tick data file from prorietary Bi5 format to standard CSV with parametrized time frame resolution result. </Description>
+        <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="LZMA-SDK" Version="19.0.0" />
+    </ItemGroup>
+
+</Project>

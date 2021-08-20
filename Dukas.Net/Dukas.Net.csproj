@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <PackageId>Dukas.Net</PackageId>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Bi5.Net\Bi5.Net.csproj" />
+    </ItemGroup>
+
+</Project>
