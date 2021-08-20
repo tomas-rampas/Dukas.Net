@@ -1,10 +1,16 @@
-﻿using System;
+﻿#nullable enable
+using System;
 
 namespace Bi5.Net.Models
 {
     public class Tick
     {
-        public DateTime Timestamp { get; set; }
+        public Tick(DateTime timestamp)
+        {
+            Timestamp = timestamp;
+        }
+
+        public DateTime Timestamp { get; }
         public double Bid { get; set; }
         public float BidVolume { get; set; }
         public double Ask { get; set; }
@@ -15,15 +21,19 @@ namespace Bi5.Net.Models
             return (this);
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            var tick = obj as Tick;
-            if (tick == null) return false;
+            if (obj is not Tick tick) return false;
             return Math.Abs(tick.Ask - Ask) < 0.000001 
                    && Math.Abs(tick.Bid - Bid) < 0.000001
                    && tick.Timestamp == Timestamp 
                    && Math.Abs(tick.AskVolume - AskVolume) < 0.001
                    && Math.Abs(tick.BidVolume - BidVolume) < 0.001;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Timestamp);
         }
 
         public static implicit operator string(Tick t)

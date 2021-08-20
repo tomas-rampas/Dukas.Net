@@ -42,10 +42,12 @@ namespace Bi5.Net.Tests
             var bidVolBytes = BitConverter.GetBytes(bidVol).Reverse();
             const float askVol = (float)2.30;
             var askVolBytes = BitConverter.GetBytes(askVol).Reverse();
+
+            var timestamp = new DateTime(startDate.Year, startDate.Month, startDate.Day)
+                .AddMilliseconds(milliseconds);
             
-            var originalTick = new Tick()
+            var originalTick = new Tick(timestamp)
             {
-                Timestamp = new DateTime(startDate.Year,startDate.Month,startDate.Day).AddMilliseconds(milliseconds),
                 Ask = bid/Math.Pow(10, 5),
                 AskVolume = bidVol,
                 Bid = ask/Math.Pow(10, 5),

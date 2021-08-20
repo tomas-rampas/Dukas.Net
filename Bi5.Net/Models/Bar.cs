@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Bi5.Net.Models
 {
@@ -20,8 +21,9 @@ namespace Bi5.Net.Models
 
         public static implicit operator string(Bar bar)
         {
-            return $"{bar.Minute} ({bar.Ticks} Ticks) : " +
-                   $"{bar.Timestamp} O={bar.Open}, H={bar.High}, L={bar.Low}, C={bar.Close}, V={bar.Volume}";
+            Debug.WriteLine($"{bar.Minute} ({bar.Ticks} Ticks) : " +
+                   $"{bar.Timestamp} O={bar.Open}, H={bar.High}, L={bar.Low}, C={bar.Close}, V={bar.Volume}");
+            return $"{bar.Timestamp},{bar.Open},{bar.High},{bar.Low},{bar.Close},{bar.Volume}";
         }
     }
 }

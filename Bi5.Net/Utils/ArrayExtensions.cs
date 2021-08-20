@@ -53,9 +53,8 @@ namespace Bi5.Net.Utils
                 var i2 = BitConverter.ToInt32(bytes[new Range(i+8, i + 12)].Bi5ToArray());
                 var f1 = BitConverter.ToSingle(bytes[new Range(i+12, i + 16)].Bi5ToArray());
                 var f2 = BitConverter.ToSingle(bytes[new Range(i+16, i + 20)].Bi5ToArray());
-                var tick = new Tick
+                var tick = new Tick(tickTimestamp)
                 {
-                    Timestamp = tickTimestamp,
                     Bid = i2 / Math.Pow(10, decimals),
                     BidVolume = f2,
                     Ask = i1 / Math.Pow(10, decimals),
