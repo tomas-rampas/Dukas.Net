@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Bi5.Net.Models;
 
+[assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 namespace Bi5.Net.Utils
 {
     public static class ArrayExtensions
@@ -32,8 +34,11 @@ namespace Bi5.Net.Utils
         /// by 20 (size of record) without remainder</exception>
         public static IEnumerable<Tick> ToTickArray(this byte[] bytes, DateTime date, int decimals)
         {
-            if (bytes.Length % TickItemByteSize > 0) throw new ArgumentException("Wrong size of array", nameof(bytes));
-            
+            if (bytes.Length % TickItemByteSize > 0)
+            {
+                throw new ArgumentException("Wrong size of array", nameof(bytes));
+            }
+
             var records = (uint)(bytes.Length / TickItemByteSize);
             var ticks = new Tick[records];
 
@@ -63,6 +68,6 @@ namespace Bi5.Net.Utils
             return ticks;
         }
 
-        private static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();
+        internal static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();
     }
 }
