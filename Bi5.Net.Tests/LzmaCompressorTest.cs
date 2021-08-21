@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Bi5.Net.Utils;
 using Xunit;
 
@@ -7,13 +8,16 @@ namespace Bi5.Net.Tests
 {
     public class LzmaCompressorTest
     {
-        private const string SampleDataFile = @"..\..\..\..\DataSamples\14h_ticks.bi5"; 
+        private const string SampleDataFile = @"..\..\..\..\DataSamples\14h_ticks.bi5";
+        private const string ResultDataFile = @"..\..\..\..\DataSamples\14h_ticks.bin"; 
         [Fact]
         public void Check_Decompress_Bi5_File_Test()
         {
-            var bytes = LzmaCompressor.DecompressLzmaFile(SampleDataFile);
-            Assert.NotNull(bytes);
-            Assert.NotEmpty(bytes);
+            byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+            var result = LzmaCompressor.DecompressLzmaFile(SampleDataFile);
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+            Assert.True(result.SequenceEqual(expectedResult));
         }
 
         [Fact]
@@ -26,10 +30,13 @@ namespace Bi5.Net.Tests
         [Fact]
         public void Check_Decompress_Bi5_Stream_Test()
         {
+            byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+            
             using var iStream = new FileStream(SampleDataFile,FileMode.Open);
-            var bytes = LzmaCompressor.DecompressLzmaStream(iStream);
-            Assert.NotNull(bytes);
-            Assert.NotEmpty(bytes);
+            var result = LzmaCompressor.DecompressLzmaStream(iStream);
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+            Assert.True(result.SequenceEqual(expectedResult));
         }
         
         [Fact]
