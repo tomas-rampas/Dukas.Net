@@ -4,5 +4,10 @@
       "linux"
   ],
   "dist": "xenial",
-  "solution": "Dukas.Net.sln"
+  "dotnet": [
+      "5.0"
+  ],
+  "solution": [
+      "Dukas.Net.sln"
+  ]
 }
