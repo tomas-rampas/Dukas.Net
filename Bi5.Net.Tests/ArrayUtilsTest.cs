@@ -27,7 +27,7 @@ namespace Bi5.Net.Tests
             Assert.True(resultTick.Equals(originalTick));
 
         }
-
+        
         private static (byte[], Tick) CreateTestTick()
         {
             var today  = DateTime.Now;
@@ -58,6 +58,14 @@ namespace Bi5.Net.Tests
                 timeBytes.Concat(bidBytes.Concat(askBytes.Concat(bidVolBytes.Concat(askVolBytes)))).ToArray(),
                 originalTick
             );
+        }
+
+        [Fact]
+        public void Convert_Bi5_Bytes_To_Array()
+        {
+            byte[] input = new byte[] { 1, 2, 3, 4, 5 };
+            byte[] output = input.Bi5ToArray();
+            Assert.Equal(input.Reverse().ToArray(), output);
         }
     }
 }

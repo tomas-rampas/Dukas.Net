@@ -13,9 +13,7 @@ namespace Dukas.Net
 
         private static void Main(string[] args)
         {
-            //DecompressFileLZMA(@"d:\downloads\14h_ticks.bi5", @"d:\downloads\14h_ticks.bin");
-            //CompressFileLZMA(@"d:\downloads\14h_ticks.bin", @"d:\downloads\14h_ticks.bi4");
-            var bytes = LznaCompressor.DecompressFileLZMA(@"..\..\..\..\DataSamples\14h_ticks.bi5");
+            var bytes = LzmaCompressor.DecompressLzmaFile(@"..\..\..\..\DataSamples\14h_ticks.bi5");
 
             var ticks = bytes.ToTickArray(new DateTime(2021, 1, 1), 5);
 
@@ -38,7 +36,7 @@ namespace Dukas.Net
             }
         }
 
-        private static void CompressFileLZMA(string inFile, string outFile)
+        private static void CompressFileLzma(string inFile, string outFile)
         {
             var coder = new SevenZip.Compression.LZMA.Encoder();
             using var input = new FileStream(inFile, FileMode.Open);
@@ -51,26 +49,6 @@ namespace Dukas.Net
 
             // Encode the file.
             coder.Code(input, output, input.Length, -1, null);
-            output.Flush();
-            output.Close();
-        }
-
-        private static void DecompressFileLZMA(string inFile, string outFile)
-        {
-            var coder = new SevenZip.Compression.LZMA.Decoder();
-            using var input = new FileStream(inFile, FileMode.Open);
-            using var output = new FileStream(outFile, FileMode.Create);
-
-            // Read the decoder properties
-            var properties = new byte[5];
-            input.Read(properties, 0, 5);
-
-            // Read in the decompress file size.
-            var fileLengthBytes = new byte[8];
-            input.Read(fileLengthBytes, 0, 8);
-            var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
-            coder.SetDecoderProperties(properties);
-            coder.Code(input, output, input.Length, fileLength, null);
             output.Flush();
             output.Close();
         }
