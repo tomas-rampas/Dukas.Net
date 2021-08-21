@@ -3,5 +3,6 @@
   "os": [
       "linux"
   ],
-  "dist": "xenial"
+  "dist": "xenial",
+  "solution": "Dukas.Net.sln"
 }
