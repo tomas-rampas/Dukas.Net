@@ -24,15 +24,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Remove="DataSamples\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Remove="DataSamples\**" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="DataSamples\**" />
+      <Content Include="DataSamples\14h_ticks.bi5">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <Content Include="DataSamples\14h_ticks.bin">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

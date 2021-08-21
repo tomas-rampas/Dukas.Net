@@ -8,8 +8,8 @@ namespace Bi5.Net.Tests
 {
     public class LzmaCompressorTest
     {
-        private const string SampleDataFile = @"..\..\..\..\DataSamples\14h_ticks.bi5";
-        private const string ResultDataFile = @"..\..\..\..\DataSamples\14h_ticks.bin"; 
+        private const string SampleDataFile = @"./DataSamples/14h_ticks.bi5";
+        private const string ResultDataFile = @"./DataSamples/14h_ticks.bin"; 
         [Fact]
         public void Check_Decompress_Bi5_File_Test()
         {

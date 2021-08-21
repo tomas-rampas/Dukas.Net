@@ -13,7 +13,7 @@ namespace Dukas.Net
 
         private static void Main(string[] args)
         {
-            var bytes = LzmaCompressor.DecompressLzmaFile(@"..\..\..\..\DataSamples\14h_ticks.bi5");
+            var bytes = LzmaCompressor.DecompressLzmaFile(@"..\..\..\..\Bi5.Net.Tests\DataSamples\14h_ticks.bi5");
 
             var ticks = bytes.ToTickArray(new DateTime(2021, 1, 1), 5);
 
