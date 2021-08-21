@@ -32,6 +32,7 @@ namespace Dukas.Net
 
             foreach (var bar in bars)
             {
+                // write line
                 Console.WriteLine(bar);
             }
         }
