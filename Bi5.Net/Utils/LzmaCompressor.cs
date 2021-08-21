@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 namespace Bi5.Net.Utils
 {
     public static class LzmaCompressor
@@ -14,19 +16,24 @@ namespace Bi5.Net.Utils
             return  DecompressLzmaStream(input);
         }
 
-        public static byte[] DecompressLzmaStream(Stream inStream)
+        internal static byte[] DecompressLzmaStream(Stream inStream)
         {
             if (inStream == null) throw new ArgumentNullException(nameof(inStream));
             
             using var output = new MemoryStream();
-            DecodeBi5Stream(inStream, output);
+            DecodeLzmaStream(inStream, output);
             output.Position = 0;
             var data = new byte[output.Length];
             output.Read(data, 0, data.Length);
             return data;
         }
 
-        private static void DecodeBi5Stream(Stream inStream, Stream outStream)
+        /// <summary>
+        /// Reads data from input stream, decode it, and put result in output stream. 
+        /// </summary>
+        /// <param name="inStream">Input Stream</param>
+        /// <param name="outStream">Output Stream</param>
+        private static void DecodeLzmaStream(Stream inStream, Stream outStream)
         {
             var coder = new SevenZip.Compression.LZMA.Decoder();
 
@@ -39,5 +46,25 @@ namespace Bi5.Net.Utils
             coder.SetDecoderProperties(properties);
             coder.Code(inStream, outStream, inStream.Length, fileLength, null);
         }
+        
+        /// <summary>
+        /// This method is not used and so future of this method is unclear. It'll be remove in the future. Likely,
+        /// </summary>
+        /// <param name="inFile">Output file</param>
+        /// <param name="outFile">Output file</param>
+        private static void CompressFileLzma(string inFile, string outFile)
+        {
+            var coder = new SevenZip.Compression.LZMA.Encoder();
+            using var input = new FileStream(inFile, FileMode.Open);
+            using var output = new FileStream(outFile, FileMode.Create);
+            coder.WriteCoderProperties(output);
+
+            output.Write(BitConverter.GetBytes(input.Length), 0, 8);
+
+            coder.Code(input, output, input.Length, -1, null);
+            output.Flush();
+            output.Close();
+        }
+        
     }
 }

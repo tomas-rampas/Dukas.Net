@@ -7,7 +7,11 @@ using Bi5.Net.Models;
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 namespace Bi5.Net.Utils
 {
-    public static class ArrayExtensions
+    /// <summary>
+    /// Byte Array extension methods.
+    /// Extends arrays to make tick data manipulation little bit easier. 
+    /// </summary>
+    internal static class ArrayExtensions
     {
         /// <summary>
         /// 5 x 4 bytes
@@ -65,6 +69,34 @@ namespace Bi5.Net.Utils
             }
 
             return ticks;
+        }
+
+        /// <summary>
+        /// Resamples Tick data to given time frame bars
+        /// </summary>
+        /// <param name="ticks">List of Ticks</param>
+        /// <param name="majorScale">Major scale</param>
+        /// <param name="minorScale">Minor scale</param>
+        /// <returns>Enumerable of Bars</returns>
+        internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale, int minorScale)
+        {
+            var bars = ticks
+                .GroupBy(tick => new { BarTime= TimeframeUtils.GetTimestampForCandle(tick.Timestamp, 
+                    majorScale, minorScale)} 
+                )
+                .Select(grouping => new Bar
+                    {
+                        Ticks = grouping.Count(),
+                        Timestamp = grouping.Key.BarTime,
+                        Open = grouping.OrderBy(x=>x.Timestamp).First().Bid,
+                        High = grouping.Max(x=>x.Bid),
+                        Low = grouping.Min(x=>x.Bid),
+                        Close = grouping.OrderBy(x=>x.Timestamp).Last().Bid,
+                        Volume = Math.Round(grouping.Sum(x=>x.BidVolume), 3)
+                    }
+                ).ToList();
+
+            return bars;
         }
 
         internal static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();

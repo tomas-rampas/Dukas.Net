@@ -5,7 +5,6 @@ namespace Bi5.Net.Models
 {
     public class Bar
     {
-        public int Minute { get; set; }
         public int Ticks { get; set; }
         public DateTime Timestamp { get; set; }
         public double Open { get; set; }
@@ -21,8 +20,6 @@ namespace Bi5.Net.Models
 
         public static implicit operator string(Bar bar)
         {
-            Debug.WriteLine($"{bar.Minute} ({bar.Ticks} Ticks) : " +
-                   $"{bar.Timestamp} O={bar.Open}, H={bar.High}, L={bar.Low}, C={bar.Close}, V={bar.Volume}");
             return $"{bar.Timestamp},{bar.Open},{bar.High},{bar.Low},{bar.Close},{bar.Volume}";
         }
     }
