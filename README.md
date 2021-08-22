@@ -9,8 +9,8 @@ Below is list of all available arguments. Similar list can be also shown by runn
 dukas.net --help
 ```
 
-|Short | Long          | Description                                                            |
-|:----:|:--------------|:-----------------------------------------------------------------------|
+|Short | Long | Description                                                            |
+|---|---|---|
 |-s|--start-date|Required. Tick data start date|
 |-e|--end-date|Tick data end date. Current date time is used when argument not provided|
 |-p|--products|Required. List of tick data demanded products|
