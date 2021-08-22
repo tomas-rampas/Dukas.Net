@@ -3,11 +3,13 @@ Download tick data from Dukascopy and convert it to desired time frame resolutio
 
 #### Command Line Arguments
 
-Below is list of all available arguments. Similar list can be also shown by running help command: 
+All available parameters can be whown by running help command: 
 
 ```
 dukas.net --help
 ```
+
+Below is a list of all arguments.
 
 |Short | Long | Description |
 |---|---|---|
@@ -27,8 +29,7 @@ Get 1 Minute OHLCV Bid-side data between 1st of Jan. 2020 and 31st of Dec. 2020
 for given list of products; store the data into the C:\temp
 
 ```
-dukas.net -s 2020-01-01 -e 2020-12-31 -p "EURUSD,GBPUSD,BTCUSD,DEUIDXEUR"
---major-scale Min --minor-scale 1 -o "c:\temp" -q Bid
+dukas.net -s 2020-01-01 -e 2020-12-31 -p "EURUSD,GBPUSD,BTCUSD,DEUIDXEUR" --major-scale Min --minor-scale 1 -o "c:\temp" -q Bid
 ```
 
 TBC
