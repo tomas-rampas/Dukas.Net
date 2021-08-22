@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Bi5.Net.Models
 {
@@ -13,6 +14,10 @@ namespace Bi5.Net.Models
         {
             StartDate = startDate;
             EndDate = endDate;
+            if (endDate.TimeOfDay == new TimeSpan(0, 0, 0))
+            {
+                EndDate = endDate.AddSeconds(23*60*60 + 59 * 60 + 59);
+            }
             Products = products;
             TimeFrameMajorScale = timeFrameMajorScale;
             TimeFrameMinorScale = timeFrameMinorScale;

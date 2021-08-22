@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Bi5.Net;
 using Bi5.Net.Models;
 using CommandLine;
@@ -11,21 +12,26 @@ namespace Dukas.Net
 {
     public static class Program
     {
-        private static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            AppDomain.CurrentDomain.UnhandledException += 
+                (s, e) => Console.WriteLine(e);
+            
             var parserResult = Parser.Default.ParseArguments<CmdOptions>(args);
             parserResult
-                .WithParsed(InitiateLoader)
+                .WithParsed(FetchData)
                 .WithNotParsed(errs => DisplayHelp(parserResult, errs));
-        }
 
-        private static void InitiateLoader(CmdOptions cmdOpts)
+        }
+        
+        private static void FetchData(CmdOptions cmdOpts)
         {
             LoaderConfig cfg = cmdOpts;
             Console.WriteLine(cfg.QuoteSide.ToString());
-            if (cfg == null) throw new ApplicationException($"Loader config wos not created");
+            if (cfg == null) throw new ApplicationException($"Config wos not created");
+            
             var ldr = new Loader(cfg);
-            //TODO to be continued
+            Task.FromResult(ldr.Get().Result);
         }
 
         private static readonly Func<string> DynamicData = () => {
@@ -40,9 +46,9 @@ namespace Dukas.Net
             return $"{sb}";
         };
 
-        static void DisplayHelp<T>(ParserResult<T> result, IEnumerable<Error> errs)
+        private static void DisplayHelp(ParserResult<CmdOptions> parserResult, IEnumerable<Error> errs)
         {
-            var helpText = HelpText.AutoBuild(result, h =>
+            var helpText = HelpText.AutoBuild(parserResult, h =>
             {
                 h.AddPostOptionsLine(DynamicData());
                 return h;
