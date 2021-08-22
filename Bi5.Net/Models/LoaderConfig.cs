@@ -7,14 +7,17 @@ namespace Bi5.Net.Models
     {
         private LoaderConfig() {}
 
-        public LoaderConfig(DateTime startDate, DateTime? endDate, IEnumerable<string> products, 
-            DateTimePart timeFrameMajorScale, byte timeFrameMinorScale, byte threads = 4)
+        public LoaderConfig(DateTime startDate, DateTime endDate, IEnumerable<string> products,
+            DateTimePart timeFrameMajorScale, uint timeFrameMinorScale, string outputFolder, QuoteSide quoteSide,
+            byte threads = 4)
         {
             StartDate = startDate;
-            EndDate = endDate ?? DateTime.Now;
+            EndDate = endDate;
             Products = products;
             TimeFrameMajorScale = timeFrameMajorScale;
             TimeFrameMinorScale = timeFrameMinorScale;
+            OutputFolder = outputFolder;
+            QuoteSide = quoteSide;
             Threads = threads;
         }
         
@@ -27,6 +30,8 @@ namespace Bi5.Net.Models
         public IEnumerable<string> Products { get; }
         public byte Threads { get;  }
         public DateTimePart TimeFrameMajorScale { get; }
-        public byte TimeFrameMinorScale { get; }
+        public uint TimeFrameMinorScale { get; }
+        public string OutputFolder { get;  }
+        public QuoteSide QuoteSide { get; }
     }
 }
