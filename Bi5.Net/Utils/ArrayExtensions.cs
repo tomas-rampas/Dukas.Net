@@ -51,7 +51,8 @@ namespace Bi5.Net.Utils
             {
                 
                 var milliseconds = BitConverter.ToInt32(bytes[new Range(new Index(i), new Index(i + 4))].Bi5ToArray());
-                var tickTimestamp = new DateTime(date.Year,date.Month,date.Day).AddMilliseconds(milliseconds);
+                var tickTimestamp = new DateTime(date.Year,date.Month,date.Day, date.Hour, 0, 0)
+                    .AddMilliseconds(milliseconds);
 
                 var i1 = BitConverter.ToInt32(bytes[new Range(i+4, i + 8)].Bi5ToArray());
                 var i2 = BitConverter.ToInt32(bytes[new Range(i+8, i + 12)].Bi5ToArray());
