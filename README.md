@@ -3,7 +3,7 @@ Download tick data from Dukascopy and convert it to desired time frame resolutio
 
 #### Command Line Arguments
 
-All available parameters can be whown by running help command: 
+All available parameters can be enumerated by running help command: 
 
 ```
 dukas.net --help
