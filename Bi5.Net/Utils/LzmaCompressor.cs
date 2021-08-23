@@ -28,6 +28,16 @@ namespace Bi5.Net.Utils
             return data;
         }
 
+        internal static byte[] DecompressLzmaBytes(byte[] inBytes)
+        {
+            if (inBytes == null) throw new ArgumentNullException(nameof(inBytes));
+            
+            using var inStream = new MemoryStream();
+            inStream.Write(inBytes);
+            inStream.Position = 0;
+            return DecompressLzmaStream(inStream);
+        }
+
         /// <summary>
         /// Reads data from input stream, decode it, and put result in output stream. 
         /// </summary>

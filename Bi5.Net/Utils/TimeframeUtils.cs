@@ -23,8 +23,10 @@ namespace Bi5.Net.Utils
         
         public static DateTime GetTimestampForCandle(DateTime timestamp, DateTimePart majorScale, int minorScale)
         {
+            // return new DateTime(timestamp.Year, timestamp.Month,
+            //     timestamp.Day, timestamp.Hour, timestamp.Minute, (timestamp.Second / 15) * 15);
             return new DateTime(timestamp.Year, timestamp.Month,
-                timestamp.Day, timestamp.Hour, timestamp.Minute, (timestamp.Second / 15) * 15);
+                timestamp.Day, timestamp.Hour, (timestamp.Minute/1)*1, 0);
         }
     }
 }

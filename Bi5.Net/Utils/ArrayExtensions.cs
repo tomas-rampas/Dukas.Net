@@ -100,5 +100,23 @@ namespace Bi5.Net.Utils
         }
 
         internal static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();
+        
+        /// <summary>
+        /// Concatenates two or more arrays into a single one.
+        /// No linq here as we can work with huge tick data 
+        /// </summary>
+        public static T[] Concat<T>(params T[][] arrays)
+        {
+            // return (from array in arrays from arr in array select arr).ToArray();
+ 
+            var result = new T[arrays.Sum(a => a.Length)];
+            int offset = 0;
+            for (int x = 0; x < arrays.Length; x++)
+            {
+                arrays[x].CopyTo(result, offset);
+                offset += arrays[x].Length;
+            }
+            return result;
+        }
     }
 }
