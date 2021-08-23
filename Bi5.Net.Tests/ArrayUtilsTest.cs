@@ -18,8 +18,11 @@ namespace Bi5.Net.Tests
         [Fact]
         public void Check_Conversion_Test()
         {
-            var (bytes, originalTick) = CreateTestTick();
-            var ticks = bytes.ToTickArray(DateTime.Now, 5);
+            var today  = DateTime.Now;
+            var currentDate = new DateTime(today.Year, today.Month, today.Day, 13, 32, 26);
+            var startDate = new DateTime(today.Year, today.Month, today.Day, 13, 0, 0);
+            var (bytes, originalTick) = CreateTestTick(currentDate, startDate);
+            var ticks = bytes.ToTickArray(startDate, 5);
 
             var tickArray = ticks as Tick[] ?? ticks.ToArray();
             Assert.True(tickArray.Length == 1);
@@ -28,11 +31,9 @@ namespace Bi5.Net.Tests
 
         }
         
-        private static (byte[], Tick) CreateTestTick()
+        private static (byte[], Tick) CreateTestTick(DateTime currentDate, DateTime startDate)
         {
-            var today  = DateTime.Now;
-            var startDate = new DateTime(today.Year, today.Month, today.Day, 0, 0, 0);
-            var milliseconds  = (int)(today - startDate).TotalMilliseconds;
+            var milliseconds  = (int)(currentDate - startDate).TotalMilliseconds;
             var timeBytes = BitConverter.GetBytes(milliseconds).Reverse();
             const int bid = 12345;
             var bidBytes = BitConverter.GetBytes(bid).Reverse();
@@ -43,8 +44,7 @@ namespace Bi5.Net.Tests
             const float askVol = (float)2.30;
             var askVolBytes = BitConverter.GetBytes(askVol).Reverse();
 
-            var timestamp = new DateTime(startDate.Year, startDate.Month, startDate.Day)
-                .AddMilliseconds(milliseconds);
+            var timestamp = startDate.AddMilliseconds(milliseconds);
             
             var originalTick = new Tick(timestamp)
             {

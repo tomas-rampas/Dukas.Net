@@ -36,6 +36,11 @@ namespace Bi5.Net.Models
             return HashCode.Combine(Timestamp);
         }
 
+        /// <summary>
+        /// Implicit conversion to string
+        /// </summary>
+        /// <param name="t">Tick to convert</param>
+        /// <returns>CSV string</returns>
         public static implicit operator string(Tick t)
         {
             return $"{t.Timestamp:dd.MM.yyyy hh:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
