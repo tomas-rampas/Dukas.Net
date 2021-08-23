@@ -20,7 +20,7 @@ Below is a list of all arguments.
 | |--major-scale|(Default: Day) Time Frame major scale. Possible values: Sec, Min, Hour, Day, Week, Month, Year|
 | |--minor-scale|(Default: 1) Time Frame minor scale|
 |-o|--output-dir   |Required. Output data directory|
-| |-help|Display this help screen.|
+| |--help|Display this help screen.|
 | |--version|Display version information.|
 
 #### All arguments sample
