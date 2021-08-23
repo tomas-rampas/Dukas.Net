@@ -42,14 +42,15 @@ namespace Bi5.Net
                 {
                     var date = _cfg.StartDate.AddHours(i);
                     var bi5DataUrl = string.Format(_dataUrl, product, date.Year, date.Month - 1, date.Day, date.Hour);
-                    Console.Write(bi5DataUrl);
-                    byte[] bi5Data = LzmaCompressor.DecompressLzmaBytes(await webFactory.DownloadFile(bi5DataUrl));
-                    Tick[] currentTicks = bi5Data.ToTickArray(date, 5).ToArray();
+                    Console.WriteLine(bi5DataUrl);
+                    byte[] compressedBi5 = await webFactory.DownloadFile(bi5DataUrl);
+                    if(compressedBi5 == null || compressedBi5.Length == 0) continue;
+                    Tick[] currentTicks = LzmaCompressor.DecompressLzmaBytes(compressedBi5)
+                        .ToTickArray(date, 5).ToArray();
                     tickData = ArrayExtensions.Concat(new Tick[][] {tickData, currentTicks});
-                    Console.WriteLine($"  - Got {bi5Data.Length} bytes - TickData has {tickData.Length} bytes ... Done");
                 }
 #if DEBUG
-                IEnumerable<Bar> bars = tickData.Resample(DateTimePart.Min, 1);
+                IEnumerable<Bar> bars = tickData.Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale);
                 Array.ForEach(bars.ToArray(), bar => Console.WriteLine(bar));
 #endif
             }

@@ -20,7 +20,7 @@ namespace Bi5.Net.Models
 
         public static implicit operator string(Bar bar)
         {
-            return $"{bar.Timestamp},{bar.Open},{bar.High},{bar.Low},{bar.Close},{bar.Volume}";
+            return $"{bar.Timestamp:yyyy-MM-dd HH:mm:ss},{bar.Open},{bar.High},{bar.Low},{bar.Close},{bar.Volume}";
         }
     }
 }

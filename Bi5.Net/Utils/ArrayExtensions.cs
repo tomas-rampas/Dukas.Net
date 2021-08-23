@@ -79,7 +79,7 @@ namespace Bi5.Net.Utils
         /// <param name="majorScale">Major scale</param>
         /// <param name="minorScale">Minor scale</param>
         /// <returns>Enumerable of Bars</returns>
-        internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale, int minorScale)
+        internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale, uint minorScale)
         {
             var bars = ticks
                 .GroupBy(tick => new { BarTime= TimeframeUtils.GetTimestampForCandle(tick.Timestamp, 
