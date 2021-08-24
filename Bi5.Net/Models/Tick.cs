@@ -3,7 +3,7 @@ using System;
 
 namespace Bi5.Net.Models
 {
-    public class Tick
+    public class Tick : ITimedData
     {
         public Tick(DateTime timestamp)
         {

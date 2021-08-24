@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace Bi5.Net.Models
 {
-    public class Bar
+    public class Bar : ITimedData
     {
         public int Ticks { get; set; }
         public DateTime Timestamp { get; set; }
