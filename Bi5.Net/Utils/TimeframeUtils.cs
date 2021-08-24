@@ -16,7 +16,7 @@ namespace Bi5.Net.Utils
                     DateTimePart.Sec, 
                     (timestamp, minorScale) => 
                         new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, timestamp.Hour, 
-                            timestamp.Minute, timestamp.Second / minorScale * minorScale)
+                            timestamp.Minute, timestamp.Second / minorScale * minorScale, 0)
                 }, 
                 { 
                     DateTimePart.Min,  
@@ -39,12 +39,12 @@ namespace Bi5.Net.Utils
                     DateTimePart.Month, 
                     (timestamp, minorScale) => 
                         new DateTime(timestamp.Year, timestamp.Month/minorScale*minorScale,
-                            0,0,0,0)
+                            1,0,0,0)
                 } ,
                 {
                     DateTimePart.Year,
                     (timestamp, minorScale) => 
-                        new DateTime(timestamp.Year/minorScale*minorScale, 0,0,0,0,0)
+                        new DateTime(timestamp.Year/minorScale*minorScale, 1,1,0,0,0)
                 } 
             };
 
