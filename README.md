@@ -17,7 +17,7 @@ Below is a list of all arguments.
 |-e|--end-date|Tick data end date. Current date time is used when argument not provided|
 |-p|--products|Required. List of tick data demanded products|
 |-q|--quote-side|(Default: Bid) Requested Quote side. Possible values: Bid, Ask, Both|
-| |--major-scale|(Default: Day) Time Frame major scale. Possible values: Sec, Min, Hour, Day, Week, Month, Year|
+| |--major-scale|(Default: Day) Time Frame major scale. Possible values: Tick, Sec, Min, Hour, Day, Month, Year|
 | |--minor-scale|(Default: 1) Time Frame minor scale|
 |-o|--output-dir   |Required. Output data directory|
 | |--help|Display this help screen.|
