@@ -10,6 +10,7 @@ namespace Bi5.Net.Tests
     {
         private const string SampleDataFile = @"./DataSamples/14h_ticks.bi5";
         private const string ResultDataFile = @"./DataSamples/14h_ticks.bin"; 
+        private const string LzmaBytesDataFile = @"./DataSamples/14h_ticks.lzma";
         [Fact]
         public void Check_Decompress_Bi5_File_Test()
         {
@@ -43,6 +44,18 @@ namespace Bi5.Net.Tests
         public void Check_Decompress_Bi5_Stream_Wrong_Parameters_Test()
         {
             Assert.Throws<ArgumentNullException>(() => LzmaCompressor.DecompressLzmaStream(null));
+        }
+
+        [Fact]
+        public void Check_Decompress_Byte_Array()
+        {
+            byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+            byte[] lzmaBytes = Convert.FromBase64String(File.ReadAllText(LzmaBytesDataFile));
+
+            byte[] result = LzmaCompressor.DecompressLzmaBytes(lzmaBytes);
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+            Assert.True(result.SequenceEqual(expectedResult));
         }
 
     }

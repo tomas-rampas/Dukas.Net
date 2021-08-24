@@ -8,24 +8,10 @@ namespace Bi5.Net.Utils
 {
     public delegate DateTime GetResampledDateTime(DateTime timestamp, int minorScale);
     public static class TimeframeUtils
-    {
-        private static readonly Dictionary<string, DateTimePart> Timeframes =
-            new()
-            {
-                { "mSec", DateTimePart.MSec },
-                { "Sec", DateTimePart.Sec },
-                { "Min", DateTimePart.Min },
-                { "Hour", DateTimePart.Hour },
-                { "Day", DateTimePart.Day },
-                { "Week", DateTimePart.Week },
-                { "Month", DateTimePart.Month },
-                { "Year", DateTimePart.Year },
-            };
-        
+    {        
         private static readonly Dictionary<DateTimePart, GetResampledDateTime> DatePartDelegates =
             new()
             {
-                //{ DateTimePart.MSec, minor => DateTime.Now },
                 { 
                     DateTimePart.Sec, 
                     (timestamp, minorScale) => 
@@ -48,10 +34,6 @@ namespace Bi5.Net.Utils
                     (timestamp, minorScale) => 
                         new DateTime(timestamp.Year, timestamp.Month, timestamp.Day/minorScale*minorScale, 
                             0,0,0)
-                } ,
-                {
-                    //TODO: Count weeks
-                    DateTimePart.Week, (_, _) => throw new NotImplementedException()
                 } ,
                 {
                     DateTimePart.Month, 

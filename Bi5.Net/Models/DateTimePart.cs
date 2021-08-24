@@ -9,9 +9,9 @@
     public enum DateTimePart
     {
         /// <summary>
-        /// Millisecond
+        /// Raw tick
         /// </summary>
-        MSec,
+        Tick,
         /// <summary>
         /// Second
         /// </summary>
@@ -29,7 +29,7 @@
         /// </summary>
         Day,
         /// <summary>
-        /// Week
+        /// Week. Currently not supported.
         /// </summary>
         Week,
         /// <summary>
