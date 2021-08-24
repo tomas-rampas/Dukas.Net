@@ -43,7 +43,7 @@ namespace Bi5.Net
                     var date = _cfg.StartDate.AddHours(i);
                     var bi5DataUrl = string.Format(_dataUrl, product, date.Year, date.Month - 1, date.Day, date.Hour);
                     Console.WriteLine(bi5DataUrl);
-                    byte[] compressedBi5 = await webFactory.DownloadFile(bi5DataUrl);
+                    byte[] compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
                     if(compressedBi5 == null || compressedBi5.Length == 0) continue;
                     Tick[] currentTicks = LzmaCompressor.DecompressLzmaBytes(compressedBi5)
                         .ToTickArray(date, 5).ToArray();
