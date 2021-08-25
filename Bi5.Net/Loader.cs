@@ -24,7 +24,7 @@ namespace Bi5.Net
 
         public async Task<IEnumerable<ITimedData>> Get()
         {
-            IEnumerable<ITimedData> result = null;
+            IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
             
             var webFactory = new WebFactory();
 #if DEBUG
@@ -38,19 +38,18 @@ namespace Bi5.Net
 #if DEBUG
             watch.Stop();
             Console.WriteLine($"Fetch Data Time Taken : {watch.ElapsedMilliseconds} ms.");
-            
-            Array.ForEach(result.ToArray(), timedData =>
-            {
-                Console.WriteLine(timedData);
-            });
+
+            var timedData = result as ITimedData[] ?? result.ToArray();
+            Array.ForEach(timedData, Console.WriteLine);
 #endif
 
+            // ReSharper disable once PossibleMultipleEnumeration
             return result;
         }
 
         private async Task<IEnumerable<ITimedData>> Get(string product, WebFactory webFactory)
         {
-            IEnumerable<ITimedData> result;
+            IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
             Console.WriteLine($"Loading {product} from {_cfg.StartDate:yyyy-MM-dd HH:mm:ss} to " +
                               $"{_cfg.EndDate:yyyy-MM-dd HH:mm:ss}");
 
@@ -65,6 +64,8 @@ namespace Bi5.Net
                 tickData = ArrayExtensions.Concat(new Tick[][] { tickData, currentTicks });
             }
 
+            if (_cfg.TimeFrameMajorScale == DateTimePart.Tick) return tickData;
+            
             result = tickData.Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale);
             
             return result;
