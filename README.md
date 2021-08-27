@@ -19,7 +19,8 @@ Below is a list of all arguments.
 |-q|--quote-side|(Default: Bid) Requested Quote side. Possible values: Bid, Ask, Both|
 | |--major-scale|(Default: Day) Time Frame major scale. Possible values: Tick, Sec, Min, Hour, Day, Month, Year|
 | |--minor-scale|(Default: 1) Time Frame minor scale|
-|-o|--output-dir   |Required. Output data directory|
+|-o|--output-dir|Required. Output data directory|
+|-f|--file-scale|(Default Day). File Scale defines time frequency for the data in file. E.g. when FileScale is FileScale.Day data will be grouped by Day and store in the file with frequency where one file represents one day of data ; Possible values: Min, Hour, Day, Month, Year |
 | |--help|Display this help screen.|
 | |--version|Display version information.|
 
