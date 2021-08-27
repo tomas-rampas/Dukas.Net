@@ -21,7 +21,6 @@ namespace Dukas.Net
             parserResult
                 .WithParsed(FetchData)
                 .WithNotParsed(errs => DisplayHelp(parserResult, errs));
-
         }
         
         private static void FetchData(CmdOptions cmdOpts)
@@ -31,7 +30,7 @@ namespace Dukas.Net
             if (cfg == null) throw new ApplicationException($"Config wos not created");
             
             var ldr = new Loader(cfg);
-            Task.FromResult(ldr.Get().Result);
+            Task.FromResult(ldr.GetAndFlush().Result);
         }
 
         private static readonly Func<string> DynamicData = () => {

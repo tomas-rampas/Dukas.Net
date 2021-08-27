@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Bi5.Net.IO;
 using Bi5.Net.Models;
 using Bi5.Net.Net;
 using Bi5.Net.Utils;
@@ -20,6 +21,18 @@ namespace Bi5.Net
         public Loader(LoaderConfig cfg)
         {
             _cfg = cfg;
+        }
+
+        /// <summary>
+        /// Fetch data and write it to the fiven directory
+        /// </summary>
+        /// <returns>true if success; false otherwise</returns>
+        public async Task<bool> GetAndFlush()
+        {
+            var timedData = await Get();
+            var fileWriter = WriterFactory.CreateFactory(timedData);
+            fileWriter.Write(timedData);
+            return true;
         }
 
         public async Task<IEnumerable<ITimedData>> Get()

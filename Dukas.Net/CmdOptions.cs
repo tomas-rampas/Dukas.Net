@@ -29,12 +29,15 @@ namespace Dukas.Net
 
         [Option('o', "output-dir", Required = true, HelpText = "Output data directory")]
         public string OutputFolder { get; set; }
+        
+        [Option('f', "file-scale", Default = FileScale.Day, Required = true)]
+        public FileScale FileScale { get; set; }
 
         public static implicit operator LoaderConfig(CmdOptions opts)
         {
             return new LoaderConfig(
                 opts.StartDate, opts.EndDate ?? DateTime.Now, opts.Products, opts.TimeFrameMajorScale, 
-                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide
+                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide, opts.FileScale
             );
         }
     }

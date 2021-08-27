@@ -10,7 +10,7 @@ namespace Bi5.Net.Models
 
         public LoaderConfig(DateTime startDate, DateTime endDate, IEnumerable<string> products,
             DateTimePart timeFrameMajorScale, uint timeFrameMinorScale, string outputFolder, QuoteSide quoteSide,
-            byte threads = 4)
+            FileScale fileScale, byte threads = 4)
         {
             StartDate = startDate;
             EndDate = endDate;
@@ -23,6 +23,7 @@ namespace Bi5.Net.Models
             TimeFrameMinorScale = timeFrameMinorScale;
             OutputFolder = outputFolder;
             QuoteSide = quoteSide;
+            FileScale = fileScale;
             Threads = threads;
         }
         
@@ -38,5 +39,6 @@ namespace Bi5.Net.Models
         public uint TimeFrameMinorScale { get; }
         public string OutputFolder { get;  }
         public QuoteSide QuoteSide { get; }
+        public FileScale FileScale { get; }
     }
 }

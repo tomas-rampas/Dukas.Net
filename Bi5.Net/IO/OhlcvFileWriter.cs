@@ -5,7 +5,8 @@ namespace Bi5.Net.IO
 {
     public class OhlcvFileWriter : FileWriter<Bar>
     {
-        protected override bool Write(IEnumerable<Bar> data)
+        
+        internal override bool Write(IEnumerable<Bar> data)
         {
             throw new System.NotImplementedException();
         }
