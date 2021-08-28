@@ -17,6 +17,7 @@ namespace Bi5.Net.IO
                     IEnumerable<string> lines = data.Select(bar => bar.ToString());
                     System.IO.File.WriteAllLines(System.IO.Path.Combine(_filePath, $"{product}.csv"), lines);
                     return true;
+                case FileScale.Day:
                 default:
                     Console.WriteLine($"The {_fileScale} writer is not implemented yet :( ");
                     return false;

@@ -32,12 +32,14 @@ namespace Dukas.Net
         
         [Option('f', "file-scale", Default = FileScale.Day, Required = true)]
         public FileScale FileScale { get; set; }
+        [Option('h', "header", Default = false, HelpText = "Include header in resulting data file")]
+        public bool IncHeader { get; set; }
 
         public static implicit operator LoaderConfig(CmdOptions opts)
         {
             return new LoaderConfig(
                 opts.StartDate, opts.EndDate ?? DateTime.Now, opts.Products, opts.TimeFrameMajorScale, 
-                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide, opts.FileScale
+                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide, opts.FileScale, opts.IncHeader
             );
         }
     }
