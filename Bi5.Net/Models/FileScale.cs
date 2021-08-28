@@ -27,7 +27,11 @@
         /// <summary>
         /// Year
         /// </summary>
-        Year
+        Year,
+        /// <summary>
+        /// All data in one file
+        /// </summary>
+        Full
         
     }
 }

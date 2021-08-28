@@ -29,33 +29,31 @@ namespace Bi5.Net
         /// <returns>true if success; false otherwise</returns>
         public async Task<bool> GetAndFlush()
         {
-            var timedData = await Get();
-            var fileWriter = WriterFactory.CreateFactory(timedData);
-            fileWriter.Write(timedData);
+#if DEBUG
+            var watch = Stopwatch.StartNew();
+#endif
+            //TODO optimize this, it have to run in parallel but without overloading Dukascopy servers
+            foreach (var product in _cfg.Products)
+            {
+                var timedData = await Get(product);
+                var fileWriter = WriterFactory.CreateWriter(timedData, _cfg);
+                fileWriter.Write(product, timedData);
+#if DEBUG
+                watch.Stop();
+                Console.WriteLine($"Fetch Data Time Taken : {watch.ElapsedMilliseconds} ms.");
+                Array.ForEach(timedData.ToArray(), Console.WriteLine);
+#endif
+            }
             return true;
         }
 
-        public async Task<IEnumerable<ITimedData>> Get()
+        public async Task<IEnumerable<ITimedData>> Get(string product)
         {
             IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
             
             var webFactory = new WebFactory();
-#if DEBUG
-            var watch = Stopwatch.StartNew();
-#endif
-            //TODO optimize this, it have to run in parallel but without overloading Dukascopy servers  
-            foreach (var product in _cfg.Products)
-            {
-                result = await Get(product, webFactory);
-            }
-#if DEBUG
-            watch.Stop();
-            Console.WriteLine($"Fetch Data Time Taken : {watch.ElapsedMilliseconds} ms.");
-
-            var timedData = result as ITimedData[] ?? result.ToArray();
-            Array.ForEach(timedData, Console.WriteLine);
-#endif
-
+            result = await Get(product, webFactory);
+            
             // ReSharper disable once PossibleMultipleEnumeration
             return result;
         }

@@ -5,7 +5,10 @@ namespace Bi5.Net.IO
 {
     public class TickDataFileWriter : FileWriter<Tick>
     {
-        internal override bool Write(IEnumerable<Tick> data)
+        private TickDataFileWriter(){}
+
+        public TickDataFileWriter(LoaderConfig cfg): base(cfg) {}
+        protected override bool Write(string product, IEnumerable<Tick> data)
         {
             throw new System.NotImplementedException();
         }
