@@ -67,35 +67,5 @@ namespace Bi5.Net.Tests
             byte[] output = input.Bi5ToArray();
             Assert.Equal(input.Reverse().ToArray(), output);
         }
-
-        [Fact]
-        public void Arrays_Concat_Test()
-        {
-            Tick[] ticks1 = new[] { 
-                new Tick(DateTime.Now)
-                {
-                    Bid = 1, Ask = 1, AskVolume = (float)2.5, BidVolume = (float)3.1
-                } ,
-                new Tick(DateTime.Now.AddMinutes(-1))
-                {
-                Bid = 2, Ask = 2, AskVolume = (float)2.5, BidVolume = (float)3.1
-                } 
-            };
-            Tick[] ticks2 = new[] { 
-                new Tick(DateTime.Now.AddHours(1))
-                {
-                    Bid = 3, Ask = 3, AskVolume = (float)2.5, BidVolume = (float)3.1
-                } ,
-                new Tick(DateTime.Now.AddHours(-1))
-                {
-                    Bid = 4, Ask = 4, AskVolume = (float)2.5, BidVolume = (float)3.1
-                } 
-            };
-
-            var ticks3 = ArrayExtensions.Concat(new [] {ticks1, ticks2});
-            Assert.NotNull(ticks3);
-            Assert.NotEmpty(ticks3);
-            Assert.True(ticks3.Count() == ticks1.Length + ticks2.Length);
-        }
     }
 }

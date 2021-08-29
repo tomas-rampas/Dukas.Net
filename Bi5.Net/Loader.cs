@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Bi5.Net.IO;
 using Bi5.Net.Models;
@@ -41,7 +42,7 @@ namespace Bi5.Net
 #if DEBUG
                 watch.Stop();
                 Console.WriteLine($"Fetch Data Time Taken : {watch.ElapsedMilliseconds} ms.");
-                Array.ForEach(timedData.ToArray(), Console.WriteLine);
+                //Array.ForEach(timedData.ToArray(), Console.WriteLine);
 #endif
             }
             return true;
@@ -72,7 +73,10 @@ namespace Bi5.Net
             for (int i = 0; i <= totalHoursAligned; i++)
             {
                 var currentTicks = await GetTicks(product, webFactory, i);
-                tickData = ArrayExtensions.Concat(new Tick[][] { tickData, currentTicks });
+                Thread.Sleep(200);
+                int startIndex = tickData.Length;
+                Array.Resize(ref tickData, tickData.Length + currentTicks.Length);
+                Array.Copy(currentTicks,0, tickData, startIndex, currentTicks.Length);
             }
 
             if (_cfg.TimeFrameMajorScale == DateTimePart.Tick) return tickData;

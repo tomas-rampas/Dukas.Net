@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Bi5.Net.Models;
 
@@ -18,6 +19,20 @@ namespace Bi5.Net.IO
                     System.IO.File.WriteAllLines(System.IO.Path.Combine(_filePath, $"{product}.csv"), lines);
                     return true;
                 case FileScale.Day:
+                    Directory.CreateDirectory(Path.Combine(_filePath, product));
+                    var groups = data.GroupBy(x => new
+                    {
+                        BarDateNoTime = new DateTime(x.Timestamp.Year, x.Timestamp.Month, x.Timestamp.Day),
+                    });
+                    foreach (var @group in groups)
+                    {
+                        IEnumerable<string> groupData = group.Select(bar => bar.ToString());
+                        File.WriteAllLines(Path.Combine(
+                            _filePath, product, $"{@group.Key.BarDateNoTime:yyyyMMdd}.csv"), groupData
+                        );
+                    }
+
+                    return true;
                 default:
                     Console.WriteLine($"The {_fileScale} writer is not implemented yet :( ");
                     return false;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Bi5.Net.Models;
@@ -65,7 +66,7 @@ namespace Bi5.Net.Utils
                     Ask = i1 / Math.Pow(10, decimals),
                     AskVolume = f1,
                 };
-                Console.WriteLine(tick);
+                Debug.WriteLine(tick);
                 ticks[k] = tick;
             }
 
@@ -82,8 +83,10 @@ namespace Bi5.Net.Utils
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale, uint minorScale)
         {
             var bars = ticks
-                .GroupBy(tick => new { BarTime= TimeframeUtils.GetTimestampForCandle(tick.Timestamp, 
-                    majorScale, minorScale)} 
+                .GroupBy(tick => new 
+                    {
+                        BarTime= TimeframeUtils.GetTimestampForCandle(tick.Timestamp,majorScale, minorScale)
+                    } 
                 )
                 .Select(grouping => new Bar
                     {
@@ -101,23 +104,5 @@ namespace Bi5.Net.Utils
         }
 
         internal static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();
-        
-        /// <summary>
-        /// Concatenates two or more arrays into a single one.
-        /// No linq here as we can work with huge tick data 
-        /// </summary>
-        public static T[] Concat<T>(params T[][] arrays)
-        {
-            // return (from array in arrays from arr in array select arr).ToArray();
- 
-            var result = new T[arrays.Sum(a => a.Length)];
-            int offset = 0;
-            for (int x = 0; x < arrays.Length; x++)
-            {
-                arrays[x].CopyTo(result, offset);
-                offset += arrays[x].Length;
-            }
-            return result;
-        }
     }
 }
