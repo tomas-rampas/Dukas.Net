@@ -8,16 +8,20 @@ using Bi5.Net.IO;
 using Bi5.Net.Models;
 using Bi5.Net.Net;
 using Bi5.Net.Utils;
+using static Bi5.Net.Utils.DateTimeUtils;
 
 namespace Bi5.Net
 {
     public class Loader
     {
-        private string _dataUrl = "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
+        private string _dataUrl =
+            "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
         private readonly LoaderConfig _cfg;
-        
-        protected Loader() {}
+
+        protected Loader()
+        {
+        }
 
         public Loader(LoaderConfig cfg)
         {
@@ -37,63 +41,102 @@ namespace Bi5.Net
             foreach (var product in _cfg.Products)
             {
                 var timedData = await Get(product);
-                var fileWriter = WriterFactory.CreateWriter(timedData, _cfg);
-                fileWriter.Write(product, timedData);
-#if DEBUG
-                watch.Stop();
-                Console.WriteLine($"Fetch Data Time Taken : {watch.ElapsedMilliseconds} ms.");
-                //Array.ForEach(timedData.ToArray(), Console.WriteLine);
-#endif
+                //var fileWriter = WriterFactory.CreateWriter(timedData, _cfg);
+                //fileWriter.Write(product, timedData);
             }
+#if DEBUG
+            watch.Stop();
+            Console.WriteLine($"Fetch Data Taken : {watch.ElapsedMilliseconds} ms.");
+            //Array.ForEach(timedData.ToArray(), Console.WriteLine);
+#endif
             return true;
         }
 
+        /// <summary>
+        /// Fetch data
+        /// </summary>
+        /// <param name="product">Product to fetch data for</param>
+        /// <returns></returns>
         public async Task<IEnumerable<ITimedData>> Get(string product)
         {
-            IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
-            
+            Tick[] tickData = Array.Empty<Tick>();
+
             var webFactory = new WebFactory();
-            result = await Get(product, webFactory);
-            
-            // ReSharper disable once PossibleMultipleEnumeration
-            return result;
-        }
-
-        private async Task<IEnumerable<ITimedData>> Get(string product, WebFactory webFactory)
-        {
-            IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
-            Console.WriteLine($"Loading {product} from {_cfg.StartDate:yyyy-MM-dd HH:mm:ss} to " +
-                              $"{_cfg.EndDate:yyyy-MM-dd HH:mm:ss}");
-
-            var tickData = Array.Empty<Tick>();
-            var totalHours = (_cfg.EndDate - _cfg.StartDate).TotalHours;
-            var totalHoursAligned = (int)totalHours + Convert.ToInt32(_cfg.EndDate.Ticks % _cfg.StartDate.Ticks > 0);
-            Debug.WriteLine($"{totalHours}, {totalHoursAligned}");
-            
-            for (int i = 0; i <= totalHoursAligned; i++)
+            await foreach (ITimedData[] currentTicks in Fetch(product, webFactory))
             {
-                var currentTicks = await GetTicks(product, webFactory, i);
-                Thread.Sleep(200);
                 int startIndex = tickData.Length;
                 Array.Resize(ref tickData, tickData.Length + currentTicks.Length);
-                Array.Copy(currentTicks,0, tickData, startIndex, currentTicks.Length);
+                Array.Copy(currentTicks, 0, tickData, startIndex, currentTicks.Length);
+
+                // once full day arrived, create file and flush content to it
+                if (tickData.Length > 0 && IsLastHour(tickData.Last().Timestamp))
+                {
+                    var result = tickData.Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale);
+                    Console.WriteLine($"Last Date: {tickData.Last().Timestamp:yyyy-MM-dd HH:mm:ss}");
+                    var fileWriter = WriterFactory.CreateWriter(result, _cfg);
+                    fileWriter.Write(product, result);
+                    tickData = Array.Empty<Tick>();
+                }
             }
 
-            if (_cfg.TimeFrameMajorScale == DateTimePart.Tick) return tickData;
-            
-            result = tickData.Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale);
-            
-            return result;
+            // ReSharper disable once PossibleMultipleEnumeration
+            return tickData;
         }
 
-        private async Task<Tick[]> GetTicks(string product, WebFactory webFactory, int i)
+        private async IAsyncEnumerable<ITimedData[]> Fetch(string product, WebFactory webFactory)
         {
-            var date = _cfg.StartDate.AddHours(i);
+            IFileWriter tickDataFileWriter = new TickDataFileWriter(_cfg);
+
+            var startDate = CalculateEffectiveDate(_cfg.StartDate);
+            var endDate = CalculateEffectiveDate(_cfg.EndDate, true);
+
+            IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
+            Console.WriteLine($"Loading {product} from {startDate:yyyy-MM-dd HH:mm:ss} to " +
+                              $"{endDate:yyyy-MM-dd HH:mm:ss}");
+
+            var tickData = Array.Empty<Tick>();
+            var totalHours = (endDate - startDate).TotalHours;
+            var totalHoursAligned = (int)totalHours + Convert.ToInt32(endDate.Ticks % startDate.Ticks > 0);
+            Debug.WriteLine($"{totalHours}, {totalHoursAligned}");
+
+            for (int hourOffset = 0; hourOffset < totalHours; hourOffset++)
+            {
+                var date = startDate.AddHours(hourOffset);
+                var lastHour = GetLastHour(date);
+                ITimedData[] currentTicks = await GetTicks(product, webFactory, date);
+                Thread.Sleep(50);
+                if (currentTicks.Any())
+                {
+                    int startIndex = tickData.Length;
+                    Array.Resize(ref tickData, tickData.Length + currentTicks.Length);
+                    Array.Copy(currentTicks, 0, tickData, startIndex, currentTicks.Length);
+                    // store hourly tick data
+                    tickDataFileWriter.Write(product, currentTicks);
+                }
+
+                if (lastHour == date.Hour)
+                {
+                    Debug.WriteLine($"{date:yyyy-MM-dd HH:mm} finished");
+                }
+
+                yield return currentTicks;
+            }
+
+            // if (_cfg.TimeFrameMajorScale == DateTimePart.Tick) return tickDataFileWriter.FilePaths;
+            //
+            // result = tickData.Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale);
+            //
+            // return result;
+        }
+
+        private async Task<Tick[]> GetTicks(string product, WebFactory webFactory, DateTime date)
+        {
             var bi5DataUrl = string.Format(_dataUrl, product, date.Year, date.Month - 1, date.Day, date.Hour);
             Console.WriteLine(bi5DataUrl);
             byte[] compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
             if (compressedBi5 == null || compressedBi5.Length == 0) return Array.Empty<Tick>();
-            Tick[] currentTicks = LzmaCompressor.DecompressLzmaBytes(compressedBi5)
+            Tick[] currentTicks = LzmaCompressor
+                .DecompressLzmaBytes(compressedBi5)
                 .ToTickArray(date, 5).ToArray();
             return currentTicks;
         }

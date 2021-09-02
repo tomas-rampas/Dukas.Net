@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace Bi5.Net.IO
 {
@@ -11,5 +12,6 @@ namespace Bi5.Net.IO
         /// <param name="data">List of prices</param>
         /// <returns>True if bool ended up successfully</returns>
         internal bool Write(string product, IEnumerable data);
+        internal List<string> FilePaths { get; }
     }
 }

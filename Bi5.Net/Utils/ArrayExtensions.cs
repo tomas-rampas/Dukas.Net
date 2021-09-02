@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Bi5.Net.Models;
@@ -66,7 +67,7 @@ namespace Bi5.Net.Utils
                     Ask = i1 / Math.Pow(10, decimals),
                     AskVolume = f1,
                 };
-                Debug.WriteLine(tick);
+                //Debug.WriteLine(tick);
                 ticks[k] = tick;
             }
 
@@ -80,8 +81,12 @@ namespace Bi5.Net.Utils
         /// <param name="majorScale">Major scale</param>
         /// <param name="minorScale">Minor scale</param>
         /// <returns>Enumerable of Bars</returns>
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale, uint minorScale)
         {
+            var lastTimestamp = ticks.Last().Timestamp;
+            var groupDate = new DateTime(lastTimestamp.Year, lastTimestamp.Month, lastTimestamp.Day);
             var bars = ticks
                 .GroupBy(tick => new 
                     {
@@ -91,6 +96,7 @@ namespace Bi5.Net.Utils
                 .Select(grouping => new Bar
                     {
                         Ticks = grouping.Count(),
+                        GroupDate = groupDate,
                         Timestamp = grouping.Key.BarTime,
                         Open = grouping.OrderBy(x=>x.Timestamp).First().Bid,
                         High = grouping.Max(x=>x.Bid),

@@ -9,7 +9,7 @@ namespace Bi5.Net.Models
         {
             Timestamp = timestamp;
         }
-
+        
         public DateTime Timestamp { get; }
         public double Bid { get; set; }
         public float BidVolume { get; set; }
@@ -43,7 +43,7 @@ namespace Bi5.Net.Models
         /// <returns>CSV string</returns>
         public static implicit operator string(Tick t)
         {
-            return $"{t.Timestamp:dd.MM.yyyy hh:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
+            return $"{t.Timestamp:dd.MM.yyyy HH:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
         }
     }
 }

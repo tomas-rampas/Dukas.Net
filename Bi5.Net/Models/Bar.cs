@@ -5,6 +5,7 @@ namespace Bi5.Net.Models
 {
     public class Bar : ITimedData
     {
+        public DateTime GroupDate { get; set; }
         public int Ticks { get; set; }
         public DateTime Timestamp { get; set; }
         public double Open { get; set; }

@@ -7,19 +7,29 @@ namespace Bi5.Net.IO
     public abstract class FileWriter<T> : IFileWriter 
         where T : ITimedData
     {
-        protected readonly FileScale _fileScale;
-        protected readonly string _filePath;
+        protected readonly FileScale FileScale;
+        protected readonly string FilePath;
+        protected readonly DateTimePart TimeFrameMajorScale;
+        protected readonly uint TimeFrameMinorScale;
+        protected readonly string TimeFrame;
+        protected List<string> _filePaths;
 
         protected FileWriter() {}
         public FileWriter(LoaderConfig cfg)
         {
-            _fileScale = cfg.FileScale;
-            _filePath = cfg.OutputFolder;
+            FileScale = cfg.FileScale;
+            FilePath = cfg.OutputFolder;
+            TimeFrameMajorScale = cfg.TimeFrameMajorScale;
+            TimeFrameMinorScale = cfg.TimeFrameMinorScale;
+            TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
+            _filePaths = new List<string>();
         }
         protected abstract bool Write(string product, IEnumerable<T> data);
         bool IFileWriter.Write(string product, IEnumerable data)
         {
             return Write(product, (IEnumerable<T>)data);
         }
+
+        List<string> IFileWriter.FilePaths => _filePaths;
     }
 }
