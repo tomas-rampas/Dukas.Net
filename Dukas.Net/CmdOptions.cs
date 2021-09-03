@@ -34,12 +34,15 @@ namespace Dukas.Net
         public FileScale FileScale { get; set; }
         [Option('h', "header", Default = false, HelpText = "Include header in resulting data file")]
         public bool IncHeader { get; set; }
+        [Option('g', "gzip", Default = false, HelpText = "Compress result")]
+        public bool GzipResult { get; set; }
 
         public static implicit operator LoaderConfig(CmdOptions opts)
         {
             return new LoaderConfig(
                 opts.StartDate, opts.EndDate ?? DateTime.Now, opts.Products, opts.TimeFrameMajorScale, 
-                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide, opts.FileScale, opts.IncHeader
+                opts.TimeFrameMinorScale, opts.OutputFolder, opts.QuoteSide, opts.FileScale, opts.IncHeader,
+                opts.GzipResult
             );
         }
     }

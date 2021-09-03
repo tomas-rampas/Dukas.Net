@@ -10,7 +10,7 @@ namespace Bi5.Net.Models
 
         public LoaderConfig(DateTime startDate, DateTime endDate, IEnumerable<string> products,
             DateTimePart timeFrameMajorScale, uint timeFrameMinorScale, string outputFolder, QuoteSide quoteSide,
-            FileScale fileScale, bool writeHeader, byte threads = 4)
+            FileScale fileScale, bool writeHeader, bool gzipResult, byte threads = 4)
         {
             StartDate = startDate;
             EndDate = endDate;
@@ -25,6 +25,7 @@ namespace Bi5.Net.Models
             QuoteSide = quoteSide;
             FileScale = fileScale;
             WriteHeader = writeHeader;
+            GzipResult = gzipResult;
             Threads = threads;
         }
         
@@ -42,5 +43,6 @@ namespace Bi5.Net.Models
         public QuoteSide QuoteSide { get; }
         public FileScale FileScale { get; }
         public bool WriteHeader { get; }
+        public bool GzipResult { get; }
     }
 }

@@ -24,10 +24,10 @@ namespace Bi5.Net.IO
             TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
             _filePaths = new List<string>();
         }
-        protected abstract bool Write(string product, IEnumerable<T> data);
-        bool IFileWriter.Write(string product, IEnumerable data)
+        protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
+        bool IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
         {
-            return Write(product, (IEnumerable<T>)data);
+            return Write(product, side, (IEnumerable<T>)data);
         }
 
         List<string> IFileWriter.FilePaths => _filePaths;

@@ -19,6 +19,7 @@
     
     <ItemGroup>
       <PackageReference Include="LZMA-SDK" Version="19.0.0" />
+      <PackageReference Include="System.Linq.Async" Version="5.0.0" />
     </ItemGroup>
 
 </Project>

@@ -12,7 +12,7 @@ namespace Bi5.Net.IO
         private TickDataFileWriter(){}
 
         public TickDataFileWriter(LoaderConfig cfg): base(cfg) {}
-        protected override bool Write(string product, IEnumerable<Tick> data)
+        protected override bool Write(string product, QuoteSide side, IEnumerable<Tick> data)
         {
             if (data == null || !data.Any()) throw new ArgumentException(null, nameof(data));
             var ticks = data as Tick[] ?? data.ToArray();

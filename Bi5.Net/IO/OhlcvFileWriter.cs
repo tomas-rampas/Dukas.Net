@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Bi5.Net.Models;
+using Bi5.Net.Utils;
 
 namespace Bi5.Net.IO
 {
     public class OhlcvFileWriter : FileWriter<Bar>
     {
-        public OhlcvFileWriter(LoaderConfig loaderConfig):base(loaderConfig){}
+        public OhlcvFileWriter(LoaderConfig loaderConfig) : base(loaderConfig)
+        {
+        }
 
-        protected override bool Write(string product, IEnumerable<Bar> data)
+        protected override bool Write(string product, QuoteSide side, IEnumerable<Bar> data)
         {
             switch (FileScale)
             {
@@ -29,7 +33,10 @@ namespace Bi5.Net.IO
                     foreach (var @group in groups)
                     {
                         IEnumerable<string> groupData = group.Select(bar => bar.ToString());
-                        File.WriteAllLines(Path.Combine(dirPath, $"{@group.Key.BarDateNoTime:yyyyMMdd}.csv"), groupData);
+                        var fileName = Path.Combine(dirPath, $"{group.Key.BarDateNoTime:yyyyMMdd}_{side.ToString()}.csv");
+                        File.WriteAllLines(fileName, groupData);
+                        GzipCompressor.GzipStream(fileName);
+                        File.Delete(fileName);
                     }
 
                     return true;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Bi5.Net.Models;
 
 namespace Bi5.Net.IO
 {
@@ -9,9 +10,10 @@ namespace Bi5.Net.IO
         /// Writes data to file
         /// </summary>
         /// <param name="product"></param>
+        /// <param name="side">Bid, Ask, Both</param>
         /// <param name="data">List of prices</param>
         /// <returns>True if bool ended up successfully</returns>
-        internal bool Write(string product, IEnumerable data);
+        internal bool Write(string product, QuoteSide side, IEnumerable data);
         internal List<string> FilePaths { get; }
     }
 }
