@@ -15,7 +15,7 @@ Below is a list of all arguments.
 |:---|:---|:---|
 |-s|--start-date|Required. Tick data start date|
 |-e|--end-date|Tick data end date. Current date time is used when argument not provided|
-|-p|--products|Required. List of tick data demanded products|
+|-p|--products|Required. Comma seprated list of tick data of demanded products (e.g. -p EURUSD,BRENTCMDUSD,DEUIDXEUR,XAUSUD)  |
 |-q|--quote-side|(Default: Bid) Requested Quote side. Possible values: Bid, Ask, Both|
 | |--major-scale|(Default: Day) Time Frame major scale. Possible values: Tick, Sec, Min, Hour, Day, Month, Year|
 | |--minor-scale|(Default: 1) Time Frame minor scale|
