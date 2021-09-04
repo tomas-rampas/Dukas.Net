@@ -38,6 +38,8 @@ namespace Bi5.Net
                 .Where(x => _cfg.Products.Any(p => p == x.Key))
                 .Select(x => x.Value).ToList();
             
+            CheckProductsInCatalogue(products);
+
             await products
                 .ToAsyncEnumerable()
                 .AsyncParallelForEach(Get, 8, TaskScheduler.Default);
@@ -48,6 +50,16 @@ namespace Bi5.Net
                 $"Fetch Data Took  " +
                 $"{timeSpan.Hours:D2}:{timeSpan.Minutes:D2}:{timeSpan.Seconds:D2}.{timeSpan.Milliseconds:D3}");
             return true;
+        }
+
+        private void CheckProductsInCatalogue(IEnumerable<Product> products)
+        {
+            var unknownProducts = _cfg.Products.Where(_ => !products.Any()).ToArray();
+            if (unknownProducts.Any())
+            {
+                Console.WriteLine("Undefined products:");
+                Array.ForEach(unknownProducts, Console.WriteLine);
+            }
         }
 
         /// <summary>

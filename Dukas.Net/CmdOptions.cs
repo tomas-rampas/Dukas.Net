@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using Bi5.Net.Models;
 using CommandLine;
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable once ClassNeverInstantiated.Global
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Dukas.Net
 {
