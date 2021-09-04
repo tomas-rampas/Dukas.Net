@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Bi5.Net.IO;
 using Bi5.Net.Models;
 using Bi5.Net.Net;
+using Bi5.Net.Products;
 using Bi5.Net.Utils;
 using static Bi5.Net.Utils.DateTimeUtils;
 
@@ -19,9 +20,7 @@ namespace Bi5.Net
 
         private readonly LoaderConfig _cfg;
 
-        protected Loader()
-        {
-        }
+        protected Loader(){}
 
         public Loader(LoaderConfig cfg)
         {
@@ -29,17 +28,20 @@ namespace Bi5.Net
         }
 
         /// <summary>
-        /// Fetch data and write it to the fiven directory
+        /// Fetch data and write it to the given directory
         /// </summary>
         /// <returns>true if success; false otherwise</returns>
         public async Task<bool> GetAndFlush()
         {
             var watch = Stopwatch.StartNew();
-
-            await _cfg.Products
-                .ToAsyncEnumerable()
-                .AsyncParallelForEach(Get, 4, TaskScheduler.Default);
+            var products = DukascopyProducts.Catalogue
+                .Where(x => _cfg.Products.Any(p => p == x.Key))
+                .Select(x => x.Value).ToList();
             
+            await products
+                .ToAsyncEnumerable()
+                .AsyncParallelForEach(Get, 8, TaskScheduler.Default);
+
             watch.Stop();
             var timeSpan = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
             Console.WriteLine(
@@ -53,7 +55,7 @@ namespace Bi5.Net
         /// </summary>
         /// <param name="product">Product to fetch data for</param>
         /// <returns></returns>
-        public async Task<IEnumerable<ITimedData>> Get(string product)
+        public async Task<IEnumerable<ITimedData>> Get(Product product)
         {
             Tick[] tickData = Array.Empty<Tick>();
 
@@ -78,8 +80,8 @@ namespace Bi5.Net
                 var lastTick = tickData.LastOrDefault(x => x != null);
                 if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp))
                 {
-                    FlushData(product, tickData, QuoteSide.Bid);
-                    FlushData(product, tickData, QuoteSide.Ask);
+                    FlushData(product.Name, tickData, QuoteSide.Bid);
+                    FlushData(product.Name, tickData, QuoteSide.Ask);
                     Console.WriteLine($"Last Date: {lastTick.Timestamp:yyyy-MM-dd HH:mm:ss}");
                     Array.Clear(tickData, 0, tickData.Length);
                     lastEndIndex = 0;
@@ -99,7 +101,7 @@ namespace Bi5.Net
             //tickData = Array.Empty<Tick>();
         }
 
-        private async IAsyncEnumerable<ITimedData[]> Fetch(string product, WebFactory webFactory)
+        private async IAsyncEnumerable<ITimedData[]> Fetch(Product product, WebFactory webFactory)
         {
             IFileWriter tickDataFileWriter = new TickDataFileWriter(_cfg);
 
@@ -123,7 +125,7 @@ namespace Bi5.Net
                 if (currentTicks.Any())
                 {
                     // store hourly tick data
-                    tickDataFileWriter.Write(product, QuoteSide.Both, currentTicks);
+                    tickDataFileWriter.Write(product.Name, QuoteSide.Both, currentTicks);
                 }
 
                 if (lastHour == date.Hour)
@@ -135,15 +137,15 @@ namespace Bi5.Net
             }
         }
 
-        private async Task<Tick[]> GetTicks(string product, WebFactory webFactory, DateTime date)
+        private async Task<Tick[]> GetTicks(Product product, WebFactory webFactory, DateTime date)
         {
-            var bi5DataUrl = string.Format(_dataUrl, product, date.Year, date.Month - 1, date.Day, date.Hour);
+            var bi5DataUrl = string.Format(_dataUrl, product.Name, date.Year, date.Month - 1, date.Day, date.Hour);
             Console.WriteLine(bi5DataUrl);
             byte[] compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
             if (compressedBi5 == null || compressedBi5.Length == 0) return Array.Empty<Tick>();
             Tick[] currentTicks = LzmaCompressor
                 .DecompressLzmaBytes(compressedBi5)
-                .ToTickArray(date, 5).ToArray();
+                .ToTickArray(date, product.Decimals).ToArray();
             return currentTicks;
         }
     }
