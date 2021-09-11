@@ -20,7 +20,9 @@ namespace Bi5.Net
 
         private readonly LoaderConfig _cfg;
 
-        protected Loader(){}
+        protected Loader()
+        {
+        }
 
         public Loader(LoaderConfig cfg)
         {
@@ -37,7 +39,7 @@ namespace Bi5.Net
             var products = DukascopyProducts.Catalogue
                 .Where(x => _cfg.Products.Any(p => p == x.Key))
                 .Select(x => x.Value).ToList();
-            
+
             CheckProductsInCatalogue(products);
 
             await products
@@ -110,7 +112,6 @@ namespace Bi5.Net
                 .Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale, side);
             var fileWriter = WriterFactory.CreateWriter(result, _cfg);
             fileWriter.Write(product, side, result);
-            //tickData = Array.Empty<Tick>();
         }
 
         private async IAsyncEnumerable<ITimedData[]> Fetch(Product product, WebFactory webFactory)
