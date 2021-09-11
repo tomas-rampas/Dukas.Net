@@ -42,7 +42,7 @@ namespace Bi5.Net
 
             await products
                 .ToAsyncEnumerable()
-                .AsyncParallelForEach(Get, 8, TaskScheduler.Default);
+                .AsyncParallelForEach(Get, 10, TaskScheduler.Default);
 
             watch.Stop();
             var timeSpan = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -90,7 +90,7 @@ namespace Bi5.Net
 
                 // once full day arrived, create file and flush content to it
                 var lastTick = tickData.LastOrDefault(x => x != null);
-                if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp))
+                if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp, _cfg.UseMarketDate))
                 {
                     FlushData(product.Name, tickData, QuoteSide.Bid);
                     FlushData(product.Name, tickData, QuoteSide.Ask);
@@ -131,7 +131,7 @@ namespace Bi5.Net
             for (int hourOffset = 0; hourOffset < totalHours; hourOffset++)
             {
                 var date = startDate.AddHours(hourOffset);
-                var lastHour = GetLastHour(date);
+                var lastHour = GetLastHour(date, _cfg.UseMarketDate);
                 ITimedData[] currentTicks = await GetTicks(product, webFactory, date);
                 Thread.Sleep(50);
                 if (currentTicks.Any())

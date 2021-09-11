@@ -21,6 +21,7 @@ namespace Bi5.Net.Products
                 { "EURGBP", new Product("EURUSD", 5, "FX") },
                 { "EURAUD", new Product("EURUSD", 5, "FX") },
                 { "USDJPY", new Product("USDJPY", 3, "FX") },
+                { "USDCAD", new Product("USDCAD", 5, "FX") },
                 { "BRENTCMDUSD", new Product("BRENTCMDUSD", 3, "CFD") },
                 { "LIGHTCMDUSD", new Product("LIGHTCMDUSD", 3, "CFD") },
                 { "DEUIDXEUR", new Product("DEUIDXEUR", 3, "CFD") },
@@ -32,10 +33,6 @@ namespace Bi5.Net.Products
                 { "BUNDTREUR", new Product("BUNDTREUR", 3, "CFD") },
                 { "UKGILTTRGBP", new Product("UKGILTTRGBP", 3, "CFD") },
                 { "USTBONDTRUSD", new Product("USTBONDTRUSD", 3, "CFD") },
-                
-                
-                
-
             }
         ){}
     }

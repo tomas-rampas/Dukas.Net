@@ -27,15 +27,19 @@ namespace Bi5.Net.Utils
             return startDate.IsDaylightSavingTime() ? startDate.AddHours(-2).AddSeconds(-1) : startDate.AddHours(-1).AddSeconds(-1);
         }
 
-        internal static bool IsLastHour(DateTime dateTime)
+        internal static bool IsLastHour(DateTime dateTime, bool useMarketDate)
         {
-            if (dateTime.IsDaylightSavingTime())
+            
+            if (!useMarketDate && dateTime.DayOfWeek != DayOfWeek.Friday) return dateTime.Hour == 23;
+            
+            if (dateTime.IsDaylightSavingTime() || (!useMarketDate && dateTime.DayOfWeek == DayOfWeek.Friday))
             {
                 return dateTime.Hour == 20;
             } 
             return dateTime.Hour == 21;
         }
         
-        internal static int GetLastHour(DateTime dateTime) =>  dateTime.IsDaylightSavingTime() ? 20 : 21;
+        internal static int GetLastHour(DateTime dateTime, bool useMarketDate) 
+            => !useMarketDate ? 23 :  dateTime.IsDaylightSavingTime() ? 20 : 21;
     }
 }

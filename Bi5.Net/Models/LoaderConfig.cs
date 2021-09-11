@@ -27,8 +27,11 @@ namespace Bi5.Net.Models
             WriteHeader = writeHeader;
             GzipResult = gzipResult;
             Threads = threads;
+            UseMarketDate = false;
         }
-        
+
+        public bool UseMarketDate { get; }
+
         public DateTime StartDate { get; }
         public DateTime EndDate { get; }
         

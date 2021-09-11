@@ -4,7 +4,7 @@ using Bi5.Net.Models;
 
 namespace Bi5.Net.IO
 {
-    public abstract class FileWriter<T> : IFileWriter 
+    public abstract class FileWriter<T> : IFileWriter
         where T : ITimedData
     {
         protected readonly FileScale FileScale;
@@ -14,7 +14,10 @@ namespace Bi5.Net.IO
         protected readonly string TimeFrame;
         protected List<string> _filePaths;
 
-        protected FileWriter() {}
+        protected FileWriter()
+        {
+        }
+
         public FileWriter(LoaderConfig cfg)
         {
             FileScale = cfg.FileScale;
@@ -24,7 +27,9 @@ namespace Bi5.Net.IO
             TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
             _filePaths = new List<string>();
         }
+
         protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
+
         bool IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
         {
             return Write(product, side, (IEnumerable<T>)data);

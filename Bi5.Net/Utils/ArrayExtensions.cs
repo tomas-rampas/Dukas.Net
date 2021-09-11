@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using Bi5.Net.Models;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
+
 namespace Bi5.Net.Utils
 {
     /// <summary>
@@ -26,7 +27,7 @@ namespace Bi5.Net.Utils
         /// 5th 4 bytes -> Ask Volume
         /// </summary>
         private const int TickItemByteSize = 20;
-        
+
         /// <summary>
         /// Converts bytes to Ticks
         /// </summary>
@@ -51,15 +52,14 @@ namespace Bi5.Net.Utils
             var k = 0;
             for (var i = 0; i < bytes.Length; i += TickItemByteSize, k++)
             {
-                
                 var milliseconds = BitConverter.ToInt32(bytes[new Range(new Index(i), new Index(i + 4))].Bi5ToArray());
-                var tickTimestamp = new DateTime(date.Year,date.Month,date.Day, date.Hour, 0, 0)
+                var tickTimestamp = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0)
                     .AddMilliseconds(milliseconds);
 
-                var i1 = BitConverter.ToInt32(bytes[new Range(i+4, i + 8)].Bi5ToArray());
-                var i2 = BitConverter.ToInt32(bytes[new Range(i+8, i + 12)].Bi5ToArray());
-                var f1 = BitConverter.ToSingle(bytes[new Range(i+12, i + 16)].Bi5ToArray());
-                var f2 = BitConverter.ToSingle(bytes[new Range(i+16, i + 20)].Bi5ToArray());
+                var i1 = BitConverter.ToInt32(bytes[new Range(i + 4, i + 8)].Bi5ToArray());
+                var i2 = BitConverter.ToInt32(bytes[new Range(i + 8, i + 12)].Bi5ToArray());
+                var f1 = BitConverter.ToSingle(bytes[new Range(i + 12, i + 16)].Bi5ToArray());
+                var f2 = BitConverter.ToSingle(bytes[new Range(i + 16, i + 20)].Bi5ToArray());
                 var tick = new Tick(tickTimestamp)
                 {
                     Bid = i2 / Math.Pow(10, decimals),
@@ -81,33 +81,35 @@ namespace Bi5.Net.Utils
         /// <param name="majorScale">Major scale</param>
         /// <param name="minorScale">Minor scale</param>
         /// <returns>Enumerable of Bars</returns>
-        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
-        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+            MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+            MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
             , uint minorScale, QuoteSide side = QuoteSide.Bid)
         {
             var lastTimestamp = ticks.Last().Timestamp;
             var groupDate = new DateTime(lastTimestamp.Year, lastTimestamp.Month, lastTimestamp.Day);
             var bars = ticks
-                .GroupBy(tick => new 
+                .GroupBy(tick => new
                     {
-                        BarTime= TimeframeUtils.GetTimestampForCandle(tick.Timestamp,majorScale, minorScale)
-                    } 
+                        BarTime = TimeframeUtils.GetTimestampForCandle(tick.Timestamp, majorScale, minorScale)
+                    }
                 )
                 .Select(grouping => new Bar
                     {
                         Ticks = grouping.Count(),
                         GroupDate = groupDate,
                         Timestamp = grouping.Key.BarTime,
-                        Open = side == QuoteSide.Bid ? 
-                            grouping.OrderBy(x=>x.Timestamp).First().Bid :
-                            grouping.OrderBy(x=>x.Timestamp).First().Ask,
-                        High = grouping.Max(x=> side == QuoteSide.Bid ? x.Bid : x.Ask),
-                        Low = grouping.Min(x=> side == QuoteSide.Bid ? x.Bid : x.Ask),
-                        Close = side == QuoteSide.Bid ?
-                            grouping.OrderBy(x=>x.Timestamp).Last().Bid :
-                            grouping.OrderBy(x=>x.Timestamp).Last().Ask,
-                        Volume = Math.Round(grouping.Sum(x=> side == QuoteSide.Bid ? x.BidVolume : x.AskVolume), 3)
+                        Open = side == QuoteSide.Bid
+                            ? grouping.OrderBy(x => x.Timestamp).First().Bid
+                            : grouping.OrderBy(x => x.Timestamp).First().Ask,
+                        High = grouping.Max(x => side == QuoteSide.Bid ? x.Bid : x.Ask),
+                        Low = grouping.Min(x => side == QuoteSide.Bid ? x.Bid : x.Ask),
+                        Close = side == QuoteSide.Bid
+                            ? grouping.OrderBy(x => x.Timestamp).Last().Bid
+                            : grouping.OrderBy(x => x.Timestamp).Last().Ask,
+                        Volume = Math.Round(grouping.Sum(x => side == QuoteSide.Bid ? x.BidVolume : x.AskVolume), 3)
                     }
                 ).ToList();
 
