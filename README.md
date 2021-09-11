@@ -28,8 +28,8 @@ Below is a list of all arguments.
 
 #### All arguments sample
 
-Get 1 Minute OHLCV Bid-side data between 1st of Jan. 2020 and 31st of Dec. 2020
-for given list of products; store the data into the C:\temp
+Get 1 Minute OHLCV Bid-side data between 1st of Jan. 2020 and 31st of Dec. 2020 for given list of products, and store gzipped Bid and Ask data into the C:\temp. 
+This command also creates Tick data directory for every product so it can be use later for resampling to other time frames without touching Dukascopy servers.
 
 ```
 dukas.net -s "2020-01-01 00:00:00" -e "2021-09-03 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
