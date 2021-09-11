@@ -16,10 +16,10 @@ namespace Bi5.Net.Products
             new Dictionary<string, Product>
             {
                 { "EURUSD", new Product("EURUSD", 5, "FX") },
-                { "GBPUSD", new Product("EURUSD", 5, "FX") },
-                { "AUDUSD", new Product("EURUSD", 5, "FX") },
-                { "EURGBP", new Product("EURUSD", 5, "FX") },
-                { "EURAUD", new Product("EURUSD", 5, "FX") },
+                { "GBPUSD", new Product("GBPUSD", 5, "FX") },
+                { "AUDUSD", new Product("AUDUSD", 5, "FX") },
+                { "EURGBP", new Product("EURGBP", 5, "FX") },
+                { "EURAUD", new Product("EURAUD", 5, "FX") },
                 { "USDJPY", new Product("USDJPY", 3, "FX") },
                 { "USDCAD", new Product("USDCAD", 5, "FX") },
                 { "BRENTCMDUSD", new Product("BRENTCMDUSD", 3, "CFD") },

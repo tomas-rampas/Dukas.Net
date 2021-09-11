@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Bi5.Net.Models;
 using static System.IO.Path;
 
@@ -26,7 +28,7 @@ namespace Bi5.Net.IO
             Directory.CreateDirectory(dataPath);
             var filePath = Combine(dataPath, $"{firstTickHour:yyyyMMddHH}00.csv");
             IEnumerable<string> lines = ticks.Select(tick => tick.ToString());
-            File.WriteAllLines(filePath, lines);
+            Task.Run(() => File.WriteAllLinesAsync(filePath, lines));
             _filePaths.Add(filePath);
             return true;
         }
