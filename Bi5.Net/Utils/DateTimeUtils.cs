@@ -13,7 +13,7 @@ namespace Bi5.Net.Utils
         internal static DateTime CalculateEffectiveDate(DateTime dateTime, bool endDate = false)
         {
             var startDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);
-            
+
             switch (endDate)
             {
                 case true when dateTime.DayOfWeek == DayOfWeek.Sunday:
@@ -23,23 +23,48 @@ namespace Bi5.Net.Utils
                     startDate = startDate.AddDays(1);
                     break;
             }
-            
-            return startDate.IsDaylightSavingTime() ? startDate.AddHours(-2).AddSeconds(-1) : startDate.AddHours(-1).AddSeconds(-1);
+
+            return startDate.IsDaylightSavingTime()
+                ? startDate.AddHours(-2).AddSeconds(-1)
+                : startDate.AddHours(-1).AddSeconds(-1);
         }
 
         internal static bool IsLastHour(DateTime dateTime, bool useMarketDate)
         {
-            
+            if (dateTime.Round(TimeSpan.FromHours(1))
+                == DateTime.Now.ToUniversalTime().AddHours(-1).Round(TimeSpan.FromHours(1))) return true;
+
             if (!useMarketDate && dateTime.DayOfWeek != DayOfWeek.Friday) return dateTime.Hour == 23;
-            
+
             if (dateTime.IsDaylightSavingTime() || (!useMarketDate && dateTime.DayOfWeek == DayOfWeek.Friday))
             {
                 return dateTime.Hour == 20;
-            } 
+            }
+
             return dateTime.Hour == 21;
         }
-        
-        internal static int GetLastHour(DateTime dateTime, bool useMarketDate) 
-            => !useMarketDate ? 23 :  dateTime.IsDaylightSavingTime() ? 20 : 21;
+
+        internal static int GetLastHour(DateTime dateTime, bool useMarketDate)
+            => !useMarketDate ? 23 : dateTime.IsDaylightSavingTime() ? 20 : 21;
+
+        public static TimeSpan Round(this TimeSpan time, TimeSpan roundingInterval, MidpointRounding roundingType)
+        {
+            return new TimeSpan(
+                Convert.ToInt64(Math.Round(
+                    time.Ticks / (decimal)roundingInterval.Ticks,
+                    roundingType
+                )) * roundingInterval.Ticks
+            );
+        }
+
+        public static TimeSpan Round(this TimeSpan time, TimeSpan roundingInterval)
+        {
+            return Round(time, roundingInterval, MidpointRounding.ToEven);
+        }
+
+        public static DateTime Round(this DateTime datetime, TimeSpan roundingInterval)
+        {
+            return new DateTime((datetime - DateTime.MinValue).Round(roundingInterval).Ticks);
+        }
     }
 }

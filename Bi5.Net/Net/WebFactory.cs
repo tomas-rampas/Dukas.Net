@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
+
 namespace Bi5.Net.Net
 {
     public class WebFactory
@@ -25,12 +26,15 @@ namespace Bi5.Net.Net
 
         public async Task<byte[]> DownloadTickDataFile(string uri)
         {
-            if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult)) 
+            if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
                 throw new InvalidOperationException("URI {uri} is invalid.");
-            
+
             Debug.WriteLine(uriResult);
-            using HttpResponseMessage httpResponse = await Task.Run(async () => 
+            using HttpResponseMessage httpResponse = await Task.Run(async () =>
                 await _client.GetAsync(uriResult));
+            Debug.WriteLine(httpResponse.StatusCode);
+            if (httpResponse.StatusCode != HttpStatusCode.OK)
+                return Array.Empty<byte>();
             return await httpResponse.Content.ReadAsByteArrayAsync(CancellationToken.None);
         }
     }

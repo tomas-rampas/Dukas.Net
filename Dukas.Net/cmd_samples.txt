@@ -1,0 +1,8 @@
+﻿1. 
+-s "2021-01-01 00:00:00" -e "2021-09-10 23:59:59" -p USDCAD,BRENTCMDUSD,LIGHTCMDUSD,GBRIDXGBP,EURGBP,DEUIDXEUR,AUSIDXAUD,AUDUSD,EURAUD,GBPUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
+
+2.
+-s "2021-01-01 00:00:00" -e "2021-09-10 23:59:59" -p USDCAD,BRENTCMDUSD,LIGHTCMDUSD,GBRIDXGBP,EURGBP,DEUIDXEUR,AUSIDXAUD,AUDUSD,EURAUD,GBPUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
+
+3.
+resample -s "2021-01-01 00:00:00" -e "2021-09-10 23:59:59" -p  -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
