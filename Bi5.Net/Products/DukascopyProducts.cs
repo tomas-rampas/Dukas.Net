@@ -17,15 +17,25 @@ namespace Bi5.Net.Products
             {
                 { EURUSD, new Product(EURUSD, 5, "FX") },
                 { GBPUSD, new Product(GBPUSD, 5, "FX") },
+                { GBPJPY, new Product(GBPJPY, 5, "FX") },
+                { AUDNZD, new Product(AUDNZD, 5, "FX") },
                 { AUDUSD, new Product(AUDUSD, 5, "FX") },
+                { AUDJPY, new Product(AUDJPY, 3, "FX") },
                 { EURGBP, new Product(EURGBP, 5, "FX") },
                 { EURAUD, new Product(EURAUD, 5, "FX") },
                 { EURCAD, new Product(EURCAD, 5, "FX") },
+                { EURCHF, new Product(EURCHF, 5, "FX") },
+                { EURJPY, new Product(EURJPY, 3, "FX") },
+                { NZDUSD, new Product(NZDUSD, 5, "FX") },
                 { USDJPY, new Product(USDJPY, 3, "FX") },
                 { USDCAD, new Product(USDCAD, 5, "FX") },
+                { USDCHF, new Product(USDCHF, 5, "FX") },
 
                 { BRENTCMDUSD, new Product(BRENTCMDUSD, 3, "CFD") },
                 { LIGHTCMDUSD, new Product(LIGHTCMDUSD, 3, "CFD") },
+
+                { XAGUSD, new Product(XAGUSD, 3, "CFD") },
+                { XAUUSD, new Product(XAUUSD, 3, "CFD") },
 
                 { DEUIDXEUR, new Product(DEUIDXEUR, 3, "CFD") },
                 { GBRIDXGBP, new Product(GBRIDXGBP, 3, "CFD") },

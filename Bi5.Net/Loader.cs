@@ -75,6 +75,7 @@ namespace Bi5.Net
 
             var webFactory = new WebFactory();
             int lastEndIndex = 0;
+            int currentDay = 0;
             await foreach (ITimedData[] currentTicks in Fetch(product, webFactory))
             {
                 int startIndex = lastEndIndex;
@@ -90,20 +91,26 @@ namespace Bi5.Net
 
                 lastEndIndex += currentTicks.Length;
 
-                // once full day arrived, create file and flush content to it
+                // as soon as full day completed, create file and flush content to it
                 var lastTick = tickData.LastOrDefault(x => x != null);
                 if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp, _cfg.UseMarketDate))
                 {
-                    FlushData(product.Name, tickData, QuoteSide.Bid);
-                    FlushData(product.Name, tickData, QuoteSide.Ask);
+                    FlushData(product.Name, tickData);
                     Console.WriteLine($"Last Date: {lastTick.Timestamp:yyyy-MM-dd HH:mm:ss}");
                     Array.Clear(tickData, 0, tickData.Length);
                     lastEndIndex = 0;
+                    currentDay = 0;
                 }
             }
 
             // ReSharper disable once PossibleMultipleEnumeration
             return tickData;
+        }
+
+        private void FlushData(string product, Tick[] tickData)
+        {
+            FlushData(product, tickData, QuoteSide.Bid);
+            FlushData(product, tickData, QuoteSide.Ask);
         }
 
         private void FlushData(string product, Tick[] tickData, QuoteSide side)
