@@ -17,16 +17,14 @@ namespace Bi5.Net.Utils
             switch (endDate)
             {
                 case true when dateTime.DayOfWeek == DayOfWeek.Sunday:
-                    startDate = startDate.AddDays(-1);
-                    break;
-                case true:
                     startDate = startDate.AddDays(1);
                     break;
             }
 
-            return startDate.IsDaylightSavingTime()
-                ? startDate.AddHours(-2).AddSeconds(-1)
-                : startDate.AddHours(-1).AddSeconds(-1);
+            return startDate;
+            // return startDate.IsDaylightSavingTime()
+            //     ? startDate.AddHours(-2).AddSeconds(-1)
+            //     : startDate.AddHours(-1).AddSeconds(-1);
         }
 
         internal static bool IsLastHour(DateTime dateTime, bool useMarketDate)

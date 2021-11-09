@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -85,9 +84,13 @@ namespace Bi5.Net.Utils
             MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
             MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
+            MessageId = "type: Bi5.Net.Models.Tick[]")]
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
             , uint minorScale, QuoteSide side = QuoteSide.Bid)
         {
+            if (!ticks.Any()) return null;
+
             var lastTimestamp = ticks.Last().Timestamp;
             var groupDate = new DateTime(lastTimestamp.Year, lastTimestamp.Month, lastTimestamp.Day);
             var bars = ticks

@@ -37,7 +37,8 @@ namespace Bi5.Net
         {
             var watch = Stopwatch.StartNew();
             var products = DukascopyProducts.Catalogue
-                .Where(x => _cfg.Products.Any(p => p == x.Key))
+                .Where(x => _cfg.Products.Any(p => p == x.Key)
+                            || _cfg.Products.All(p => p.ToUpper() == "ALL"))
                 .Select(x => x.Value).ToList();
 
             CheckProductsInCatalogue(products);
@@ -65,9 +66,9 @@ namespace Bi5.Net
         }
 
         /// <summary>
-        /// Fetch data
+        /// Get data for product
         /// </summary>
-        /// <param name="product">Product to fetch data for</param>
+        /// <param name="product">Product to get data for</param>
         /// <returns></returns>
         public async Task<IEnumerable<ITimedData>> Get(Product product)
         {
@@ -75,9 +76,20 @@ namespace Bi5.Net
 
             var webFactory = new WebFactory();
             int lastEndIndex = 0;
-            int currentDay = 0;
+
             await foreach (ITimedData[] currentTicks in Fetch(product, webFactory))
             {
+                if (currentTicks.Length == 0) continue;
+
+                var firstTick = currentTicks.FirstOrDefault(x => x != null);
+                var currentDay = firstTick?.Timestamp.Date.Day;
+                var lastTick = tickData.LastOrDefault(x => x != null);
+                if (lastTick != null && lastTick.Timestamp.Date.Day != currentDay)
+                {
+                    FlushTicks(product, tickData, lastTick);
+                    lastEndIndex = 0;
+                }
+
                 int startIndex = lastEndIndex;
                 int requiredSize = lastEndIndex + currentTicks.Length;
 
@@ -92,19 +104,25 @@ namespace Bi5.Net
                 lastEndIndex += currentTicks.Length;
 
                 // as soon as full day completed, create file and flush content to it
-                var lastTick = tickData.LastOrDefault(x => x != null);
                 if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp, _cfg.UseMarketDate))
                 {
-                    FlushData(product.Name, tickData);
-                    Console.WriteLine($"Last Date: {lastTick.Timestamp:yyyy-MM-dd HH:mm:ss}");
-                    Array.Clear(tickData, 0, tickData.Length);
+                    FlushTicks(product, tickData, lastTick);
                     lastEndIndex = 0;
-                    currentDay = 0;
                 }
             }
 
+            FlushTicks(product, tickData, tickData.Last());
+
             // ReSharper disable once PossibleMultipleEnumeration
             return tickData;
+        }
+
+        private void FlushTicks(Product product, Tick[] tickData, Tick? lastTick)
+        {
+            int lastEndIndex;
+            FlushData(product.Name, tickData);
+            Console.WriteLine($"Product {product.Name} - Last Date: {lastTick?.Timestamp:yyyy-MM-dd HH:mm:ss}");
+            Array.Clear(tickData, 0, tickData.Length);
         }
 
         private void FlushData(string product, Tick[] tickData)
@@ -117,16 +135,19 @@ namespace Bi5.Net
         {
             var result = tickData.Where(x => x != null)
                 .Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale, side);
-            var fileWriter = WriterFactory.CreateWriter(result, _cfg);
-            fileWriter.Write(product, side, result);
+            if (result != null)
+            {
+                var fileWriter = WriterFactory.CreateWriter(result, _cfg);
+                fileWriter.Write(product, side, result);
+            }
         }
 
         private async IAsyncEnumerable<ITimedData[]> Fetch(Product product, WebFactory webFactory)
         {
             IFileWriter tickDataFileWriter = new TickDataFileWriter(_cfg);
 
-            var startDate = CalculateEffectiveDate(_cfg.StartDate);
-            var endDate = CalculateEffectiveDate(_cfg.EndDate, true);
+            var startDate = _cfg.StartDate; //CalculateEffectiveDate(_cfg.StartDate);
+            var endDate = _cfg.EndDate; // CalculateEffectiveDate(_cfg.EndDate, true);
 
             IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
             Console.WriteLine($"Loading {product} from {startDate:yyyy-MM-dd HH:mm:ss} to " +
