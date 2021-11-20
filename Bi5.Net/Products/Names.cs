@@ -7,6 +7,7 @@ namespace Bi5.Net.Products
         // FX CFD
         public const string AUDNZD = "AUDNZD";
         public const string EURUSD = "EURUSD";
+        public const string GBPAUD = "GBPAUD";
         public const string GBPUSD = "GBPUSD";
         public const string GBPJPY = "GBPJPY";
         public const string AUDUSD = "AUDUSD";
@@ -17,6 +18,7 @@ namespace Bi5.Net.Products
         public const string EURCAD = "EURCAD";
         public const string EURCHF = "EURCHF";
         public const string NZDUSD = "NZDUSD";
+        public const string NZDJPY = "NZDJPY";
         public const string USDJPY = "USDJPY";
         public const string USDCAD = "USDCAD";
         public const string USDCHF = "USDCHF";

@@ -15,17 +15,19 @@ namespace Bi5.Net.Products
         private DukascopyProducts() : base(
             new Dictionary<string, Product>
             {
-                { EURUSD, new Product(EURUSD, 5, "FX") },
-                { GBPUSD, new Product(GBPUSD, 5, "FX") },
-                { GBPJPY, new Product(GBPJPY, 5, "FX") },
                 { AUDNZD, new Product(AUDNZD, 5, "FX") },
                 { AUDUSD, new Product(AUDUSD, 5, "FX") },
                 { AUDJPY, new Product(AUDJPY, 3, "FX") },
+                { GBPAUD, new Product(GBPAUD, 5, "FX") },
+                { GBPUSD, new Product(GBPUSD, 5, "FX") },
+                { GBPJPY, new Product(GBPJPY, 3, "FX") },
                 { EURGBP, new Product(EURGBP, 5, "FX") },
                 { EURAUD, new Product(EURAUD, 5, "FX") },
                 { EURCAD, new Product(EURCAD, 5, "FX") },
                 { EURCHF, new Product(EURCHF, 5, "FX") },
                 { EURJPY, new Product(EURJPY, 3, "FX") },
+                { EURUSD, new Product(EURUSD, 5, "FX") },
+                { NZDJPY, new Product(NZDJPY, 3, "FX") },
                 { NZDUSD, new Product(NZDUSD, 5, "FX") },
                 { USDJPY, new Product(USDJPY, 3, "FX") },
                 { USDCAD, new Product(USDCAD, 5, "FX") },
