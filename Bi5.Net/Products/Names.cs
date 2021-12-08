@@ -23,6 +23,12 @@ namespace Bi5.Net.Products
         public const string USDCAD = "USDCAD";
         public const string USDCHF = "USDCHF";
 
+        //Crypto CFD
+        public const string BTCUSD = "BTCUSD";
+        public const string ETHUSD = "ETHUSD";
+        public const string LTCUSD = "LTCUSD";
+        public const string XMRUSD = "XMRUSD";
+
         //Energy CFD
         public const string BRENTCMDUSD = "BRENTCMDUSD";
         public const string LIGHTCMDUSD = "LIGHTCMDUSD";

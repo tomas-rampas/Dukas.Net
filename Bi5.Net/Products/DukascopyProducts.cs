@@ -49,6 +49,11 @@ namespace Bi5.Net.Products
                 { BUNDTREUR, new Product(BUNDTREUR, 3, "CFD") },
                 { UKGILTTRGBP, new Product(UKGILTTRGBP, 3, "CFD") },
                 { USTBONDTRUSD, new Product(USTBONDTRUSD, 3, "CFD") },
+
+                { BTCUSD, new Product(BTCUSD, 5, "CFD") },
+                { LTCUSD, new Product(LTCUSD, 5, "CFD") },
+                { ETHUSD, new Product(ETHUSD, 5, "CFD") },
+                { XMRUSD, new Product(XMRUSD, 5, "CFD") },
             }
         )
         {
