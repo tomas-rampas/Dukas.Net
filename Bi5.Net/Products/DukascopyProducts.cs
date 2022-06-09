@@ -42,6 +42,7 @@ namespace Bi5.Net.Products
                 { DEUIDXEUR, new Product(DEUIDXEUR, 3, "CFD") },
                 { GBRIDXGBP, new Product(GBRIDXGBP, 3, "CFD") },
                 { USA30IDXUSD, new Product(USA30IDXUSD, 3, "CFD") },
+                { USA500IDXUSD, new Product(USA500IDXUSD, 3, "CFD") },
                 { AUSIDXAUD, new Product(AUSIDXAUD, 3, "CFD") },
                 { JPNIDXJPY, new Product(JPNIDXJPY, 3, "CFD") },
                 { EUSIDXEUR, new Product(EUSIDXEUR, 3, "CFD") },

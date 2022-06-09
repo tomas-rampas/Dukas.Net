@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Net;
-using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,8 +29,9 @@ namespace Bi5.Net.Net
                 throw new InvalidOperationException("URI {uri} is invalid.");
 
             Debug.WriteLine(uriResult);
-            using HttpResponseMessage httpResponse = await Task.Run(async () =>
-                await _client.GetAsync(uriResult));
+            using var httpResponse = await Task.Run(async () =>
+                await _client.GetAsync(uriResult)
+            );
             Debug.WriteLine(httpResponse.StatusCode);
             if (httpResponse.StatusCode != HttpStatusCode.OK)
                 return Array.Empty<byte>();

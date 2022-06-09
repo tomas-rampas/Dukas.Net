@@ -9,7 +9,7 @@ namespace Bi5.Net.Models
         {
             Timestamp = timestamp;
         }
-        
+
         public DateTime Timestamp { get; }
         public double Bid { get; set; }
         public float BidVolume { get; set; }
@@ -24,9 +24,9 @@ namespace Bi5.Net.Models
         public override bool Equals(object? obj)
         {
             if (obj is not Tick tick) return false;
-            return Math.Abs(tick.Ask - Ask) < 0.000001 
+            return Math.Abs(tick.Ask - Ask) < 0.000001
                    && Math.Abs(tick.Bid - Bid) < 0.000001
-                   && tick.Timestamp == Timestamp 
+                   && tick.Timestamp == Timestamp
                    && Math.Abs(tick.AskVolume - AskVolume) < 0.001
                    && Math.Abs(tick.BidVolume - BidVolume) < 0.001;
         }
@@ -43,7 +43,7 @@ namespace Bi5.Net.Models
         /// <returns>CSV string</returns>
         public static implicit operator string(Tick t)
         {
-            return $"{t.Timestamp:dd.MM.yyyy HH:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
+            return $"{t.Timestamp:yyyy-MM-dd HH:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
         }
     }
 }

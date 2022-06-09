@@ -41,6 +41,7 @@ namespace Bi5.Net.Products
         public const string DEUIDXEUR = "DEUIDXEUR";
         public const string GBRIDXGBP = "GBRIDXGBP";
         public const string USA30IDXUSD = "USA30IDXUSD";
+        public const string USA500IDXUSD = "USA500IDXUSD";
         public const string AUSIDXAUD = "AUSIDXAUD";
         public const string JPNIDXJPY = "JPNIDXJPY";
         public const string EUSIDXEUR = "EUSIDXEUR";
