@@ -31,17 +31,21 @@ namespace Dukas.Net
 
         private static void ResampleData(ResampleOptions opts)
         {
-            throw new NotImplementedException();
+            var ldr = new Loader(CheckCmdParamsAndCreateConfig(opts));
+            Task.FromResult(ldr.ResampleAndFlush().Result);
         }
 
-        private static void FetchData(CmdOptions cmdOpts)
+        private static void FetchData(CmdOptions opts)
         {
-            LoaderConfig cfg = cmdOpts;
-            Console.WriteLine(cfg.QuoteSide.ToString());
-            if (cfg == null) throw new ApplicationException($"Config wos not created");
-
-            var ldr = new Loader(cfg);
+            var ldr = new Loader(CheckCmdParamsAndCreateConfig(opts));
             Task.FromResult(ldr.GetAndFlush().Result);
+        }
+
+        private static LoaderConfig CheckCmdParamsAndCreateConfig(CmdOptions opts)
+        {
+            LoaderConfig cfg = opts;
+            if (cfg == null) throw new ApplicationException($"Config wos not created, check command line parameters.");
+            return cfg;
         }
 
         private static readonly Func<string> DynamicData = () =>

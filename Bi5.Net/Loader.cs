@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace Bi5.Net
         private readonly string _dataUrl =
             "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
-        private readonly LoaderConfig _cfg;
+        private readonly LoaderConfig _cfg = null!;
 
-        protected Loader()
+        private Loader()
         {
         }
 
@@ -65,12 +66,17 @@ namespace Bi5.Net
             }
         }
 
+        public async Task<bool> ResampleAndFlush()
+        {
+            return false;
+        }
+
         /// <summary>
         /// Get data for product
         /// </summary>
         /// <param name="product">Product to get data for</param>
         /// <returns></returns>
-        public async Task<IEnumerable<ITimedData>> Get(Product product)
+        private async Task<IEnumerable<ITimedData>> Get(Product product)
         {
             Tick[] tickData = Array.Empty<Tick>();
 
@@ -81,9 +87,9 @@ namespace Bi5.Net
             {
                 if (currentTicks.Length == 0) continue;
 
-                var firstTick = currentTicks.FirstOrDefault(x => x != null);
+                var firstTick = currentTicks.FirstOrDefault(x => true);
                 var currentDay = firstTick?.Timestamp.Date.Day;
-                var lastTick = tickData.LastOrDefault(x => x != null);
+                var lastTick = tickData.LastOrDefault(x => true);
                 if (lastTick != null && lastTick.Timestamp.Date.Day != currentDay)
                 {
                     FlushTicks(product, tickData, lastTick);

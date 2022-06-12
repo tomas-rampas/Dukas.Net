@@ -5,4 +5,7 @@
 -s "2021-01-01 00:00:00" -e "2021-09-10 23:59:59" -p USA30IDXUSD,JPNIDXJPY,XAUUSD,XAGUSD,USDJPY -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
 
 3.
+-s "2022-06-05 00:00:00" -e "2022-06-10 23:59:59" -p ALL -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
+
+4.
 resample -s "2021-01-01 00:00:00" -e "2021-09-10 23:59:59" -p  -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
