@@ -1,39 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Bi5.Net;
 using Bi5.Net.Models;
 using CommandLine;
-using CommandLine.Text;
 
-//-s 2020-01-01 -e 2020-12-31 -p EURUSD,GBPUSD,BTCUSD,DEUIDFEUR --major-scale Min --minor-scale 1 
 namespace Dukas.Net
 {
     public static class Program
     {
         public static void Main(string[] args)
         {
-            AppDomain.CurrentDomain.UnhandledException += 
+            AppDomain.CurrentDomain.UnhandledException +=
                 (s, e) => Console.WriteLine(e);
-            
-            var parserResult = Parser.Default.ParseArguments<CmdOptions>(args);
-            parserResult
-                .WithParsed(FetchData)
-                .WithNotParsed(errs => DisplayHelp(parserResult, errs));
+
+            var parserResult = Parser.Default.ParseArguments<ResampleOptions, FetchOptions>(args)
+                .MapResult(
+                    (ResampleOptions opts) =>
+                    {
+                        ResampleData(opts);
+                        return 0;
+                    },
+                    (FetchOptions opts) =>
+                    {
+                        FetchData(opts);
+                        return 0;
+                    },
+                    errs => 1);
         }
-        
+
+        private static void ResampleData(ResampleOptions opts)
+        {
+            throw new NotImplementedException();
+        }
+
         private static void FetchData(CmdOptions cmdOpts)
         {
             LoaderConfig cfg = cmdOpts;
             Console.WriteLine(cfg.QuoteSide.ToString());
             if (cfg == null) throw new ApplicationException($"Config wos not created");
-            
+
             var ldr = new Loader(cfg);
             Task.FromResult(ldr.GetAndFlush().Result);
         }
 
-        private static readonly Func<string> DynamicData = () => {
+        private static readonly Func<string> DynamicData = () =>
+        {
             var sb = new StringBuilder();
             sb.AppendLine("-------  Sample Usage  ----------\n");
             sb.AppendLine(
@@ -44,15 +56,5 @@ namespace Dukas.Net
                 "--major-scale Min --minor-scale 1 -o \"c:\\temp\" -q Bid");
             return $"{sb}";
         };
-
-        private static void DisplayHelp(ParserResult<CmdOptions> parserResult, IEnumerable<Error> errs)
-        {
-            var helpText = HelpText.AutoBuild(parserResult, h =>
-            {
-                h.AddPostOptionsLine(DynamicData());
-                return h;
-            }, e => e);
-            Console.WriteLine(helpText);
-        }        
     }
 }

@@ -15,7 +15,7 @@ namespace Bi5.Net
 {
     public class Loader
     {
-        private string _dataUrl =
+        private readonly string _dataUrl =
             "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
         private readonly LoaderConfig _cfg;
@@ -131,7 +131,7 @@ namespace Bi5.Net
             FlushData(product, tickData, QuoteSide.Ask);
         }
 
-        private void FlushData(string product, Tick[] tickData, QuoteSide side)
+        private void FlushData(string product, IEnumerable<Tick> tickData, QuoteSide side)
         {
             var result = tickData.Where(x => x != null)
                 .Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale, side);

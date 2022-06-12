@@ -38,6 +38,7 @@ namespace Bi5.Net.Utils
         /// <returns>Array of Ticks translated from given byte array</returns>
         /// <exception cref="ArgumentException">Exception thrown when given byte array is not divisible
         /// by 20 (size of record) without remainder</exception>
+        [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
         public static IEnumerable<Tick> ToTickArray(this byte[] bytes, DateTime date, int decimals)
         {
             if (bytes.Length % TickItemByteSize > 0)
@@ -79,6 +80,7 @@ namespace Bi5.Net.Utils
         /// <param name="ticks">List of Ticks</param>
         /// <param name="majorScale">Major scale</param>
         /// <param name="minorScale">Minor scale</param>
+        /// <param name="side">Quote side</param>
         /// <returns>Enumerable of Bars</returns>
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
             MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
@@ -86,10 +88,11 @@ namespace Bi5.Net.Utils
             MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
             MessageId = "type: Bi5.Net.Models.Tick[]")]
+        [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
             , uint minorScale, QuoteSide side = QuoteSide.Bid)
         {
-            if (!ticks.Any()) return null;
+            if (ticks == null || !ticks.Any()) return null;
 
             var lastTimestamp = ticks.Last().Timestamp;
             var groupDate = new DateTime(lastTimestamp.Year, lastTimestamp.Month, lastTimestamp.Day);

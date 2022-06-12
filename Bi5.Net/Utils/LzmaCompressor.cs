@@ -3,23 +3,37 @@ using System.IO;
 using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
+
 namespace Bi5.Net.Utils
 {
     public static class LzmaCompressor
     {
+        /// <summary>
+        /// Decompresses compressed file on given path
+        /// </summary>
+        /// <param name="inFile">Path to the compressed file</param>
+        /// <returns>Decompressed and decoded binary data</returns>
+        /// <exception cref="ArgumentException">File path must not be empty</exception>
+        /// <exception cref="FileNotFoundException">File must exists</exception>
         public static byte[] DecompressLzmaFile(string inFile)
         {
             if (string.IsNullOrWhiteSpace(inFile)) throw new ArgumentException("Empty file path", nameof(inFile));
             if (!File.Exists(inFile)) throw new FileNotFoundException("File does not exist", inFile);
-            
+
             using var input = new FileStream(inFile, FileMode.Open);
-            return  DecompressLzmaStream(input);
+            return DecompressLzmaStream(input);
         }
 
+        /// <summary>
+        /// Decompresses compressed data stream 
+        /// </summary>
+        /// <param name="inStream">Stream with data</param>
+        /// <returns>Decompressed and decoded binary data</returns>
+        /// <exception cref="ArgumentNullException">Stream must exists</exception>
         internal static byte[] DecompressLzmaStream(Stream inStream)
         {
             if (inStream == null) throw new ArgumentNullException(nameof(inStream));
-            
+
             using var output = new MemoryStream();
             DecodeLzmaStream(inStream, output);
             output.Position = 0;
@@ -28,10 +42,16 @@ namespace Bi5.Net.Utils
             return data;
         }
 
+        /// <summary>
+        /// Decompress binary data
+        /// </summary>
+        /// <param name="inBytes">Byte array with data</param>
+        /// <returns>Decompressed and decoded binary data</returns>
+        /// <exception cref="ArgumentNullException">Byte of array must not be null</exception>
         internal static byte[] DecompressLzmaBytes(byte[] inBytes)
         {
             if (inBytes == null) throw new ArgumentNullException(nameof(inBytes));
-            
+
             using var inStream = new MemoryStream();
             inStream.Write(inBytes);
             inStream.Position = 0;
@@ -56,7 +76,7 @@ namespace Bi5.Net.Utils
             coder.SetDecoderProperties(properties);
             coder.Code(inStream, outStream, inStream.Length, fileLength, null);
         }
-        
+
         /// <summary>
         /// This method is not used and so future of this method is unclear. It'll be remove in the future. Likely,
         /// </summary>
@@ -75,6 +95,5 @@ namespace Bi5.Net.Utils
             output.Flush();
             output.Close();
         }
-        
     }
 }
