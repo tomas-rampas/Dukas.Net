@@ -1,5 +1,7 @@
 ﻿#nullable enable
 using System;
+using System.Diagnostics;
+using System.Globalization;
 using static System.FormattableString;
 
 namespace Bi5.Net.Models
@@ -57,19 +59,32 @@ namespace Bi5.Net.Models
         {
             if (string.IsNullOrWhiteSpace(csvRecord)) throw new ArgumentNullException(nameof(csvRecord));
 
-            string[] csvValues = csvRecord.Split(",");
+            string[] csvValues = csvRecord.Trim().Split(",");
 
             if (csvValues == null || csvValues.Length < 1)
                 throw new ArgumentException($"{nameof(csvRecord)} is wrongly formatted");
 
-            var timeStamp = DateTime.Parse(csvValues[0]);
-            return new Tick(timeStamp)
+            DateTime timeStamp;
+            if (!DateTime.TryParse(csvValues[0], out timeStamp))
             {
-                Bid = double.Parse(csvValues[1]),
-                BidVolume = float.Parse(csvValues[2]),
-                Ask = double.Parse(csvValues[3]),
-                AskVolume = float.Parse(csvValues[4]),
-            };
+                Debugger.Break();
+            }
+
+            try
+            {
+                return new Tick(timeStamp)
+                {
+                    Bid = double.Parse(csvValues[1], CultureInfo.InvariantCulture),
+                    BidVolume = float.Parse(csvValues[2], CultureInfo.InvariantCulture),
+                    Ask = double.Parse(csvValues[3], CultureInfo.InvariantCulture),
+                    AskVolume = float.Parse(csvValues[4], CultureInfo.InvariantCulture),
+                };
+            }
+            catch (Exception e)
+            {
+                Debugger.Break();
+                throw;
+            }
         }
     }
 }
