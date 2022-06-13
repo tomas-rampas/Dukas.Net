@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Bi5.Net.Models;
 
 namespace Bi5.Net.IO
@@ -36,5 +38,15 @@ namespace Bi5.Net.IO
         }
 
         List<string> IFileWriter.FilePaths => _filePaths;
+
+        string IFileWriter.GetTickDataPath(string product, QuoteSide side, DateTime tickHour)
+        {
+            return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
+        }
+
+        string IFileWriter.GetTickDataFolder(string product)
+        {
+            return Path.Combine(FilePath, product, "Tick");
+        }
     }
 }

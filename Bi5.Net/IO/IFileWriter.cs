@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Bi5.Net.Models;
 
@@ -13,7 +14,10 @@ namespace Bi5.Net.IO
         /// <param name="side">Bid, Ask, Both</param>
         /// <param name="data">List of prices</param>
         /// <returns>True if bool ended up successfully</returns>
-        internal bool Write(string product, QuoteSide side, IEnumerable data);
-        internal List<string> FilePaths { get; }
+        bool Write(string product, QuoteSide side, IEnumerable data);
+
+        List<string> FilePaths { get; }
+        string GetTickDataPath(string product, QuoteSide side, DateTime tickHour);
+        string GetTickDataFolder(string product);
     }
 }

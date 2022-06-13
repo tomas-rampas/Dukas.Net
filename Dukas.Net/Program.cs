@@ -35,7 +35,7 @@ namespace Dukas.Net
             Task.FromResult(ldr.ResampleAndFlush().Result);
         }
 
-        private static void FetchData(CmdOptions opts)
+        private static void FetchData(FetchOptions opts)
         {
             var ldr = new Loader(CheckCmdParamsAndCreateConfig(opts));
             Task.FromResult(ldr.GetAndFlush().Result);
