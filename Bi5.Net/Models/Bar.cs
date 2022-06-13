@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Diagnostics;
+using static System.FormattableString;
 
 namespace Bi5.Net.Models
 {
@@ -21,7 +21,9 @@ namespace Bi5.Net.Models
 
         public static implicit operator string(Bar bar)
         {
-            return $"{bar.Timestamp:yyyy-MM-dd HH:mm:ss},{bar.Open},{bar.High},{bar.Low},{bar.Close},{bar.Volume}";
+            return Invariant(
+                $"{bar.Timestamp:yyyy-MM-dd HH:mm:ss},{bar.Open:0.#####},{bar.High:0.#####},{bar.Low:0.#####},{bar.Close:0.#####},{bar.Volume:0.#####}"
+            );
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using static System.FormattableString;
 
 namespace Bi5.Net.Models
 {
@@ -43,7 +44,32 @@ namespace Bi5.Net.Models
         /// <returns>CSV string</returns>
         public static implicit operator string(Tick t)
         {
-            return $"{t.Timestamp:yyyy-MM-dd HH:mm:ss.fff},{t.Bid},{t.BidVolume},{t.Ask},{t.AskVolume}";
+            return Invariant(
+                $"{t.Timestamp:yyyy-MM-dd HH:mm:ss.fff},{t.Bid:0.#####},{t.BidVolume:0.###},{t.Ask:0.#####},{t.AskVolume:0.###}");
+        }
+
+        /// <summary>
+        /// Implicit conversion from string, which is expected to be CSV string object
+        /// </summary>
+        /// <param name="csvRecord">Comma separated string with tick data</param>
+        /// <returns>Instance of Tick class</returns>
+        public static implicit operator Tick(string csvRecord)
+        {
+            if (string.IsNullOrWhiteSpace(csvRecord)) throw new ArgumentNullException(nameof(csvRecord));
+
+            string[] csvValues = csvRecord.Split(",");
+
+            if (csvValues == null || csvValues.Length < 1)
+                throw new ArgumentException($"{nameof(csvRecord)} is wrongly formatted");
+
+            var timeStamp = DateTime.Parse(csvValues[0]);
+            return new Tick(timeStamp)
+            {
+                Bid = double.Parse(csvValues[1]),
+                BidVolume = float.Parse(csvValues[2]),
+                Ask = double.Parse(csvValues[3]),
+                AskVolume = float.Parse(csvValues[4]),
+            };
         }
     }
 }
