@@ -8,7 +8,9 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
+      
       - run: dotnet test --logger "trx;LogFileName=test-results.trx" || true
+      
       - name: Test Report
         uses: dorny/test-reporter@v1
         if: always()
@@ -17,3 +19,12 @@ jobs:
           path: "**/test-results.trx"                            
           reporter: dotnet-trx
           fail-on-error: true
+    
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          files: |
+            test-results/**/*.xml
+            test-results/**/*.trx
+            test-results/**/*.json
