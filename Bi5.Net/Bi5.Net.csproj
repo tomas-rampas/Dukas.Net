@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
         <Title>Bi5.Net</Title>
         <Authors>Tomas Rampas</Authors>
         <Description>Download, convert, and export Dukascopy tick data. Package converts tick data from prorietary 
@@ -11,6 +10,8 @@
         <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>
         <PackageVersion>0.1.0</PackageVersion>
         <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
+        <TargetFramework>net7.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup>

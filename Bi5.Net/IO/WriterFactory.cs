@@ -10,8 +10,8 @@ namespace Bi5.Net.IO
         {
             return timedData switch
             {
-                IEnumerable<Tick> => new TickDataFileWriter(loaderConfig),
-                IEnumerable<Bar> => new OhlcvFileWriter(loaderConfig),
+                IEnumerable<Tick> enumerable => new TickDataFileWriter(loaderConfig),
+                IEnumerable<Bar> enumerable => new OhlcvFileWriter(loaderConfig),
                 _ => throw new ArgumentException("Unknown Timed Data", nameof(timedData))
             };
         }

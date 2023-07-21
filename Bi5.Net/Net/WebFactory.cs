@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -23,6 +24,7 @@ namespace Bi5.Net.Net
             _client = client;
         }
 
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Byte[]; size: 113MB")]
         public async Task<byte[]> DownloadTickDataFile(string uri)
         {
             if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
@@ -35,7 +37,7 @@ namespace Bi5.Net.Net
             Debug.WriteLine(httpResponse.StatusCode);
             if (httpResponse.StatusCode != HttpStatusCode.OK)
                 return Array.Empty<byte>();
-            return await httpResponse.Content.ReadAsByteArrayAsync(CancellationToken.None);
+            return await httpResponse.Content.ReadAsByteArrayAsync();
         }
     }
 }
