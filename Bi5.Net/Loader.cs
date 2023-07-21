@@ -16,15 +16,20 @@ namespace Bi5.Net
 {
     public class Loader
     {
+        /// <summary>
+        /// Max degree of parallelism defines number of threads for data processing
+        /// </summary>
+        private static readonly int MaxDegreeOfParallelism = Environment.ProcessorCount - 1;
+        /// <summary>
+        /// Dukacopy data endpoint format template 
+        /// </summary>
         private readonly string _dataUrl =
             "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
         private readonly LoaderConfig _cfg = null!;
-        private readonly IFileWriter _tickDataFileWriter;
+        private readonly IFileWriter _tickDataFileWriter = null!;
 
-        private Loader()
-        {
-        }
+        private Loader(){}
 
         public Loader(LoaderConfig cfg)
         {
@@ -48,7 +53,7 @@ namespace Bi5.Net
 
             await products
                 .ToAsyncEnumerable()
-                .AsyncParallelForEach(FetchAndGet, 10, TaskScheduler.Default);
+                .AsyncParallelForEach(FetchAndGet, MaxDegreeOfParallelism, TaskScheduler.Default);
 
             watch.Stop();
             var timeSpan = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);
@@ -80,7 +85,7 @@ namespace Bi5.Net
 
             await products
                 .ToAsyncEnumerable()
-                .AsyncParallelForEach(LoadAndGet, 10, TaskScheduler.Default);
+                .AsyncParallelForEach(LoadAndGet, MaxDegreeOfParallelism, TaskScheduler.Default);
 
             watch.Stop();
             var timeSpan = TimeSpan.FromMilliseconds(watch.ElapsedMilliseconds);

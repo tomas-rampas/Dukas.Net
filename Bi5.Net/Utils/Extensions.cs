@@ -17,7 +17,7 @@ namespace Bi5.Net.Utils
         /// <param name="scheduler"></param>
         /// <typeparam name="T"></typeparam>
         public static async Task AsyncParallelForEach<T>(this IAsyncEnumerable<T> source, Func<T, Task> body, 
-            int maxDegreeOfParallelism = DataflowBlockOptions.Unbounded, TaskScheduler scheduler = null)
+            int maxDegreeOfParallelism = 4, TaskScheduler scheduler = null)
         {
             var options = new ExecutionDataflowBlockOptions
             {
