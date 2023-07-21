@@ -9,36 +9,28 @@ namespace Dukas.Net
 {
     public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task<int> Main(params string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException +=
                 (s, e) => Console.WriteLine(e);
 
-            var parserResult = Parser.Default.ParseArguments<ResampleOptions, FetchOptions>(args)
-                .MapResult(
-                    (ResampleOptions opts) =>
-                    {
-                        ResampleData(opts);
-                        return 0;
-                    },
-                    (FetchOptions opts) =>
-                    {
-                        FetchData(opts);
-                        return 0;
-                    },
-                    errs => 1);
+            var result = await (await Parser.Default.ParseArguments<ResampleOptions, FetchOptions>(args)
+                .WithParsedAsync<ResampleOptions>(ResampleData))
+                .WithParsedAsync<FetchOptions>(FetchData);
+            return 0;
         }
 
-        private static void ResampleData(ResampleOptions opts)
+        private static async Task<bool> ResampleData(ResampleOptions opts)
         {
+            if (opts == null) throw new ArgumentNullException(nameof(opts));
             var ldr = new Loader(CheckCmdParamsAndCreateConfig(opts));
-            Task.FromResult(ldr.ResampleAndFlush().Result);
+            return await ldr.ResampleAndFlush();
         }
 
-        private static void FetchData(FetchOptions opts)
+        private static async Task<bool> FetchData(FetchOptions opts)
         {
             var ldr = new Loader(CheckCmdParamsAndCreateConfig(opts));
-            Task.FromResult(ldr.GetAndFlush().Result);
+            return await ldr.GetAndFlush();
         }
 
         private static LoaderConfig CheckCmdParamsAndCreateConfig(CmdOptions opts)
@@ -56,7 +48,7 @@ namespace Dukas.Net
                 "Get 1 Minute OHLCV Bid-side data between 1st of Jan. 2020 and 31st of Dec. 2020 " +
                 "for given list of products; store the data into the C:\\temp\n");
             sb.AppendLine(
-                "\tdukas.net -s 2020-01-01 -e 2020-12-31 -p \"EURUSD,GBPUSD,BTCUSD,DEUIDXEUR\" " +
+                "\tdukas.net fetch -s 2020-01-01 -e 2020-12-31 -p \"EURUSD,GBPUSD,BTCUSD,DEUIDXEUR\" " +
                 "--major-scale Min --minor-scale 1 -o \"c:\\temp\" -q Bid");
             return $"{sb}";
         };

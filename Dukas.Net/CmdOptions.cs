@@ -8,7 +8,7 @@ using CommandLine;
 
 namespace Dukas.Net
 {
-    public class CmdOptions
+    public abstract class CmdOptions
     {
         [Option('s', "start-date", Required = true, HelpText = "Tick data start date")]
         public DateTime StartDate { get; set; }
