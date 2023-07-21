@@ -1,4 +1,4 @@
-# Dukas.Net  [![Build Status](https://app.travis-ci.com/tomas-rampas/Dukas.Net.svg?branch=main)](https://app.travis-ci.com/tomas-rampas/Dukas.Net)  [![Coverage Status](https://coveralls.io/repos/github/tomas-rampas/Dukas.Net/badge.svg?branch=main)](https://coveralls.io/github/tomas-rampas/Dukas.Net?branch=main)
+# Dukas.Net  [![Build Status](https://github.com/tomas-rampas/Dukas.Net/actions/workflows/unit_tests.yml/badge.svg)  
 Download tick data from Dukascopy and convert it to desired time frame resolution. Dukas.Net is a service wrapper of Bi5.Net nuget package.
 
 #### Prerequisite
