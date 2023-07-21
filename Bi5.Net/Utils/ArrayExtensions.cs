@@ -25,7 +25,7 @@ namespace Bi5.Net.Utils
         /// 4th 4 bytes -> Bid Volume
         /// 5th 4 bytes -> Ask Volume
         /// </summary>
-        private const int TickItemByteSize = 20;
+        private const int TICK_ITEM_BYTE_SIZE = 20;
 
         /// <summary>
         /// Converts bytes to Ticks
@@ -41,16 +41,16 @@ namespace Bi5.Net.Utils
         [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
         public static IEnumerable<Tick> ToTickArray(this byte[] bytes, DateTime date, int decimals)
         {
-            if (bytes.Length % TickItemByteSize > 0)
+            if (bytes.Length % TICK_ITEM_BYTE_SIZE > 0)
             {
                 throw new ArgumentException("Wrong size of array", nameof(bytes));
             }
 
-            var records = (uint)(bytes.Length / TickItemByteSize);
+            var records = (uint)(bytes.Length / TICK_ITEM_BYTE_SIZE);
             var ticks = new Tick[records];
 
             var k = 0;
-            for (var i = 0; i < bytes.Length; i += TickItemByteSize, k++)
+            for (var i = 0; i < bytes.Length; i += TICK_ITEM_BYTE_SIZE, k++)
             {
                 var milliseconds = BitConverter.ToInt32(bytes[new Range(new Index(i), new Index(i + 4))].Bi5ToArray());
                 var tickTimestamp = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0)
@@ -89,14 +89,16 @@ namespace Bi5.Net.Utils
         [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
             MessageId = "type: Bi5.Net.Models.Tick[]")]
         [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
+        [SuppressMessage("ReSharper.DPA", "DPA0003: Excessive memory allocations in LOH", 
+            MessageId = "type: Bi5.Net.Models.Tick[]; size: 99MB")]
         internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
             , uint minorScale, QuoteSide side = QuoteSide.Bid)
         {
-            if (ticks == null || !ticks.Any()) return null;
+            var tickArray = ticks as Tick[] ?? ticks.ToArray();
+            if (tickArray == null || !tickArray.Any()) return null;
 
-            var lastTimestamp = ticks.Last().Timestamp;
-            var groupDate = new DateTime(lastTimestamp.Year, lastTimestamp.Month, lastTimestamp.Day);
-            var bars = ticks
+            var lastTimestamp = tickArray.Last().Timestamp;
+            var bars = tickArray
                 .GroupBy(tick => new
                     {
                         BarTime = TimeframeUtils.GetTimestampForCandle(tick.Timestamp, majorScale, minorScale)
@@ -105,7 +107,6 @@ namespace Bi5.Net.Utils
                 .Select(grouping => new Bar
                     {
                         Ticks = grouping.Count(),
-                        GroupDate = groupDate,
                         Timestamp = grouping.Key.BarTime,
                         Open = side == QuoteSide.Bid
                             ? grouping.OrderBy(x => x.Timestamp).First().Bid

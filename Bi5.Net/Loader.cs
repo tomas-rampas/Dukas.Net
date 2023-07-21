@@ -94,7 +94,7 @@ namespace Bi5.Net
         {
             //var ticks = await GetTicksFromDisk(product, _tickDataFileWriter, DateTime.Now);
             var tickData = Array.Empty<Tick>();
-            int lastEndIndex = 0;
+            var lastEndIndex = 0;
             var webFactory = new WebFactory();
 
             await foreach (ITimedData[]? currentTicks in Fetch(product, webFactory, true))
@@ -123,13 +123,13 @@ namespace Bi5.Net
         /// Get data for product
         /// </summary>
         /// <param name="product">Product to get data for</param>
-        /// <returns></returns>
+        /// <returns>Array of Tick data</returns>
         private async Task<IEnumerable<ITimedData>> FetchAndGet(Product product)
         {
-            Tick[] tickData = Array.Empty<Tick>();
+            var tickData = Array.Empty<Tick>();
 
-            var webFactory = new WebFactory();
-            int lastEndIndex = 0;
+            WebFactory webFactory = new();
+            var lastEndIndex = 0;
 
             await foreach (ITimedData[]? currentTicks in Fetch(product, webFactory))
             {

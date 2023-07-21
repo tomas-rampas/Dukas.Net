@@ -25,15 +25,26 @@ namespace Bi5.Net.IO
                 case FileScale.Day:
                     var dirPath = Path.Combine(FilePath, product, TimeFrame);
                     Directory.CreateDirectory(dirPath);
-                    var groups = data.GroupBy(x => new
-                    {
-                        //BarDateNoTime = new DateTime(x.Timestamp.Year, x.Timestamp.Month, x.Timestamp.Day),
-                        BarDateNoTime = x.GroupDate,
-                    });
+                    var groups =
+                        data
+                            .Select(b => new
+                                {
+                                    Bar = b,
+                                    BarDateNoTime = new DateTime( b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day),
+                                }
+                            )
+                            .GroupBy(x => new { x.BarDateNoTime.Year, x.BarDateNoTime.Month, x.BarDateNoTime.Day })
+                            .Select((g, i) => new
+                                {
+                                    BarGroup = g,
+                                    BarDateNoTime = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day)
+                                }
+                            );
                     foreach (var @group in groups)
                     {
-                        IEnumerable<string> groupData = group.Select(bar => bar.ToString());
-                        var fileName = Path.Combine(dirPath, $"{group.Key.BarDateNoTime:yyyyMMdd}_{side.ToString()}.csv");
+                        IEnumerable<string> groupData = @group.BarGroup.Select(bar => bar.Bar.ToString());
+                        var fileName = Path.Combine(dirPath,
+                            $"{group.BarDateNoTime:yyyyMMdd}_{side.ToString()}.csv");
                         File.WriteAllLines(fileName, groupData);
                         GzipCompressor.GzipStream(fileName);
                         File.Delete(fileName);

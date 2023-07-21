@@ -68,8 +68,11 @@ namespace Bi5.Net.Utils
             var coder = new SevenZip.Compression.LZMA.Decoder();
 
             var properties = new byte[5];
-            inStream.Read(properties, 0, 5);
-
+            var propertiesBytesRead = inStream.Read(properties, 0, 5);
+            if (propertiesBytesRead < properties.Length)
+            {
+                throw new ApplicationException("Properties not defined");
+            }
             var fileLengthBytes = new byte[8];
             inStream.Read(fileLengthBytes, 0, 8);
             var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
