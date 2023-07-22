@@ -31,7 +31,7 @@ jobs:
           PACKAGE_NAME: Bi5.Net
           
           # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
-          VERSION_FILE_PATH: Bi5.Net.csproj
+          VERSION_FILE_PATH: Bi5.Net/Bi5.Net.csproj
 
           # Regex pattern to extract version info in a capturing group
           VERSION_REGEX: ^\s*<Version>(.*)<\/Version>\s*$
