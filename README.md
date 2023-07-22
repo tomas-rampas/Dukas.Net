@@ -38,14 +38,15 @@ Below is a list of all arguments mutual for all verbs.
 
 #### All arguments sample
 
+#### Fetch
 Get 1 Minute OHLCV Bid and Ask quotes data between 1st of Jan. 2020 and 31st of Dec. 2020 for given list of products; store gzipped Bid and Ask data into the e:\temp directory. 
-This command also creates Tick data sub-directory for every donwloded product data so it can be used for resampling to other time frames later. The tick data can beused for resampling to another time frame resultions without touching Dukascopy servers.
+This command also creates Tick data sub-directory for every donwloded product data so it can be used for resampling to other time frames later. 
 
 ```
 dukas.net fetch -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
 ```
-
-Get 10 Minute OHLCV Bid and Ask bars. Other settings are same as in sample above. 
+#### Resample
+Reample command is reusing fetched tick data and resampling them to another time frame resultions without touching Dukascopy servers. Folowing sample shows how to get 10 Minute OHLCV Bid and Ask bars. Other settings are same as in sample for fetch verb above. 
 ```
 dukas.net resample -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 10 --file-scale Day --header -g
 ```
