@@ -26,7 +26,7 @@ Below is a list of all arguments.
 |-f|--file-scale|(Default Day). File Scale defines time frequency for the data in file. E.g. when FileScale is FileScale.Day data will be grouped by Day and store in the file with frequency where one file represents one day of data. I.e. consideriderin --major-scale Day and --file-scale Day then resulting file will contain one record; Possible values: Min, Hour, Day, Month, Year |
 |-h|--header|(Default: false) Include header in resulting data file|
 |-g|--gzip|(Default: false) Compress result|
-| |--help|Display this help screen.|
+| |--help|Display detailed help screen including all possible verbs.|
 | |--version|Display version information.|
 
 #### All arguments sample
