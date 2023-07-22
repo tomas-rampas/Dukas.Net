@@ -54,8 +54,9 @@ dukas.net resample -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEU
 TBC
 
 # Bi5.Net
-[Nuget package](https://www.nuget.org/packages/Bi5.Net/) for requesting and converting Dukascopy tick data 
-
+[Nuget package](https://www.nuget.org/packages/Bi5.Net/) for requesting and converting Dukascopy tick data. 
+Documentation does not exists, but NuGet package expects settings passed from command line arguments above through the [LoaderConfig](https://github.com/tomas-rampas/Dukas.Net/blob/main/Bi5.Net/Models/LoaderConfig.cs).
+Simply put, NuGet package requires config to be passed from calling process. Config class replicates all command line arguments.
 
 -----------------------------
 TBC
