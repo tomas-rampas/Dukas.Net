@@ -35,32 +35,13 @@ jobs:
         id: publish_nuget
         uses: alirezanet/publish-nuget@v3.1.0
         with:
-          # Filepath of the project to be packaged, relative to root of repository
           PROJECT_FILE_PATH: Bi5.Net/Bi5.Net.csproj
-          
-          # NuGet package id, used for version detection & defaults to project name
           PACKAGE_NAME: Bi5.Net
-          
-          # Filepath with version info, relative to root of repository & defaults to PROJECT_FILE_PATH
           VERSION_FILE_PATH: Bi5.Net/Bi5.Net.csproj
-
-          # Regex pattern to extract version info in a capturing group
           VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
-          
-          # Flag to toggle git tagging, enabled by default
           TAG_COMMIT: true
-
-          # Format of the git tag, [*] gets replaced with actual version
           TAG_FORMAT: v*
-
-          # API key to authenticate with NuGet server
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
-
-          # NuGet server uri hosting the packages, defaults to https://api.nuget.org
           NUGET_SOURCE: https://api.nuget.org
-
-          # Flag to toggle pushing symbols along with nuget package to the server, disabled by default
           INCLUDE_SYMBOLS: false
-
-          # Flag to toggle not building the project and letting pack command handle restoring & building, disabled by default
           NO_BUILD: false
