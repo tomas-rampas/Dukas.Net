@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <Title>Bi5.Net</Title>
+        <Title>Dukascopy Bi5.Net</Title>
         <Authors>Tomas Rampas</Authors>
         <Description>Download, convert, and export Dukascopy tick data. Package converts tick data from proprietary Bi5 format to standard CSV file with OHLCV data resampled to custom time frame resultion.</Description>
         <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
@@ -12,8 +12,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Copyright>2023 Tomas Rampas</Copyright>
-        <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
-        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <PackageLicenseUrl></PackageLicenseUrl>
     </PropertyGroup>
 
     <PropertyGroup>
