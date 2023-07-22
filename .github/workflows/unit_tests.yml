@@ -55,4 +55,4 @@ jobs:
           INCLUDE_SYMBOLS: false
 
           # Flag to toggle not building the project and letting pack command handle restoring & building, disabled by default
-          NO_BUILD: true
+          NO_BUILD: false
