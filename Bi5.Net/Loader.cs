@@ -20,6 +20,7 @@ namespace Bi5.Net
         /// Max degree of parallelism defines number of threads for data processing
         /// </summary>
         private static readonly int MaxDegreeOfParallelism = Environment.ProcessorCount - 1;
+
         /// <summary>
         /// Dukacopy data endpoint format template 
         /// </summary>
@@ -29,7 +30,9 @@ namespace Bi5.Net
         private readonly LoaderConfig _cfg = null!;
         private readonly IFileWriter _tickDataFileWriter = null!;
 
-        private Loader(){}
+        private Loader()
+        {
+        }
 
         public Loader(LoaderConfig cfg)
         {
@@ -178,7 +181,6 @@ namespace Bi5.Net
 
         private void FlushTicks(Product product, Tick[] tickData, Tick? lastTick)
         {
-            int lastEndIndex;
             FlushData(product.Name, tickData);
             Console.WriteLine($"Product {product.Name} - Last Date: {lastTick?.Timestamp:yyyy-MM-dd HH:mm:ss}");
             Array.Clear(tickData, 0, tickData.Length);

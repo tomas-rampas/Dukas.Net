@@ -56,7 +56,7 @@ namespace Bi5.Net.Models
         /// </summary>
         /// <param name="csvRecord">Comma separated string with tick data</param>
         /// <returns>Instance of Tick class</returns>
-        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: Bi5.Net.Models.Tick; size: 576MB")]
+        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH")]
         public static implicit operator Tick(string csvRecord)
         {
             if (string.IsNullOrWhiteSpace(csvRecord)) throw new ArgumentNullException(nameof(csvRecord));
@@ -82,7 +82,7 @@ namespace Bi5.Net.Models
                     AskVolume = float.Parse(csvValues[4], CultureInfo.InvariantCulture),
                 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Debugger.Break();
                 throw;

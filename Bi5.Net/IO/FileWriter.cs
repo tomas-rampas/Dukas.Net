@@ -28,7 +28,10 @@ namespace Bi5.Net.IO
             TimeFrameMinorScale = cfg.TimeFrameMinorScale;
             TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
             _filePaths = new List<string>();
+            Compress = cfg.GzipResult;
         }
+
+        public bool Compress { get; }
 
         protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
 

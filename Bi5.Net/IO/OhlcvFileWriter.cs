@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Bi5.Net.Models;
 using Bi5.Net.Utils;
 
@@ -28,83 +27,57 @@ namespace Bi5.Net.IO
                 case FileScale.Day:
                     var groups =
                         data
-                            .Select(b => new
+                            .Select(b => new BarWithExtraDate
                                 {
                                     Bar = b,
                                     BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day),
                                 }
                             )
-                            .GroupBy(x => new { x.BarDateNoTime.Year, x.BarDateNoTime.Month, x.BarDateNoTime.Day })
-                            .Select((g, i) => new
+                            .GroupBy(x => x.BarDateNoTime)
+                            .Select((g, i) => new GroupedBars
                                 {
                                     BarGroup = g,
-                                    BarDateNoTime = new DateTime(g.Key.Year, g.Key.Month, g.Key.Day)
+                                    FileFormat = "yyyyMMdd"
                                 }
                             );
-                    foreach (var group in groups)
-                    {
-                        IEnumerable<string> groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
-                        var fileName = Path.Combine(dirPath,
-                            $"{group.BarDateNoTime:yyyyMMdd}_{side.ToString()}.csv");
-                        File.WriteAllLines(fileName, groupData);
-                        GzipCompressor.GzipStream(fileName);
-                        File.Delete(fileName);
-                    }
-
+                    WriteFileScaledGroupedBars(side, groups, dirPath);
                     return true;
                 case FileScale.Month:
-                    var groupsMonth =
+                    groups =
                         data
-                            .Select(b => new
+                            .Select(b => new BarWithExtraDate
                                 {
                                     Bar = b,
-                                    BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day),
+                                    BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, 1),
                                 }
                             )
-                            .GroupBy(x => new { x.BarDateNoTime.Year, x.BarDateNoTime.Month })
-                            .Select((g, i) => new
+                            .GroupBy(x => x.BarDateNoTime)
+                            .Select((g, i) => new GroupedBars
                                 {
                                     BarGroup = g,
-                                    BarDateNoTime = new DateTime(g.Key.Year, g.Key.Month, 1)
+                                    FileFormat = "yyyyMM"
                                 }
                             );
-                    foreach (var group in groupsMonth)
-                    {
-                        IEnumerable<string> groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
-                        var fileName = Path.Combine(dirPath,
-                            $"{group.BarDateNoTime:yyyyMM}_{side.ToString()}.csv");
-                        File.WriteAllLines(fileName, groupData);
-                        GzipCompressor.GzipStream(fileName);
-                        File.Delete(fileName);
-                    }
+                    WriteFileScaledGroupedBars(side, groups, dirPath);
 
                     return true;
                 case FileScale.Year:
-                    var groupsYear =
+                    groups =
                         data
-                            .Select(b => new
+                            .Select(b => new BarWithExtraDate
                                 {
                                     Bar = b,
-                                    BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day),
+                                    BarDateNoTime = new DateTime(b.Timestamp.Year, 1, 1),
                                 }
                             )
-                            .GroupBy(x => new { x.BarDateNoTime.Year })
-                            .Select((g, i) => new
+                            .GroupBy(x => x.BarDateNoTime)
+                            .Select((g, i) => new GroupedBars
                                 {
                                     BarGroup = g,
-                                    BarDateNoTime = new DateTime(g.Key.Year, 1, 1)
+                                    FileFormat = "yyyy"
                                 }
                             );
-                    foreach (var group in groupsYear)
-                    {
-                        IEnumerable<string> groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
-                        var fileName = Path.Combine(dirPath,
-                            $"{group.BarDateNoTime:yyyy}_{side.ToString()}.csv");
-                        File.WriteAllLines(fileName, groupData);
-                        //TODO
-                        GzipCompressor.GzipStream(fileName);
-                        File.Delete(fileName);
-                    }
+                    WriteFileScaledGroupedBars(side, groups, dirPath);
 
                     return true;
                 case FileScale.Min:
@@ -113,6 +86,20 @@ namespace Bi5.Net.IO
                 default:
                     Console.WriteLine($"The {FileScale} writer is not implemented yet :( ");
                     return false;
+            }
+        }
+
+        private void WriteFileScaledGroupedBars(QuoteSide side, IEnumerable<GroupedBars> groups, string dirPath)
+        {
+            foreach (var group in groups)
+            {
+                IEnumerable<string> groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
+                var fileName = Path.Combine(dirPath,
+                    $"{group.BarGroup.Key.ToString(group.FileFormat)}_{side.ToString()}.csv");
+                File.WriteAllLines(fileName, groupData);
+                if (!Compress) continue;
+                GzipCompressor.GzipStream(fileName);
+                File.Delete(fileName);
             }
         }
     }
