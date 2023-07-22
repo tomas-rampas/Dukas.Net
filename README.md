@@ -19,7 +19,7 @@ dukas.net --help
 |resample|Perform resampling of existing Tick data; there is not any data downloaded from Dukascopy servers; existing fetched tick data are being used for resampling |
 
 #### Command Line Arguments
-Below is a list of all arguments.
+Below is a list of all arguments mutual for all verbs. 
 
 |Short | Long | Description |
 |:---|:---|:---|
