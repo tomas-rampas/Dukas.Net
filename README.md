@@ -1,4 +1,4 @@
-# Dukas.Net  ![](https://github.com/tomas-rampas/Dukas.Net/actions/workflows/unit_tests.yml/badge.svg)
+# Dukas.Net  ![](https://github.com/tomas-rampas/Dukas.Net/actions/workflows/ci_build.yml/badge.svg)
 Download tick data from Dukascopy and convert it to desired time frame resolution. Dukas.Net is a service wrapper of Bi5.Net nuget package.
 
 #### Prerequisite
