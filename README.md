@@ -2,7 +2,7 @@
 Download tick data from Dukascopy and convert it to desired time frame resolution. Dukas.Net is a service wrapper of Bi5.Net nuget package.
 
 #### Prerequisite
-[.NET Core 7](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed
+[.NET Runtime 7.X](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed
 
 #### Command Line Arguments
 
