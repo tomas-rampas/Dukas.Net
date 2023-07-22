@@ -4,7 +4,7 @@ Download tick data from Dukascopy and convert it to desired time frame resolutio
 #### Prerequisite
 [.NET Runtime 7.X](https://dotnet.microsoft.com/en-us/download/dotnet/7.0) installed
 
-#### Command Line Arguments
+#### Command Line Help
 
 All available verbs and parameters can be enumerated by running help command: 
 
@@ -12,6 +12,13 @@ All available verbs and parameters can be enumerated by running help command:
 dukas.net --help
 ```
 
+#### Command Line Verbs
+|Verb | Description |
+|:---|:---|
+|fetch|Fetch and Resample tick data of given products|
+|resample|Perform resampling of existing Tick data; there is not any data downloaded|
+
+#### Command Line Arguments
 Below is a list of all arguments.
 
 |Short | Long | Description |
