@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - run: dotnet test --logger "trx;LogFileName=test-results.trx" || true
+      - run: dotnet test --logger "trx;LogFileName=test-results.trx" -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal <MyProject>.Tests/ || true
       
       - name: Test Report
         uses: dorny/test-reporter@v1
@@ -19,7 +19,7 @@ jobs:
           path: "**/test-results.trx"                            
           reporter: dotnet-trx
           fail-on-error: true
-
+          
       - name: Publish NuGet on package version change
         id: publish_nuget
         uses: alirezanet/publish-nuget@v3.1.0
