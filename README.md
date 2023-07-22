@@ -58,7 +58,7 @@ TBC
 
 I'm aware of lacking proper documentation. However, using the NuGet is quite simple. The NuGet package expects settings passed from command line arguments above through the [LoaderConfig](https://github.com/tomas-rampas/Dukas.Net/blob/main/Bi5.Net/Models/LoaderConfig.cs).
 
-Simply put, NuGet package requires config to be passed from calling process. Config class replicates all command line arguments.
+Simply put, NuGet package requires config to be passed from calling process. the [LoaderConfig](https://github.com/tomas-rampas/Dukas.Net/blob/main/Bi5.Net/Models/LoaderConfig.cs) class replicates all command line arguments.
 
 -----------------------------
 TBC
