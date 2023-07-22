@@ -7,7 +7,7 @@
         <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>
-        <PackageVersion>0.3.0</PackageVersion>
+        <PackageVersion>0.3.5</PackageVersion>
         <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
         <TargetFramework>net7.0</TargetFramework>
         <LangVersion>latest</LangVersion>
