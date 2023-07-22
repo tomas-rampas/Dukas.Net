@@ -55,7 +55,9 @@ TBC
 
 # Bi5.Net
 [Nuget package](https://www.nuget.org/packages/Bi5.Net/) for requesting and converting Dukascopy tick data. 
-I;m aware of lacking proper documentation. However, using the NuGet is quite simple. The NuGet package expects settings passed from command line arguments above through the [LoaderConfig](https://github.com/tomas-rampas/Dukas.Net/blob/main/Bi5.Net/Models/LoaderConfig.cs).
+
+I'm aware of lacking proper documentation. However, using the NuGet is quite simple. The NuGet package expects settings passed from command line arguments above through the [LoaderConfig](https://github.com/tomas-rampas/Dukas.Net/blob/main/Bi5.Net/Models/LoaderConfig.cs).
+
 Simply put, NuGet package requires config to be passed from calling process. Config class replicates all command line arguments.
 
 -----------------------------
