@@ -10,7 +10,7 @@ namespace Bi5.Net.Products
     /// </summary>
     public class DukascopyProducts : ReadOnlyDictionary<string, Product>
     {
-        public static DukascopyProducts Catalogue => new DukascopyProducts();
+        public static DukascopyProducts Catalogue => new();
 
         private DukascopyProducts() : base(
             new Dictionary<string, Product>
