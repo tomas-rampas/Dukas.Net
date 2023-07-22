@@ -46,7 +46,8 @@ dukas.net resample -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEU
 TBC
 
 # Bi5.Net
-Nuget package for requesting and converting Dukascopy tick data 
+[Nuget package](https://www.nuget.org/packages/Bi5.Net/) for requesting and converting Dukascopy tick data 
+
 
 -----------------------------
 TBC
