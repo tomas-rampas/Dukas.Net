@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - run: dotnet test --logger "trx;LogFileName=test-results.trx" -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal <MyProject>.Tests/ || true
+      - run: dotnet test --logger "trx;LogFileName=test-results.trx" -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --no-build --verbosity normal Bi5.Net.Tests/ || true
       
       - name: Test Report
         uses: dorny/test-reporter@v1
