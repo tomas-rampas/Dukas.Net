@@ -6,7 +6,7 @@ Download tick data from Dukascopy and convert it to desired time frame resolutio
 
 #### Command Line Arguments
 
-All available parameters can be enumerated by running help command: 
+All available verbs and parameters can be enumerated by running help command: 
 
 ```
 dukas.net --help
@@ -32,7 +32,7 @@ Below is a list of all arguments.
 #### All arguments sample
 
 Get 1 Minute OHLCV Bid and Ask quotes data between 1st of Jan. 2020 and 31st of Dec. 2020 for given list of products; store gzipped Bid and Ask data into the e:\temp directory. 
-This command also creates Tick data sub-directory for every donwloded product data so it can be used for resampling to other time frames later. It's considered for future enhancmenet to resample Ticks to another time frame rosultion without touching Dukascopy servers.
+This command also creates Tick data sub-directory for every donwloded product data so it can be used for resampling to other time frames later. The tick data can beused for resampling to another time frame resultions without touching Dukascopy servers.
 
 ```
 dukas.net fetch -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Min --minor-scale 1 --file-scale Day --header -g
