@@ -7,9 +7,11 @@ jobs:
     name: CI Unit testing
     runs-on: windows-latest
     permissions:
-      id-token: write
-      contents: read
+      statuses: write
       checks: write
+      contents: write
+      pull-requests: write
+      actions: write
     steps:
       - uses: actions/checkout@v3
       
