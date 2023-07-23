@@ -22,6 +22,7 @@ jobs:
         if: always()
         with:
           name: Test Report
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
           path: "**/test-results.trx"                          
           reporter: dotnet-trx
           fail-on-error: true
