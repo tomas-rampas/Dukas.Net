@@ -40,7 +40,8 @@ jobs:
       with:
         label: Unit Test Coverage
         color: brightgreen
-        path: Bi5.Net.Tests/TestResults/coverage.opencover.xml
+        artifact: test-results
+        path: "**/coverage.opencover.xml"
         gist-filename: code-coverage.json
         gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
         gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
