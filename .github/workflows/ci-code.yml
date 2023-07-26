@@ -48,6 +48,18 @@ jobs:
           path: |
             Bi5.Net.Tests/**/test-results.trx
             Bi5.Net.Tests/**/coverage.opencover.xml
+      
+      - name: Create Test Coverage Badge
+        uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+        id: create_coverage_badge
+        with:
+          label: Unit Test Coverage
+          color: brightgreen
+          path: Bi5.Net.Tests/TestResults/coverage.opencover.xml
+          gist-filename: code-coverage.json
+          gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
+          gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
+      
           
   code_quality:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
