@@ -1,0 +1,68 @@
+name: CI - Code
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - .github/workflows/ci-code.yml
+    - /**
+
+env:
+  dotnetVersion: '7.0.x'
+
+jobs:
+  verify_codebase:
+    name: Verify Codebase
+    runs-on: ubuntu-latest
+    permissions:
+      statuses: write
+      checks: write
+      contents: write
+      pull-requests: write
+    steps:
+        # Checkout code
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+        # Install .NET
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.dotnetVersion }}
+
+        # Build Solution
+      - name: Build Solution
+        run: dotnet build Dukas.Net.sln --configuration release
+
+        # Run Automated Tests
+      - name: Run Unit Tests
+        run: dotnet test --logger "trx;LogFileName=test-results.trx" /p:Exclude="[*]Bi5.Net.Products*%2c[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --verbosity normal Bi5.Net.Tests/ || true
+
+        # Publish Unit Test Results
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v3
+        if: success() || failure()
+        with:
+          name: test-results
+          path: Bi5.Net.Tests/**/test-results.trx
+          
+  code_quality:
+    runs-on: ubuntu-latest # or macos-latest, windows-latest
+    name: Code Quality (R#)
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.dotnetVersion }}
+
+      - name: Restore NuGet Packages
+        run: dotnet restore Dukas.Net.sln
+
+      - name: R# Code Quality
+        uses: muno92/resharper_inspectcode@1.8.0
+        with:
+          solutionPath: Dukas.Net.sln
+          minimumSeverity: warning
