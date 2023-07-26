@@ -1,6 +1,8 @@
 ﻿using System;
 using static System.FormattableString;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Bi5.Net.Models;
 
 public class Bar : ITimedData

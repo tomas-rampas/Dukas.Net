@@ -139,9 +139,9 @@ public class Loader
         {
             if (currentTicks == null || currentTicks.Length < 1) continue;
 
-            var firstTick = currentTicks.FirstOrDefault(x => true);
+            var firstTick = currentTicks.FirstOrDefault();
             var currentDay = firstTick?.Timestamp.Date.Day;
-            var lastTick = tickData.LastOrDefault(x => true);
+            var lastTick = tickData.LastOrDefault();
             if (lastTick != null && lastTick.Timestamp.Date.Day != currentDay)
             {
                 FlushTicks(product, tickData, lastTick);
@@ -190,12 +190,13 @@ public class Loader
 
     private void FlushData(string product, IEnumerable<Tick> tickData, QuoteSide side)
     {
-        var result = tickData.Where(x => x != null)
+        var result = tickData
             .Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale, side);
         if (result != null)
         {
-            var fileWriter = WriterFactory.CreateWriter(result, _cfg);
-            fileWriter.Write(product, side, result);
+            var timedDataSet = result as Bar[] ?? result.ToArray();
+            var fileWriter = WriterFactory.CreateWriter(timedDataSet, _cfg);
+            fileWriter.Write(product, side, timedDataSet);
         }
     }
 
@@ -205,7 +206,6 @@ public class Loader
         var startDate = _cfg.StartDate; //CalculateEffectiveDate(_cfg.StartDate);
         var endDate = _cfg.EndDate; // CalculateEffectiveDate(_cfg.EndDate, true);
 
-        IEnumerable<ITimedData> result = ArraySegment<ITimedData>.Empty;
         Console.WriteLine($"Loading {product.Name} from {startDate:yyyy-MM-dd HH:mm:ss} to " +
                           $"{endDate:yyyy-MM-dd HH:mm:ss}");
 
@@ -230,9 +230,9 @@ public class Loader
                 continue;
             }
 
-            ITimedData[]? currentTicks = await GetTicks(product, webFactory, date);
+            ITimedData[] currentTicks = await GetTicks(product, webFactory, date);
             Thread.Sleep(50);
-            if (currentTicks != null && currentTicks.Any())
+            if (currentTicks.Any())
             {
                 // store hourly tick data
                 _tickDataFileWriter.Write(product.Name, QuoteSide.Both, currentTicks);

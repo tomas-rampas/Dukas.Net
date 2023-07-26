@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Bi5.Net.Models;
 
 public class LoaderConfig
 {
-    private LoaderConfig()
-    {
-    }
-
     public LoaderConfig(DateTime startDate, DateTime endDate, IEnumerable<string> products,
         DateTimePart timeFrameMajorScale, uint timeFrameMinorScale, string outputFolder, QuoteSide quoteSide,
         FileScale fileScale, bool writeHeader, bool gzipResult, byte threads = 4)

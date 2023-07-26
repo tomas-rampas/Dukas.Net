@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.Models;
 
 public class GroupedBars
 {

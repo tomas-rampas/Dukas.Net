@@ -95,9 +95,8 @@ internal static class ArrayExtensions
         , uint minorScale, QuoteSide side = QuoteSide.Bid)
     {
         var tickArray = ticks as Tick[] ?? ticks.ToArray();
-        if (tickArray == null || !tickArray.Any()) return null;
+        if (!tickArray.Any()) return null;
 
-        var lastTimestamp = tickArray.Last().Timestamp;
         var bars = tickArray
             .GroupBy(tick => new
                 {

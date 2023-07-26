@@ -11,10 +11,6 @@ namespace Bi5.Net.IO;
 
 public class TickDataFileWriter : FileWriter<Tick>
 {
-    private TickDataFileWriter()
-    {
-    }
-
     public TickDataFileWriter(LoaderConfig cfg) : base(cfg)
     {
     }

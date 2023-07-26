@@ -1,7 +1,6 @@
 ﻿using System;
-using Bi5.Net.Models;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.Models;
 
 public class BarWithExtraDate
 {

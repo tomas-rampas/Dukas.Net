@@ -34,7 +34,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
-                        .Select((g, i) => new GroupedBars
+                        .Select((g, _) => new GroupedBars
                             {
                                 BarGroup = g,
                                 FileFormat = "yyyyMMdd"
@@ -52,7 +52,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
-                        .Select((g, i) => new GroupedBars
+                        .Select((g, _) => new GroupedBars
                             {
                                 BarGroup = g,
                                 FileFormat = "yyyyMM"
@@ -71,7 +71,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
-                        .Select((g, i) => new GroupedBars
+                        .Select((g, _) => new GroupedBars
                             {
                                 BarGroup = g,
                                 FileFormat = "yyyy"

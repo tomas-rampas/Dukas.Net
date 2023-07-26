@@ -38,7 +38,8 @@ public static class LzmaCompressor
         DecodeLzmaStream(inStream, output);
         output.Position = 0;
         var data = new byte[output.Length];
-        output.Read(data, 0, data.Length);
+        var read = output.Read(data, 0, data.Length);
+        if (read < 1) throw new ApplicationException("No data was decompressed. Possibly wrong file?");
         return data;
     }
 
@@ -75,7 +76,8 @@ public static class LzmaCompressor
         }
 
         var fileLengthBytes = new byte[8];
-        inStream.Read(fileLengthBytes, 0, 8);
+        var read = inStream.Read(fileLengthBytes, 0, 8);
+        if (read < 1) throw new ApplicationException("No data was decompressed. Possibly wrong file?");
         var fileLength = BitConverter.ToInt64(fileLengthBytes, 0);
         coder.SetDecoderProperties(properties);
         coder.Code(inStream, outStream, inStream.Length, fileLength, null);
@@ -86,6 +88,7 @@ public static class LzmaCompressor
     /// </summary>
     /// <param name="inFile">Output file</param>
     /// <param name="outFile">Output file</param>
+    // ReSharper disable once UnusedMember.Local
     private static void CompressFileLzma(string inFile, string outFile)
     {
         var coder = new SevenZip.Compression.LZMA.Encoder();

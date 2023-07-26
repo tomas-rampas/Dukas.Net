@@ -12,11 +12,12 @@ namespace Dukas.Net
         public static async Task<int> Main(params string[] args)
         {
             AppDomain.CurrentDomain.UnhandledException +=
-                (s, e) => Console.WriteLine(e);
+                (_, e) => Console.WriteLine(e);
 
-            var result = await (await Parser.Default.ParseArguments<ResampleOptions, FetchOptions>(args)
-                .WithParsedAsync<ResampleOptions>(ResampleData))
+            await (await Parser.Default.ParseArguments<ResampleOptions, FetchOptions>(args)
+                    .WithParsedAsync<ResampleOptions>(ResampleData))
                 .WithParsedAsync<FetchOptions>(FetchData);
+
             return 0;
         }
 
@@ -40,6 +41,7 @@ namespace Dukas.Net
             return cfg;
         }
 
+        // ReSharper disable once UnusedMember.Local
         private static readonly Func<string> DynamicData = () =>
         {
             var sb = new StringBuilder();

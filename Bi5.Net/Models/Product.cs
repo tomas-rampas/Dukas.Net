@@ -14,5 +14,7 @@ public class Product
 
     public string Name { get; }
     public byte Decimals { get; }
+
+    // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string Type { get; }
 }
