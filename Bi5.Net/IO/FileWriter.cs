@@ -4,52 +4,51 @@ using System.Collections.Generic;
 using System.IO;
 using Bi5.Net.Models;
 
-namespace Bi5.Net.IO
+namespace Bi5.Net.IO;
+
+public abstract class FileWriter<T> : IFileWriter
+    where T : ITimedData
 {
-    public abstract class FileWriter<T> : IFileWriter
-        where T : ITimedData
+    protected readonly FileScale FileScale;
+    protected readonly string FilePath;
+    protected readonly DateTimePart TimeFrameMajorScale;
+    protected readonly uint TimeFrameMinorScale;
+    protected readonly string TimeFrame;
+    protected List<string> FilePaths;
+
+    protected FileWriter()
     {
-        protected readonly FileScale FileScale;
-        protected readonly string FilePath;
-        protected readonly DateTimePart TimeFrameMajorScale;
-        protected readonly uint TimeFrameMinorScale;
-        protected readonly string TimeFrame;
-        protected List<string> _filePaths;
+    }
 
-        protected FileWriter()
-        {
-        }
+    public FileWriter(LoaderConfig cfg)
+    {
+        FileScale = cfg.FileScale;
+        FilePath = cfg.OutputFolder;
+        TimeFrameMajorScale = cfg.TimeFrameMajorScale;
+        TimeFrameMinorScale = cfg.TimeFrameMinorScale;
+        TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
+        FilePaths = new List<string>();
+        Compress = cfg.GzipResult;
+    }
 
-        public FileWriter(LoaderConfig cfg)
-        {
-            FileScale = cfg.FileScale;
-            FilePath = cfg.OutputFolder;
-            TimeFrameMajorScale = cfg.TimeFrameMajorScale;
-            TimeFrameMinorScale = cfg.TimeFrameMinorScale;
-            TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
-            _filePaths = new List<string>();
-            Compress = cfg.GzipResult;
-        }
+    public bool Compress { get; }
 
-        public bool Compress { get; }
+    protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
 
-        protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
+    bool IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
+    {
+        return Write(product, side, (IEnumerable<T>)data);
+    }
 
-        bool IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
-        {
-            return Write(product, side, (IEnumerable<T>)data);
-        }
+    List<string> IFileWriter.FilePaths => FilePaths;
 
-        List<string> IFileWriter.FilePaths => _filePaths;
+    string IFileWriter.GetTickDataPath(string product, QuoteSide side, DateTime tickHour)
+    {
+        return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
+    }
 
-        string IFileWriter.GetTickDataPath(string product, QuoteSide side, DateTime tickHour)
-        {
-            return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
-        }
-
-        string IFileWriter.GetTickDataFolder(string product)
-        {
-            return Path.Combine(FilePath, product, "Tick");
-        }
+    string IFileWriter.GetTickDataFolder(string product)
+    {
+        return Path.Combine(FilePath, product, "Tick");
     }
 }

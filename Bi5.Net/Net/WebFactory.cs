@@ -3,41 +3,39 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Threading;
 using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.Net
+namespace Bi5.Net.Net;
+
+public class WebFactory
 {
-    public class WebFactory
+    private readonly IBi5HttpClient _client;
+
+    public WebFactory()
     {
-        private readonly IBi5HttpClient _client;
+        _client = new Bi5HttpClient();
+    }
 
-        public WebFactory()
-        {
-            _client = new Bi5HttpClient();
-        }
+    public WebFactory(IBi5HttpClient client)
+    {
+        _client = client;
+    }
 
-        public WebFactory(IBi5HttpClient client)
-        {
-            _client = client;
-        }
+    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Byte[]; size: 113MB")]
+    public async Task<byte[]> DownloadTickDataFile(string uri)
+    {
+        if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
+            throw new InvalidOperationException("URI {uri} is invalid.");
 
-        [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH", MessageId = "type: System.Byte[]; size: 113MB")]
-        public async Task<byte[]> DownloadTickDataFile(string uri)
-        {
-            if (!Uri.TryCreate(uri, UriKind.Absolute, out var uriResult))
-                throw new InvalidOperationException("URI {uri} is invalid.");
-
-            Debug.WriteLine(uriResult);
-            using var httpResponse = await Task.Run(async () =>
-                await _client.GetAsync(uriResult)
-            );
-            Debug.WriteLine(httpResponse.StatusCode);
-            if (httpResponse.StatusCode != HttpStatusCode.OK)
-                return Array.Empty<byte>();
-            return await httpResponse.Content.ReadAsByteArrayAsync();
-        }
+        Debug.WriteLine(uriResult);
+        using var httpResponse = await Task.Run(async () =>
+            await _client.GetAsync(uriResult)
+        );
+        Debug.WriteLine(httpResponse.StatusCode);
+        if (httpResponse.StatusCode != HttpStatusCode.OK)
+            return Array.Empty<byte>();
+        return await httpResponse.Content.ReadAsByteArrayAsync();
     }
 }
