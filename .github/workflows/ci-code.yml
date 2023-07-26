@@ -46,8 +46,8 @@ jobs:
         with:
           name: test-results
           path: |
-            "Bi5.Net.Tests/**/test-results.trx",
-            "Bi5.Net.Tests/**/coverage.opencover.xml"
+            Bi5.Net.Tests/**/test-results.trx,
+            Bi5.Net.Tests/**/coverage.opencover.xml
           
   code_quality:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
