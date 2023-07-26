@@ -15,10 +15,10 @@ public class Tick : ITimedData
     }
 
     public DateTime Timestamp { get; }
-    public double Bid { get; set; }
-    public float BidVolume { get; set; }
-    public double Ask { get; set; }
-    public float AskVolume { get; set; }
+    public double Bid { get; init; }
+    public float BidVolume { get; init; }
+    public double Ask { get; init; }
+    public float AskVolume { get; init; }
 
     public override string ToString()
     {

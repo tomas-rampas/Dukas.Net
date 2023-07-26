@@ -5,6 +5,6 @@ namespace Bi5.Net.Models;
 
 public class GroupedBars
 {
-    public IGrouping<DateTime, BarWithExtraDate> BarGroup { get; set; }
-    public string FileFormat { get; set; }
+    public IGrouping<DateTime, BarWithExtraDate> BarGroup { get; init; }
+    public string FileFormat { get; init; }
 }
