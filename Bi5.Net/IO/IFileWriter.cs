@@ -13,8 +13,7 @@ internal interface IFileWriter
     /// <param name="side">Bid, Ask, Both</param>
     /// <param name="data">List of prices</param>
     /// <returns>True if bool ended up successfully</returns>
-    // ReSharper disable once UnusedMethodReturnValue.Global
     bool Write(string product, QuoteSide side, IEnumerable data);
 
-    string GetTickDataPath(string product, QuoteSide side, DateTime tickHour);
+    string GetTickDataPath(string product, DateTime tickHour);
 }

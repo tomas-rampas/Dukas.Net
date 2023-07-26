@@ -13,7 +13,6 @@ public abstract class FileWriter<T> : IFileWriter
     protected readonly string FilePath;
     protected readonly string TimeFrame;
 
-    // ReSharper disable once CollectionNeverQueried.Global
     protected readonly List<string> FilePaths;
 
     protected FileWriter(LoaderConfig cfg)
@@ -36,13 +35,8 @@ public abstract class FileWriter<T> : IFileWriter
         return Write(product, side, (IEnumerable<T>)data);
     }
 
-    string IFileWriter.GetTickDataPath(string product, QuoteSide side, DateTime tickHour)
+    string IFileWriter.GetTickDataPath(string product, DateTime tickHour)
     {
         return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
-    }
-
-    public string GetTickDataFolder(string product)
-    {
-        return Path.Combine(FilePath, product, "Tick");
     }
 }

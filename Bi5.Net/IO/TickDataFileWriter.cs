@@ -35,7 +35,7 @@ public class TickDataFileWriter : FileWriter<Tick>
     public async Task<IEnumerable<Tick>> ReadTickFromDisk(string product, QuoteSide side, DateTime date)
     {
         var ticks = new List<Tick>();
-        var filePath = ((IFileWriter)this).GetTickDataPath(product, side, date);
+        var filePath = ((IFileWriter)this).GetTickDataPath(product, date);
         if (filePath == "" || !File.Exists(filePath)) return null;
         var lines = await File.ReadAllLinesAsync(filePath);
         if (lines.Length < 1) return ticks;
