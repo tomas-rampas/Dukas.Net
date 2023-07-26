@@ -32,17 +32,4 @@ jobs:
         artifact: test-results
         path: "**/test-results.trx"                          
         reporter: dotnet-trx
-        fail-on-error: true
-          
-    - name: Create Test Coverage Badge
-      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
-      id: create_coverage_badge
-      with:
-        label: Unit Test Coverage
-        color: brightgreen
-        artifact: test-results
-        path: "**/coverage.opencover.xml"
-        gist-filename: code-coverage.json
-        gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
-        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
-          
+        fail-on-error: true        
