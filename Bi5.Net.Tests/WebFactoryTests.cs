@@ -19,7 +19,7 @@ public class WebFactoryTests
         var httpClient = Substitute.For<IBi5HttpClient>();
         var contentBytes = await File.ReadAllBytesAsync(SampleDataFile);
         httpClient.GetAsync(Arg.Any<Uri>()).Returns(
-            new HttpResponseMessage()
+            new HttpResponseMessage
             {
                 Content = new ByteArrayContent(contentBytes)
             });

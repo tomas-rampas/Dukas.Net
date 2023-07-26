@@ -24,8 +24,7 @@ public class Loader
     /// <summary>
     /// Dukacopy data endpoint format template 
     /// </summary>
-    private readonly string _dataUrl =
-        "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
+    private const string DataUrl = "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
     private readonly LoaderConfig _cfg;
     private readonly IFileWriter _tickDataFileWriter;
@@ -65,11 +64,9 @@ public class Loader
     private void CheckProductsInCatalogue(IEnumerable<Product> products)
     {
         var unknownProducts = _cfg.Products.Where(_ => !products.Any()).ToArray();
-        if (unknownProducts.Any())
-        {
-            Console.WriteLine("Undefined products:");
-            Array.ForEach(unknownProducts, Console.WriteLine);
-        }
+        if (!unknownProducts.Any()) return;
+        Console.WriteLine("Undefined products:");
+        Array.ForEach(unknownProducts, Console.WriteLine);
     }
 
     public async Task<bool> ResampleAndFlush()
@@ -162,11 +159,9 @@ public class Loader
             lastEndIndex += currentTicks.Length;
 
             // as soon as full day completed, create file and flush content to it
-            if (lastEndIndex > 0 && lastTick != null && IsLastHour(lastTick.Timestamp, _cfg.UseMarketDate))
-            {
-                FlushTicks(product, tickData, lastTick);
-                lastEndIndex = 0;
-            }
+            if (lastEndIndex <= 0 || lastTick == null || !IsLastHour(lastTick.Timestamp, _cfg.UseMarketDate)) continue;
+            FlushTicks(product, tickData, lastTick);
+            lastEndIndex = 0;
         }
 
         if (tickData.Any()) FlushTicks(product, tickData, tickData.Last());
@@ -192,12 +187,10 @@ public class Loader
     {
         var result = tickData
             .Resample(_cfg.TimeFrameMajorScale, _cfg.TimeFrameMinorScale, side);
-        if (result != null)
-        {
-            var timedDataSet = result as Bar[] ?? result.ToArray();
-            var fileWriter = WriterFactory.CreateWriter(timedDataSet, _cfg);
-            fileWriter.Write(product, side, timedDataSet);
-        }
+        if (result == null) return;
+        var timedDataSet = result as Bar[] ?? result.ToArray();
+        var fileWriter = WriterFactory.CreateWriter(timedDataSet, _cfg);
+        fileWriter.Write(product, side, timedDataSet);
     }
 
     private async IAsyncEnumerable<ITimedData[]?> Fetch(Product product, WebFactory webFactory,
@@ -259,7 +252,7 @@ public class Loader
 
     private async Task<Tick[]> GetTicks(Product product, WebFactory webFactory, DateTime date)
     {
-        var bi5DataUrl = string.Format(_dataUrl, product.Name, date.Year, date.Month - 1, date.Day, date.Hour);
+        var bi5DataUrl = string.Format(DataUrl, product.Name, date.Year, date.Month - 1, date.Day, date.Hour);
         Console.WriteLine(bi5DataUrl);
         var compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
         if (compressedBi5 == null || compressedBi5.Length == 0) return Array.Empty<Tick>();

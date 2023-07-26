@@ -61,7 +61,7 @@ public class Tick : ITimedData
     {
         if (string.IsNullOrWhiteSpace(csvRecord)) throw new ArgumentNullException(nameof(csvRecord));
 
-        string[] csvValues = csvRecord.Trim().Split(",");
+        var csvValues = csvRecord.Trim().Split(",");
 
         if (csvValues == null || csvValues.Length < 1)
             throw new ArgumentException($"{nameof(csvRecord)} is wrongly formatted");
