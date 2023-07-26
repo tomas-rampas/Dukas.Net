@@ -13,6 +13,7 @@ public abstract class FileWriter<T> : IFileWriter
     protected readonly string FilePath;
     protected readonly string TimeFrame;
 
+    // ReSharper disable once CollectionNeverQueried.Global
     protected readonly List<string> FilePaths;
 
     protected FileWriter(LoaderConfig cfg)
