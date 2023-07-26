@@ -1,0 +1,46 @@
+name: 'Test Report'
+on:
+  workflow_run:
+    workflows: ['CI - Code']
+    types:
+      - completed
+
+permissions:
+  statuses: write
+  checks: write
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Download artifact
+      id: download-artifact
+      uses: dawidd6/action-download-artifact@v2
+      with:
+        run_id: ${{ github.event.workflow_run.id }}
+        name: test-results
+        
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: always()
+      with:
+        name: Test Report
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        path: "**/test-results.trx"                          
+        reporter: dotnet-trx
+        fail-on-error: true
+          
+    - name: Create Test Coverage Badge
+      uses: simon-k/dotnet-code-coverage-badge@v1.0.0
+      id: create_coverage_badge
+      with:
+        label: Unit Test Coverage
+        color: brightgreen
+        path: Bi5.Net.Tests/TestResults/coverage.opencover.xml
+        gist-filename: code-coverage.json
+        gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
+        gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
+          
