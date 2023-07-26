@@ -25,7 +25,7 @@ internal static class ArrayExtensions
     /// 4th 4 bytes -> Bid Volume
     /// 5th 4 bytes -> Ask Volume
     /// </summary>
-    private const int TICK_ITEM_BYTE_SIZE = 20;
+    private const int TickItemByteSize = 20;
 
     /// <summary>
     /// Converts bytes to Ticks
@@ -41,16 +41,16 @@ internal static class ArrayExtensions
     [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
     public static IEnumerable<Tick> ToTickArray(this byte[] bytes, DateTime date, int decimals)
     {
-        if (bytes.Length % TICK_ITEM_BYTE_SIZE > 0)
+        if (bytes.Length % TickItemByteSize > 0)
         {
             throw new ArgumentException("Wrong size of array", nameof(bytes));
         }
 
-        var records = (uint)(bytes.Length / TICK_ITEM_BYTE_SIZE);
+        var records = (uint)(bytes.Length / TickItemByteSize);
         var ticks = new Tick[records];
 
         var k = 0;
-        for (var i = 0; i < bytes.Length; i += TICK_ITEM_BYTE_SIZE, k++)
+        for (var i = 0; i < bytes.Length; i += TickItemByteSize, k++)
         {
             var milliseconds = BitConverter.ToInt32(bytes[new Range(new Index(i), new Index(i + 4))].Bi5ToArray());
             var tickTimestamp = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0)

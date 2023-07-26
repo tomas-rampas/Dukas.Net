@@ -8,15 +8,15 @@ namespace Bi5.Net.Tests;
 
 public class LzmaCompressorTest
 {
-    private const string SAMPLE_DATA_FILE = @"./DataSamples/14h_ticks.bi5";
-    private const string RESULT_DATA_FILE = @"./DataSamples/14h_ticks.bin";
-    private const string LZMA_BYTES_DATA_FILE = @"./DataSamples/14h_ticks.lzma";
+    private const string SampleDataFile = @"./DataSamples/14h_ticks.bi5";
+    private const string ResultDataFile = @"./DataSamples/14h_ticks.bin";
+    private const string LzmaBytesDataFile = @"./DataSamples/14h_ticks.lzma";
 
     [Fact]
     public void Check_Decompress_Bi5_File_Test()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(RESULT_DATA_FILE));
-        var result = LzmaCompressor.DecompressLzmaFile(SAMPLE_DATA_FILE);
+        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+        var result = LzmaCompressor.DecompressLzmaFile(SampleDataFile);
         Assert.NotNull(result);
         Assert.NotEmpty(result);
         Assert.True(result.SequenceEqual(expectedResult));
@@ -32,9 +32,9 @@ public class LzmaCompressorTest
     [Fact]
     public void Check_Decompress_Bi5_Stream_Test()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(RESULT_DATA_FILE));
+        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
 
-        using var iStream = new FileStream(SAMPLE_DATA_FILE, FileMode.Open);
+        using var iStream = new FileStream(SampleDataFile, FileMode.Open);
         var result = LzmaCompressor.DecompressLzmaStream(iStream);
         Assert.NotNull(result);
         Assert.NotEmpty(result);
@@ -50,8 +50,8 @@ public class LzmaCompressorTest
     [Fact]
     public void Check_Decompress_Byte_Array()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(RESULT_DATA_FILE));
-        byte[] lzmaBytes = Convert.FromBase64String(File.ReadAllText(LZMA_BYTES_DATA_FILE));
+        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+        byte[] lzmaBytes = Convert.FromBase64String(File.ReadAllText(LzmaBytesDataFile));
 
         byte[] result = LzmaCompressor.DecompressLzmaBytes(lzmaBytes);
         Assert.NotNull(result);

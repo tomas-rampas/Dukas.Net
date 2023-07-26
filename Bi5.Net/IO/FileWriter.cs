@@ -11,27 +11,23 @@ public abstract class FileWriter<T> : IFileWriter
 {
     protected readonly FileScale FileScale;
     protected readonly string FilePath;
-    protected readonly DateTimePart TimeFrameMajorScale;
-    protected readonly uint TimeFrameMinorScale;
     protected readonly string TimeFrame;
-    protected List<string> FilePaths;
 
-    protected FileWriter()
-    {
-    }
+    // ReSharper disable once CollectionNeverQueried.Global
+    protected readonly List<string> FilePaths;
 
-    public FileWriter(LoaderConfig cfg)
+    protected FileWriter(LoaderConfig cfg)
     {
         FileScale = cfg.FileScale;
         FilePath = cfg.OutputFolder;
-        TimeFrameMajorScale = cfg.TimeFrameMajorScale;
-        TimeFrameMinorScale = cfg.TimeFrameMinorScale;
-        TimeFrame = $"{TimeFrameMajorScale}{TimeFrameMinorScale}";
+        var timeFrameMajorScale = cfg.TimeFrameMajorScale;
+        var timeFrameMinorScale = cfg.TimeFrameMinorScale;
+        TimeFrame = $"{timeFrameMajorScale}{timeFrameMinorScale}";
         FilePaths = new List<string>();
         Compress = cfg.GzipResult;
     }
 
-    public bool Compress { get; }
+    protected bool Compress { get; }
 
     protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
 
@@ -40,14 +36,12 @@ public abstract class FileWriter<T> : IFileWriter
         return Write(product, side, (IEnumerable<T>)data);
     }
 
-    List<string> IFileWriter.FilePaths => FilePaths;
-
     string IFileWriter.GetTickDataPath(string product, QuoteSide side, DateTime tickHour)
     {
         return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
     }
 
-    string IFileWriter.GetTickDataFolder(string product)
+    public string GetTickDataFolder(string product)
     {
         return Path.Combine(FilePath, product, "Tick");
     }

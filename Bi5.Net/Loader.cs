@@ -27,8 +27,8 @@ public class Loader
     private readonly string _dataUrl =
         "https://datafeed.dukascopy.com/datafeed/{0}/{1:0000}/{2:00}/{3:00}/{4:00}h_ticks.bi5";
 
-    private readonly LoaderConfig _cfg = null!;
-    private readonly IFileWriter _tickDataFileWriter = null!;
+    private readonly LoaderConfig _cfg;
+    private readonly IFileWriter _tickDataFileWriter;
 
     public Loader(LoaderConfig cfg)
     {

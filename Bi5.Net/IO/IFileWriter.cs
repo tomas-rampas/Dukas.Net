@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Bi5.Net.Models;
 
 namespace Bi5.Net.IO;
@@ -14,9 +13,8 @@ internal interface IFileWriter
     /// <param name="side">Bid, Ask, Both</param>
     /// <param name="data">List of prices</param>
     /// <returns>True if bool ended up successfully</returns>
+    // ReSharper disable once UnusedMethodReturnValue.Global
     bool Write(string product, QuoteSide side, IEnumerable data);
 
-    List<string> FilePaths { get; }
     string GetTickDataPath(string product, QuoteSide side, DateTime tickHour);
-    string GetTickDataFolder(string product);
 }
