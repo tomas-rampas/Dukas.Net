@@ -21,7 +21,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
         switch (FileScale)
         {
             case FileScale.Full:
-                IEnumerable<string> lines = data.Select(bar => bar.ToString());
+                var lines = data.Select(bar => bar.ToString());
                 File.WriteAllLines(Path.Combine(FilePath, $"{product}.csv"), lines);
                 return true;
             case FileScale.Day:
@@ -30,7 +30,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                         .Select(b => new BarWithExtraDate
                             {
                                 Bar = b,
-                                BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day),
+                                BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day)
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
@@ -48,7 +48,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                         .Select(b => new BarWithExtraDate
                             {
                                 Bar = b,
-                                BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, 1),
+                                BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, 1)
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
@@ -67,7 +67,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                         .Select(b => new BarWithExtraDate
                             {
                                 Bar = b,
-                                BarDateNoTime = new DateTime(b.Timestamp.Year, 1, 1),
+                                BarDateNoTime = new DateTime(b.Timestamp.Year, 1, 1)
                             }
                         )
                         .GroupBy(x => x.BarDateNoTime)
@@ -93,7 +93,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
     {
         foreach (var group in groups)
         {
-            IEnumerable<string> groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
+            var groupData = group.BarGroup.Select(bar => bar.Bar.ToString());
             var fileName = Path.Combine(dirPath,
                 $"{group.BarGroup.Key.ToString(group.FileFormat)}_{side.ToString()}.csv");
             File.WriteAllLines(fileName, groupData);

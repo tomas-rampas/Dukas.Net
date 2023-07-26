@@ -26,7 +26,7 @@ public class TickDataFileWriter : FileWriter<Tick>
         var dataPath = Combine(FilePath, product, "Tick");
         Directory.CreateDirectory(dataPath);
         var filePath = Combine(dataPath, $"{firstTickHour:yyyyMMddHH}00.csv");
-        IEnumerable<string> lines = ticks.Select(tick => tick.ToString());
+        var lines = ticks.Select(tick => tick.ToString());
         Task.Run(() => File.WriteAllLinesAsync(filePath, lines));
         FilePaths.Add(filePath);
         return true;
@@ -34,12 +34,12 @@ public class TickDataFileWriter : FileWriter<Tick>
 
     public async Task<IEnumerable<Tick>> ReadTickFromDisk(string product, QuoteSide side, DateTime date)
     {
-        List<Tick> ticks = new List<Tick>();
-        string filePath = ((IFileWriter)this).GetTickDataPath(product, side, date);
+        var ticks = new List<Tick>();
+        var filePath = ((IFileWriter)this).GetTickDataPath(product, side, date);
         if (filePath == "" || !File.Exists(filePath)) return null;
-        string[] lines = await File.ReadAllLinesAsync(filePath);
+        var lines = await File.ReadAllLinesAsync(filePath);
         if (lines.Length < 1) return ticks;
-        Array.ForEach(lines, (line) => { ticks.Add(line); });
+        Array.ForEach(lines, line => { ticks.Add(line); });
         return ticks;
     }
 }

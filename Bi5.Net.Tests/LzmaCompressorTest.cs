@@ -15,7 +15,7 @@ public class LzmaCompressorTest
     [Fact]
     public void Check_Decompress_Bi5_File_Test()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+        var expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
         var result = LzmaCompressor.DecompressLzmaFile(SampleDataFile);
         Assert.NotNull(result);
         Assert.NotEmpty(result);
@@ -32,7 +32,7 @@ public class LzmaCompressorTest
     [Fact]
     public void Check_Decompress_Bi5_Stream_Test()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+        var expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
 
         using var iStream = new FileStream(SampleDataFile, FileMode.Open);
         var result = LzmaCompressor.DecompressLzmaStream(iStream);
@@ -50,10 +50,10 @@ public class LzmaCompressorTest
     [Fact]
     public void Check_Decompress_Byte_Array()
     {
-        byte[] expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
-        byte[] lzmaBytes = Convert.FromBase64String(File.ReadAllText(LzmaBytesDataFile));
+        var expectedResult = Convert.FromBase64String(File.ReadAllText(ResultDataFile));
+        var lzmaBytes = Convert.FromBase64String(File.ReadAllText(LzmaBytesDataFile));
 
-        byte[] result = LzmaCompressor.DecompressLzmaBytes(lzmaBytes);
+        var result = LzmaCompressor.DecompressLzmaBytes(lzmaBytes);
         Assert.NotNull(result);
         Assert.NotEmpty(result);
         Assert.True(result.SequenceEqual(expectedResult));

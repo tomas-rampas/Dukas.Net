@@ -101,11 +101,11 @@ public class Loader
         var lastEndIndex = 0;
         var webFactory = new WebFactory();
 
-        await foreach (ITimedData[]? currentTicks in Fetch(product, webFactory, true))
+        await foreach (var currentTicks in Fetch(product, webFactory, true))
         {
             if (currentTicks == null || currentTicks.Length < 1) continue;
-            int startIndex = lastEndIndex;
-            int requiredSize = lastEndIndex + currentTicks.Length;
+            var startIndex = lastEndIndex;
+            var requiredSize = lastEndIndex + currentTicks.Length;
 
             if (tickData.Length < requiredSize)
             {
@@ -135,7 +135,7 @@ public class Loader
         WebFactory webFactory = new();
         var lastEndIndex = 0;
 
-        await foreach (ITimedData[]? currentTicks in Fetch(product, webFactory))
+        await foreach (var currentTicks in Fetch(product, webFactory))
         {
             if (currentTicks == null || currentTicks.Length < 1) continue;
 
@@ -148,8 +148,8 @@ public class Loader
                 lastEndIndex = 0;
             }
 
-            int startIndex = lastEndIndex;
-            int requiredSize = lastEndIndex + currentTicks.Length;
+            var startIndex = lastEndIndex;
+            var requiredSize = lastEndIndex + currentTicks.Length;
 
             if (tickData.Length < requiredSize)
             {
@@ -213,7 +213,7 @@ public class Loader
         var totalHoursAligned = (int)totalHours + Convert.ToInt32(endDate.Ticks % startDate.Ticks > 0);
         Debug.WriteLine($"{totalHours}, {totalHoursAligned}");
 
-        for (int hourOffset = 0; hourOffset < totalHours; hourOffset++)
+        for (var hourOffset = 0; hourOffset < totalHours; hourOffset++)
         {
             var date = startDate.AddHours(hourOffset);
             var lastHour = GetLastHour(date, _cfg.UseMarketDate);
@@ -261,7 +261,7 @@ public class Loader
     {
         var bi5DataUrl = string.Format(_dataUrl, product.Name, date.Year, date.Month - 1, date.Day, date.Hour);
         Console.WriteLine(bi5DataUrl);
-        byte[] compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
+        var compressedBi5 = await webFactory.DownloadTickDataFile(bi5DataUrl);
         if (compressedBi5 == null || compressedBi5.Length == 0) return Array.Empty<Tick>();
         Tick[] currentTicks = LzmaCompressor
             .DecompressLzmaBytes(compressedBi5)

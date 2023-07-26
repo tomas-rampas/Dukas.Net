@@ -26,7 +26,7 @@ public class ArrayUtilsTest
 
         var tickArray = ticks as Tick[] ?? ticks.ToArray();
         Assert.True(tickArray.Length == 1);
-        Tick resultTick = tickArray.First();
+        var resultTick = tickArray.First();
         Assert.True(resultTick.Equals(originalTick));
     }
 
@@ -50,7 +50,7 @@ public class ArrayUtilsTest
             Ask = bid / Math.Pow(10, 5),
             AskVolume = bidVol,
             Bid = ask / Math.Pow(10, 5),
-            BidVolume = askVol,
+            BidVolume = askVol
         };
 
         return (
@@ -63,7 +63,7 @@ public class ArrayUtilsTest
     public void Convert_Bi5_Bytes_To_Array()
     {
         byte[] input = { 1, 2, 3, 4, 5 };
-        byte[] output = input.Bi5ToArray();
+        var output = input.Bi5ToArray();
         Assert.Equal(input.Reverse().ToArray(), output);
     }
 }

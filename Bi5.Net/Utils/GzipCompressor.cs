@@ -11,9 +11,9 @@ public class GzipCompressor
         var fileToBeGZipped = new FileInfo(fileToGZip);
         var gzipFileName = new FileInfo(string.Concat(fileToGZip, ".gz"));
 
-        using FileStream fileToBeZippedAsStream = fileToBeGZipped.OpenRead();
-        using FileStream gzipTargetAsStream = gzipFileName.Create();
-        using GZipStream gzipStream = new GZipStream(gzipTargetAsStream, CompressionMode.Compress);
+        using var fileToBeZippedAsStream = fileToBeGZipped.OpenRead();
+        using var gzipTargetAsStream = gzipFileName.Create();
+        using var gzipStream = new GZipStream(gzipTargetAsStream, CompressionMode.Compress);
 
         try
         {

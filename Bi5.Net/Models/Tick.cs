@@ -79,7 +79,7 @@ public class Tick : ITimedData
                 Bid = double.Parse(csvValues[1], CultureInfo.InvariantCulture),
                 BidVolume = float.Parse(csvValues[2], CultureInfo.InvariantCulture),
                 Ask = double.Parse(csvValues[3], CultureInfo.InvariantCulture),
-                AskVolume = float.Parse(csvValues[4], CultureInfo.InvariantCulture),
+                AskVolume = float.Parse(csvValues[4], CultureInfo.InvariantCulture)
             };
         }
         catch (Exception)

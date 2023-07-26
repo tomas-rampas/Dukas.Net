@@ -54,7 +54,7 @@ public class DukascopyProducts : ReadOnlyDictionary<string, Product>
             { BTCUSD, new Product(BTCUSD, 5, "CFD") },
             { LTCUSD, new Product(LTCUSD, 5, "CFD") },
             { ETHUSD, new Product(ETHUSD, 5, "CFD") },
-            { XMRUSD, new Product(XMRUSD, 5, "CFD") },
+            { XMRUSD, new Product(XMRUSD, 5, "CFD") }
         }
     )
     {

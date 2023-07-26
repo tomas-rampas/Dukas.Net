@@ -65,7 +65,7 @@ internal static class ArrayExtensions
                 Bid = i2 / Math.Pow(10, decimals),
                 BidVolume = f2,
                 Ask = i1 / Math.Pow(10, decimals),
-                AskVolume = f1,
+                AskVolume = f1
             };
             //Debug.WriteLine(tick);
             ticks[k] = tick;
