@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Bi5.Net.Utils;
 
+[SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 internal static class DateTimeUtils
 {
     /// <summary>
@@ -10,6 +12,7 @@ internal static class DateTimeUtils
     /// <param name="dateTime">Given Timestamp</param>
     /// <param name="endDate">Is it end datetime</param>
     /// <returns>DateTime shifted accordingly</returns>
+    // ReSharper disable once UnusedMember.Global
     internal static DateTime CalculateEffectiveDate(DateTime dateTime, bool endDate = false)
     {
         var startDate = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, 0, 0, 0);

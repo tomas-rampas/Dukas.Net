@@ -37,7 +37,7 @@ namespace Dukas.Net
         private static LoaderConfig CheckCmdParamsAndCreateConfig(CmdOptions opts)
         {
             LoaderConfig cfg = opts;
-            if (cfg == null) throw new ApplicationException($"Config wos not created, check command line parameters.");
+            if (cfg == null) throw new ApplicationException("Config wos not created, check command line parameters.");
             return cfg;
         }
 

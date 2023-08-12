@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.CompilerServices;
+using SevenZip.Compression.LZMA;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
@@ -66,7 +67,7 @@ public static class LzmaCompressor
     /// <param name="outStream">Output Stream</param>
     private static void DecodeLzmaStream(Stream inStream, Stream outStream)
     {
-        var coder = new SevenZip.Compression.LZMA.Decoder();
+        var coder = new Decoder();
 
         var properties = new byte[5];
         var propertiesBytesRead = inStream.Read(properties, 0, 5);
@@ -91,7 +92,7 @@ public static class LzmaCompressor
     // ReSharper disable once UnusedMember.Local
     private static void CompressFileLzma(string inFile, string outFile)
     {
-        var coder = new SevenZip.Compression.LZMA.Encoder();
+        var coder = new Encoder();
         using var input = new FileStream(inFile, FileMode.Open);
         using var output = new FileStream(outFile, FileMode.Create);
         coder.WriteCoderProperties(output);

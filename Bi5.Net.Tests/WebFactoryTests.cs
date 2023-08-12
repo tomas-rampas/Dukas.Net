@@ -11,7 +11,7 @@ namespace Bi5.Net.Tests;
 
 public class WebFactoryTests
 {
-    private const string SampleDataFile = @"./DataSamples/14h_ticks.bi5";
+    private const string SampleDataFile = "./DataSamples/14h_ticks.bi5";
 
     [Fact]
     public async Task Download_TickData_Test()

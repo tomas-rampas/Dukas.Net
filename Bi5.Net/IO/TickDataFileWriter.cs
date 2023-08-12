@@ -17,7 +17,7 @@ public class TickDataFileWriter : FileWriter<Tick>
 
     [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
     [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
-    protected override bool Write(string product, QuoteSide side, IEnumerable<Tick> data)
+    protected override void Write(string product, QuoteSide side, IEnumerable<Tick> data)
     {
         var enumerableData = data as Tick[] ?? data.ToArray();
         if (data == null || !enumerableData.Any()) throw new ArgumentException(null, nameof(data));
@@ -29,10 +29,9 @@ public class TickDataFileWriter : FileWriter<Tick>
         var lines = ticks.Select(tick => tick.ToString());
         Task.Run(() => File.WriteAllLinesAsync(filePath, lines));
         FilePaths.Add(filePath);
-        return true;
     }
 
-    public async Task<IEnumerable<Tick>> ReadTickFromDisk(string product, QuoteSide side, DateTime date)
+    public async Task<IEnumerable<Tick>> ReadTickFromDisk(string product, DateTime date)
     {
         var ticks = new List<Tick>();
         var filePath = ((IFileWriter)this).GetTickDataPath(product, date);

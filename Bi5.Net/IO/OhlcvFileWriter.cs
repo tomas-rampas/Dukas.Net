@@ -13,7 +13,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
     {
     }
 
-    protected override bool Write(string product, QuoteSide side, IEnumerable<Bar> data)
+    protected override void Write(string product, QuoteSide side, IEnumerable<Bar> data)
     {
         var dirPath = Path.Combine(FilePath, product, TimeFrame);
         Directory.CreateDirectory(dirPath);
@@ -23,7 +23,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
             case FileScale.Full:
                 var lines = data.Select(bar => bar.ToString());
                 File.WriteAllLines(Path.Combine(FilePath, $"{product}.csv"), lines);
-                return true;
+                break;
             case FileScale.Day:
                 var groups =
                     data
@@ -41,7 +41,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                             }
                         );
                 WriteFileScaledGroupedBars(side, groups, dirPath);
-                return true;
+                break;
             case FileScale.Month:
                 groups =
                     data
@@ -60,7 +60,7 @@ public class OhlcvFileWriter : FileWriter<Bar>
                         );
                 WriteFileScaledGroupedBars(side, groups, dirPath);
 
-                return true;
+                break;
             case FileScale.Year:
                 groups =
                     data
@@ -79,13 +79,13 @@ public class OhlcvFileWriter : FileWriter<Bar>
                         );
                 WriteFileScaledGroupedBars(side, groups, dirPath);
 
-                return true;
+                break;
             case FileScale.Min:
             case FileScale.Hour:
             case FileScale.Week:
             default:
                 Console.WriteLine($"The {FileScale} writer is not implemented yet :( ");
-                return false;
+                break;
         }
     }
 

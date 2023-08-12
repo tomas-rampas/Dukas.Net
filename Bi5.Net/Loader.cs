@@ -170,7 +170,7 @@ public class Loader
         return tickData;
     }
 
-    private void FlushTicks(Product product, Tick[] tickData, Tick? lastTick)
+    private void FlushTicks(Product product, Tick[] tickData, ITimedData? lastTick)
     {
         FlushData(product.Name, tickData);
         Console.WriteLine($"Product {product.Name} - Last Date: {lastTick?.Timestamp:yyyy-MM-dd HH:mm:ss}");
@@ -240,17 +240,17 @@ public class Loader
         }
     }
 
-    private async Task<ITimedData[]?> GetTicksFromDisk(Product product, IFileWriter tickDataFileWriter,
+    private static async Task<ITimedData[]?> GetTicksFromDisk(Product product, IFileWriter tickDataFileWriter,
         DateTime date)
     {
         IEnumerable<Tick> ticksFromDisk =
-            await ((TickDataFileWriter)tickDataFileWriter).ReadTickFromDisk(product.Name, QuoteSide.Both, date);
+            await ((TickDataFileWriter)tickDataFileWriter).ReadTickFromDisk(product.Name, date);
         if (ticksFromDisk == null) return null;
         var ticks = ticksFromDisk as ITimedData[] ?? ticksFromDisk.ToArray();
         return ticks;
     }
 
-    private async Task<Tick[]> GetTicks(Product product, WebFactory webFactory, DateTime date)
+    private static async Task<Tick[]> GetTicks(Product product, WebFactory webFactory, DateTime date)
     {
         var bi5DataUrl = string.Format(DataUrl, product.Name, date.Year, date.Month - 1, date.Day, date.Hour);
         Console.WriteLine(bi5DataUrl);

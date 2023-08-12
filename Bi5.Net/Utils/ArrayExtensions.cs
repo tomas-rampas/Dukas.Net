@@ -33,7 +33,7 @@ internal static class ArrayExtensions
     /// <param name="bytes">Array of bytes to convert</param>
     /// <param name="date">Bi5 does not contain whole timestamp,
     /// so day, month and year is taken from this param when Tick timestamp is being constructed</param>
-    /// <param name="decimals">How many digits is after decimal JPY pairs can have 3, Majoe pairs 4 or 5, and
+    /// <param name="decimals">How many digits is after decimal JPY pairs can have 3, other pairs 4 or 5, and
     /// Index and Commodity CFDs can have 1 or 2</param>
     /// <returns>Array of Ticks translated from given byte array</returns>
     /// <exception cref="ArgumentException">Exception thrown when given byte array is not divisible

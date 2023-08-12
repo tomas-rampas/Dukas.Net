@@ -4,7 +4,7 @@ using System.IO.Compression;
 
 namespace Bi5.Net.Utils;
 
-public class GzipCompressor
+public static class GzipCompressor
 {
     public static void GzipStream(string fileToGZip)
     {

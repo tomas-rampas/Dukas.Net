@@ -13,7 +13,7 @@ internal interface IFileWriter
     /// <param name="side">Bid, Ask, Both</param>
     /// <param name="data">List of prices</param>
     /// <returns>True if bool ended up successfully</returns>
-    bool Write(string product, QuoteSide side, IEnumerable data);
+    void Write(string product, QuoteSide side, IEnumerable data);
 
     string GetTickDataPath(string product, DateTime tickHour);
 }

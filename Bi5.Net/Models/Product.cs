@@ -1,7 +1,7 @@
 ﻿namespace Bi5.Net.Models;
 
 /// <summary>
-/// Stores required atts of the Dukascopy product
+/// Stores required attributes of the Dukascopy product
 /// </summary>
 public class Product
 {

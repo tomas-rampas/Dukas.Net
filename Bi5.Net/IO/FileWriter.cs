@@ -29,11 +29,11 @@ public abstract class FileWriter<T> : IFileWriter
 
     protected bool Compress { get; }
 
-    protected abstract bool Write(string product, QuoteSide side, IEnumerable<T> data);
+    protected abstract void Write(string product, QuoteSide side, IEnumerable<T> data);
 
-    bool IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
+    void IFileWriter.Write(string product, QuoteSide side, IEnumerable data)
     {
-        return Write(product, side, (IEnumerable<T>)data);
+        Write(product, side, (IEnumerable<T>)data);
     }
 
     string IFileWriter.GetTickDataPath(string product, DateTime tickHour)

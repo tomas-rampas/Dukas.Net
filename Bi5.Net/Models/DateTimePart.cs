@@ -9,11 +9,6 @@
 public enum DateTimePart
 {
     /// <summary>
-    /// Raw tick
-    /// </summary>
-    Tick,
-
-    /// <summary>
     /// Second
     /// </summary>
     Sec,
@@ -36,6 +31,7 @@ public enum DateTimePart
     /// <summary>
     /// Week. Currently not supported.
     /// </summary>
+    // ReSharper disable once UnusedMember.Global
     Week,
 
     /// <summary>

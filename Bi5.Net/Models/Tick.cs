@@ -66,8 +66,7 @@ public class Tick : ITimedData
         if (csvValues == null || csvValues.Length < 1)
             throw new ArgumentException($"{nameof(csvRecord)} is wrongly formatted");
 
-        DateTime timeStamp;
-        if (!DateTime.TryParse(csvValues[0], out timeStamp))
+        if (!DateTime.TryParse(csvValues[0], out var timeStamp))
         {
             Debugger.Break();
         }
