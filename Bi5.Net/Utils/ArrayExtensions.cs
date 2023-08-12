@@ -94,8 +94,8 @@ internal static class ArrayExtensions
     internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
         , uint minorScale, QuoteSide side = QuoteSide.Bid)
     {
-        var tickArray = ticks as Tick[] ?? ticks.ToArray();
-        if (!tickArray.Any()) return null;
+        if (ticks is not Tick[] tickArray || !tickArray.Any() || tickArray.Length == 0) return null;
+        tickArray = ticks.Where(x => x != null).ToArray();
 
         var bars = tickArray
             .GroupBy(tick => new
