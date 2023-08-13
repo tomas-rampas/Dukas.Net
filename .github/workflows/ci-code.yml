@@ -59,7 +59,21 @@ jobs:
           gist-filename: code-coverage.json
           gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
           gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
-      
+
+      - name: Publish NuGet on package version change
+        id: publish_nuget
+        uses: alirezanet/publish-nuget@v3.1.0
+        with:
+          PROJECT_FILE_PATH: Bi5.Net/Bi5.Net.csproj
+          PACKAGE_NAME: Bi5.Net
+          VERSION_FILE_PATH: Bi5.Net/Bi5.Net.csproj
+          VERSION_REGEX: ^\s*<PackageVersion>(.*)<\/PackageVersion>\s*$
+          TAG_COMMIT: true
+          TAG_FORMAT: v*
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          NUGET_SOURCE: https://api.nuget.org
+          INCLUDE_SYMBOLS: false
+          NO_BUILD: false          
           
   code_quality:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
