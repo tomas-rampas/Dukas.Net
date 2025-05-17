@@ -1,6 +1,5 @@
 ﻿using System;
 using Bi5.Net.Utils;
-using NSubstitute;
 using Xunit;
 
 namespace Bi5.Net.Tests
