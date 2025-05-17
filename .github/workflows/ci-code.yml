@@ -49,7 +49,7 @@ jobs:
           name: test-results
           path: |
             Bi5.Net.Tests/TestResults/test-results.trx
-            Bi5.Net.Tests/TestResults/coverage.opencover.xml
+            Bi5.Net.Tests/TestResults/coverage.xml
       
       - name: Create Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
