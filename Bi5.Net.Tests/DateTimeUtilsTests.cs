@@ -115,14 +115,14 @@ namespace Bi5.Net.Tests
         }
 
         [Theory]
-        [InlineData(6,20,true)]  // During DST at 20:00, should be true
-        [InlineData(1,21,true)] // Not during DST at 21:00, should be true
-        [InlineData(6,19,false)] // During DST at 19:00, should be false
-        [InlineData(1,20,false)] // Not during DST at 20:00, should be false
-        public void IsLastHour_WithMarketDate_RespectsTimeZoneSettings(int month, int hour, bool expected)
+        [InlineData(20,6,20,true)]  // During DST at 20:00, should be true
+        [InlineData(10, 1,21,true)] // Not during DST at 21:00, should be true
+        [InlineData(20,6,19,false)] // During DST at 19:00, should be false
+        [InlineData(10,1,20,false)] // Not during DST at 20:00, should be false
+        public void IsLastHour_WithMarketDate_RespectsTimeZoneSettings(int day, int month, int hour, bool expected)
         {
             // Arrange - create a test date with specified hour
-            var testDate = new DateTime(DateTime.Now.Year, month, 17, hour, 0, 0);
+            var testDate = new DateTime(2025, month, day, hour, 0, 0);
             
             // Act
             var result = DateTimeUtils.IsLastHour(testDate, true);
