@@ -37,7 +37,9 @@ jobs:
 
         # Run Automated Tests
       - name: Run Unit Tests
-        run: dotnet test --logger "trx;LogFileName=test-results.trx" /p:Exclude="[*]Bi5.Net.Products*%2c[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=TestResults/ -p:CoverletOutputFormat=opencover --verbosity normal Bi5.Net.Tests/ || true
+        run: |
+          mkdir -p Bi5.Net.Tests/TestResults
+          dotnet test --logger "trx;LogFileName=test-results.trx" -p:Exclude="[*]Bi5.Net.Products*,[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=./TestResults/coverage -p:CoverletOutputFormat=opencover Bi5.Net.Tests/
 
         # Publish Unit Test Results
       - name: Upload Test Results
