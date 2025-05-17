@@ -77,7 +77,7 @@ jobs:
           NUGET_SOURCE: https://api.nuget.org
           INCLUDE_SYMBOLS: false
           NO_BUILD: false          
-          
+      
   code_quality:
     runs-on: ubuntu-latest # or macos-latest, windows-latest
     name: Code Quality (R#)
