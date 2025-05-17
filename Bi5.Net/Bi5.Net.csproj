@@ -9,10 +9,10 @@
         <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>
         <PackageVersion>0.4.0</PackageVersion>
         <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
-        <TargetFramework>net7.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Copyright>2023 Tomas Rampas</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
     </PropertyGroup>
     
     <ItemGroup>

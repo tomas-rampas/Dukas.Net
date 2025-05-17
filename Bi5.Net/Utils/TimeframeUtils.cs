@@ -15,13 +15,13 @@ public static class TimeframeUtils
         new()
         {
             {
-                DateTimePart.Sec,
+                DateTimePart.Second,
                 (timestamp, minorScale) =>
                     new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, timestamp.Hour,
                         timestamp.Minute, timestamp.Second / minorScale * minorScale, 0)
             },
             {
-                DateTimePart.Min,
+                DateTimePart.Minute,
                 (timestamp, minorScale) =>
                     new DateTime(timestamp.Year, timestamp.Month, timestamp.Day, timestamp.Hour,
                         timestamp.Minute / minorScale * minorScale, 0)

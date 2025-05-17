@@ -2,19 +2,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Bi5.Net.Models;
+
+
+[assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
 namespace Bi5.Net.IO;
 
 public abstract class FileWriter<T> : IFileWriter
     where T : ITimedData
 {
-    protected readonly FileScale FileScale;
-    protected readonly string FilePath;
-    protected readonly string TimeFrame;
-
-    // ReSharper disable once CollectionNeverQueried.Global
-    protected readonly List<string> FilePaths;
+    internal readonly FileScale FileScale;
+    internal readonly string FilePath;
+    internal readonly string TimeFrame;
+    
+    internal readonly List<string> FilePaths;
 
     protected FileWriter(LoaderConfig cfg)
     {

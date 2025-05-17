@@ -82,42 +82,100 @@ internal static class ArrayExtensions
     /// <param name="minorScale">Minor scale</param>
     /// <param name="side">Quote side</param>
     /// <returns>Enumerable of Bars</returns>
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: Bi5.Net.Models.Tick[]; size: 285MB")]
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: <>f__AnonymousType1`1[System.DateTime]")]
-    [SuppressMessage("ReSharper.DPA", "DPA0002: Excessive memory allocations in SOH",
-        MessageId = "type: Bi5.Net.Models.Tick[]")]
-    [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
-    [SuppressMessage("ReSharper.DPA", "DPA0003: Excessive memory allocations in LOH",
-        MessageId = "type: Bi5.Net.Models.Tick[]; size: 99MB")]
     internal static IEnumerable<Bar> Resample(this IEnumerable<Tick> ticks, DateTimePart majorScale
         , uint minorScale, QuoteSide side = QuoteSide.Bid)
     {
-        if (ticks is not Tick[] tickArray || !tickArray.Any() || tickArray.Length == 0) return null;
-        tickArray = ticks.Where(x => x != null).ToArray();
+        // Validate input and convert to array if not already
+        if (ticks is not Tick[] tickArray)
+        {
+            tickArray = ticks.ToArray();
+        }
 
-        var bars = tickArray
-            .GroupBy(tick => new
+        if (tickArray.Length == 0)
+        {
+            return null;
+        }
+
+        // Filter out null ticks in-place without additional allocations
+        int validCount = 0;
+        for (int i = 0; i < tickArray.Length; i++)
+        {
+            if (tickArray[i] != null)
+            {
+                if (i != validCount)
                 {
-                    BarTime = TimeframeUtils.GetTimestampForCandle(tick.Timestamp, majorScale, minorScale)
+                    tickArray[validCount] = tickArray[i];
                 }
-            )
-            .Select(grouping => new Bar
-                {
-                    Ticks = grouping.Count(),
-                    Timestamp = grouping.Key.BarTime,
-                    Open = side == QuoteSide.Bid
-                        ? grouping.OrderBy(x => x.Timestamp).First().Bid
-                        : grouping.OrderBy(x => x.Timestamp).First().Ask,
-                    High = grouping.Max(x => side == QuoteSide.Bid ? x.Bid : x.Ask),
-                    Low = grouping.Min(x => side == QuoteSide.Bid ? x.Bid : x.Ask),
-                    Close = side == QuoteSide.Bid
-                        ? grouping.OrderBy(x => x.Timestamp).Last().Bid
-                        : grouping.OrderBy(x => x.Timestamp).Last().Ask,
-                    Volume = Math.Round(grouping.Sum(x => side == QuoteSide.Bid ? x.BidVolume : x.AskVolume), 3)
-                }
-            ).ToList();
+
+                validCount++;
+            }
+        }
+
+        if (validCount == 0)
+        {
+            return null;
+        }
+
+        // Create a dictionary to avoid anonymous type allocations
+        var barGroups = new Dictionary<DateTime, List<Tick>>();
+
+        // Group ticks by bar time
+        for (int i = 0; i < validCount; i++)
+        {
+            var tick = tickArray[i];
+            var barTime = TimeframeUtils.GetTimestampForCandle(tick.Timestamp, majorScale, minorScale);
+
+            if (!barGroups.TryGetValue(barTime, out var tickList))
+            {
+                tickList = new List<Tick>();
+                barGroups.Add(barTime, tickList);
+            }
+
+            tickList.Add(tick);
+        }
+
+        // Create bars array with known size to avoid resizing
+        var bars = new Bar[barGroups.Count];
+        int barIndex = 0;
+
+        foreach (var group in barGroups)
+        {
+            var barTime = group.Key;
+            var tickList = group.Value;
+
+            // Sort once for the group
+            tickList.Sort((a, b) => a.Timestamp.CompareTo(b.Timestamp));
+
+            double high = double.MinValue;
+            double low = double.MaxValue;
+            double volume = 0;
+
+            Tick firstTick = tickList[0];
+            Tick lastTick = tickList[tickList.Count - 1];
+
+            // Calculate high, low, and volume in a single pass
+            for (int i = 0; i < tickList.Count; i++)
+            {
+                Tick tick = tickList[i];
+                double price = side == QuoteSide.Bid ? tick.Bid : tick.Ask;
+
+                if (price > high) high = price;
+                if (price < low) low = price;
+
+                volume += side == QuoteSide.Bid ? tick.BidVolume : tick.AskVolume;
+            }
+
+            bars[barIndex++] = new Bar
+            {
+                Ticks = tickList.Count,
+                Timestamp = barTime,
+                Open = side == QuoteSide.Bid ? firstTick.Bid : firstTick.Ask,
+                High = high,
+                Low = low,
+                Close = side == QuoteSide.Bid ? lastTick.Bid : lastTick.Ask,
+                Volume = Math.Round(volume, 3)
+            };
+        }
 
         return bars;
     }

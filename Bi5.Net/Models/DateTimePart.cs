@@ -11,12 +11,12 @@ public enum DateTimePart
     /// <summary>
     /// Second
     /// </summary>
-    Sec,
+    Second,
 
     /// <summary>
     /// Minute
     /// </summary>
-    Min,
+    Minute,
 
     /// <summary>
     /// Hour
