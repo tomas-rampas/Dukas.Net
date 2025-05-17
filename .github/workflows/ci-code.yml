@@ -39,7 +39,7 @@ jobs:
       - name: Run Unit Tests
         run: |
           mkdir -p Bi5.Net.Tests/TestResults
-          dotnet test --logger "trx;LogFileName=test-results.trx" -p:Exclude="[*]Bi5.Net.Products*,[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=./TestResults/coverage -p:CoverletOutputFormat=opencover Bi5.Net.Tests/
+          dotnet test --logger "trx;LogFileName=test-results.trx" -p:Exclude="[*]Bi5.Net.Products*%3B[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=./TestResults/coverage -p:CoverletOutputFormat=opencover Bi5.Net.Tests/
 
         # Publish Unit Test Results
       - name: Upload Test Results
