@@ -15,38 +15,37 @@ dukas.net --help
 #### Command Line Verbs
 |Verb | Description |
 |:---|:---|
-|fetch|Fetch and Resample tick data of given products|
-|resample|Perform resampling of existing Tick data; there is not any data downloaded from Dukascopy servers; existing fetched tick data are being used for resampling |
+|fetch|Fetch and resample tick data for specified products|
+|resample|Perform resampling of existing tick data without downloading from Dukascopy servers|
 
 #### Command Line Arguments
-Below is a list of all arguments mutual for all verbs. 
+Below is a list of all arguments common to all verbs. 
 
 |Short | Long | Description                                                                                                                                                                                                                                                                                                                                                                  |
 |:---|:---|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 |-s|--start-date| Required. Tick data start date                                                                                                                                                                                                                                                                                                                                               |
-|-e|--end-date| Tick data end date. Current date time is used when argument not provided                                                                                                                                                                                                                                                                                                     |
-|-p|--products| Required. Comma seprated list of tick data of demanded products (e.g. -p EURUSD,BRENTCMDUSD,DEUIDXEUR,XAUSUD)                                                                                                                                                                                                                                                                |
-|-q|--quote-side| (Default: Bid) Requested Quote side. Possible values: Bid, Ask, Both                                                                                                                                                                                                                                                                                                         |
-| |--major-scale| (Default: Day) Time Frame major scale. Possible values: Tick, Second, Minute, Hour, Day, Month, Year                                                                                                                                                                                                                                                                        |
-| |--minor-scale| (Default: 1) Time Frame minor scale                                                                                                                                                                                                                                                                                                                                          |
+|-e|--end-date| Tick data end date. Current date and time is used when not provided                                                                                                                                                                                                                                                                                                     |
+|-p|--products| Required. Comma-separated list of products (e.g. -p EURUSD,BRENTCMDUSD,DEUIDXEUR,XAUSUD)                                                                                                                                                                                                                                                                |
+|-q|--quote-side| (Default: Bid) Requested quote side. Possible values: Bid, Ask, Both                                                                                                                                                                                                                                                                                                         |
+| |--major-scale| (Default: Day) Time frame major scale. Possible values: Tick, Second, Minute, Hour, Day, Month, Year                                                                                                                                                                                                                                                                        |
+| |--minor-scale| (Default: 1) Time frame minor scale                                                                                                                                                                                                                                                                                                                                          |
 |-o|--output-dir| Required. Output data directory                                                                                                                                                                                                                                                                                                                                              |
-|-f|--file-scale| (Default Day). File Scale defines time frequency for the data in file. E.g. when FileScale is FileScale.Day data will be grouped by Day and store in the file with frequency where one file represents one day of data. I.e. consideriderin --major-scale Day and --file-scale Day then resulting file will contain one record; Possible values: Min, Hour, Day, Month, Year |
+|-f|--file-scale| (Default: Day). File scale defines the time frequency for data in each file. For example, when FileScale is Day, data will be grouped by day with one file per day. When using --major-scale Day and --file-scale Day, the resulting file will contain one record. Possible values: Min, Hour, Day, Month, Year |
 |-h|--header| (Default: false) Include header in resulting data file                                                                                                                                                                                                                                                                                                                       |
 |-g|--gzip| (Default: false) Compress result                                                                                                                                                                                                                                                                                                                                             |
-| |--help| Display detailed help screen including all possible verbs.                                                                                                                                                                                                                                                                                                                   |
-| |--version| Display version information.                                                                                                                                                                                                                                                                                                                                                 |
+| |--help| Display detailed help screen including all possible verbs                                                                                                                                                                                                                                                                                                                   |
+| |--version| Display version information                                                                                                                                                                                                                                                                                                                                                 |
 
-#### All arguments sample
+#### Examples
 
 #### Fetch
-Get 1 Minute OHLCV Bid and Ask quotes data between 1st of Jan. 2020 and 31st of Dec. 2020 for given list of products; store gzipped Bid and Ask data into the e:\temp directory. 
-This command also creates Tick data sub-directory for every donwloded product data so it can be used for resampling to other time frames later. 
-
+Get 1-minute OHLCV Bid and Ask quotes data between January 1, 2020, and December 31, 2020, for the specified products; store gzipped Bid and Ask data in the e:\temp directory. 
+This command also creates a tick data sub-directory for each downloaded product, allowing for later resampling to other time frames.
 ```
 dukas.net fetch -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Minute --minor-scale 1 --file-scale Day --header -g
 ```
 #### Resample
-Reample command is reusing fetched tick data and resampling them to another time frame resultions without touching Dukascopy servers. Folowing sample shows how to get 10 Minute OHLCV Bid and Ask bars. Other settings are same as in sample for fetch verb above. 
+The resample command reuses previously fetched tick data to create new time frame resolutions without accessing Dukascopy servers. The following example shows how to generate 10-minute OHLCV Bid and Ask bars. Other settings match the fetch example above.
 ```
 dukas.net resample -s "2020-01-01 00:00:00" -e "2020-12-31 23:59:59" -p DEUIDXEUR,GBRIDXGBP,USA30IDXUSD,AUSIDXAUD,LIGHTCMDUSD -o "e:\temp" -q Both --major-scale Minute --minor-scale 10 --file-scale Day --header -g
 ```
