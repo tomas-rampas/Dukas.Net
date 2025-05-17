@@ -9,7 +9,7 @@ on:
     - /**
 
 env:
-  dotnetVersion: '7.0.x'
+  dotnetVersion: '9.0'
 
 jobs:
   verify_codebase:
