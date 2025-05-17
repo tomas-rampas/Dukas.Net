@@ -38,7 +38,7 @@ jobs:
         # Run Automated Tests
       - name: Run Unit Tests
         run: |
-          mkdir -p Bi5.Net.Tests/TestResults
+          mkdir -p ./TestResults
           dotnet test --logger "trx;LogFileName=test-results.trx" -p:Exclude="[*]Bi5.Net.Products*%3B[*]Bi5.Net.Models*" -p:CollectCoverage=true -p:CoverletOutput=./TestResults/coverage.opencover.xml -p:CoverletOutputFormat=opencover Bi5.Net.Tests/
 
         # Publish Unit Test Results
@@ -48,8 +48,8 @@ jobs:
         with:
           name: test-results
           path: |
-            Bi5.Net.Tests/TestResults/test-results.trx
-            Bi5.Net.Tests/TestResults/coverage.opencover.xml
+            ./TestResults/test-results.trx
+            ./TestResults/coverage.opencover.xml
       
       - name: Create Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
