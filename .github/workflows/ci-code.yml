@@ -9,9 +9,7 @@ on:
     - /**
 
 env:
-  dotnetVersion7: '7.0.x'
-  dotnetVersion8: '8.0.x'
-  dotnetVersion9: '9.0.x'
+  dotnet: '9.0.x'
 
 jobs:
   verify_codebase:
@@ -31,10 +29,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: |
-            ${{ env.dotnetVersion7 }}
-            ${{ env.dotnetVersion8 }}
-            ${{ env.dotnetVersion9 }}
+          dotnet-version: ${{ env.dotnet }}
 
         # Build Solution
       - name: Build Solution
@@ -54,9 +49,7 @@ jobs:
           name: test-results
           path: |
             Bi5.Net.Tests/TestResults/test-results.trx
-            Bi5.Net.Tests/TestResults/coverage.opencover.net7.0.xml
-            Bi5.Net.Tests/TestResults/coverage.opencover.net8.0.xml
-            Bi5.Net.Tests/TestResults/coverage.opencover.net9.0.xml
+            Bi5.Net.Tests/TestResults/coverage.opencover.xml
       
       - name: Create Test Coverage Badge
         uses: simon-k/dotnet-code-coverage-badge@v1.0.0
@@ -64,7 +57,7 @@ jobs:
         with:
           label: Unit Test Coverage
           color: brightgreen
-          path: Bi5.Net.Tests/TestResults/coverage.opencover.net9.0.xml
+          path: Bi5.Net.Tests/TestResults/coverage.opencover.xml
           gist-filename: code-coverage.json
           gist-id: 240a53fad3b4d85a4f79ab772e84cb6a
           gist-auth-token: ${{ secrets.GIST_AUTH_TOKEN }} 
@@ -94,10 +87,7 @@ jobs:
       - name: Install .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: |
-              ${{ env.dotnetVersion7 }}
-              ${{ env.dotnetVersion8 }}
-              ${{ env.dotnetVersion9 }}
+          dotnet-version: ${{ env.dotnet }}
 
       - name: Restore NuGet Packages
         run: dotnet restore Dukas.Net.sln
