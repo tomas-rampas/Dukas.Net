@@ -7,7 +7,7 @@
         <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>
-        <PackageVersion>0.5.1</PackageVersion>
+        <PackageVersion>0.6.0</PackageVersion>
         <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
         <LangVersion>8.0</LangVersion>
         <Copyright>2023 - 2025 Tomas Rampas</Copyright>
@@ -19,8 +19,8 @@
     <ItemGroup>
       <PackageReference Include="LZMA-SDK" Version="22.1.1" />
       <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-      <PackageReference Include="System.Threading.Tasks.Dataflow" Version="4.11.1" />
-      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="6.0.0" />
+      <PackageReference Include="System.Threading.Tasks.Dataflow" Version="9.0.5" />
+      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.5" />
     </ItemGroup>
 
 </Project>
