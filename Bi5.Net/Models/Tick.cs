@@ -1,11 +1,12 @@
-﻿#nullable enable
+﻿//#nullable enable
 using System;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using static System.FormattableString;
 
-namespace Bi5.Net.Models;
+namespace Bi5.Net.Models
+{
 
 public class Tick : ITimedData
 {
@@ -15,19 +16,19 @@ public class Tick : ITimedData
     }
 
     public DateTime Timestamp { get; }
-    public double Bid { get; init; }
-    public float BidVolume { get; init; }
-    public double Ask { get; init; }
-    public float AskVolume { get; init; }
+    public double Bid { get; set; }
+    public float BidVolume { get; set; }
+    public double Ask { get; set; }
+    public float AskVolume { get; set; }
 
     public override string ToString()
     {
         return this;
     }
 
-    public override bool Equals(object? obj)
+    public override bool Equals(object obj)
     {
-        if (obj is not Tick tick) return false;
+        if (!(obj is Tick tick)) return false;
         return Math.Abs(tick.Ask - Ask) < 0.000001
                && Math.Abs(tick.Bid - Bid) < 0.000001
                && tick.Timestamp == Timestamp
@@ -37,7 +38,7 @@ public class Tick : ITimedData
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Timestamp);
+        return Utils.HashCodeHelper.Combine(Timestamp);
     }
 
     /// <summary>
@@ -61,7 +62,7 @@ public class Tick : ITimedData
     {
         if (string.IsNullOrWhiteSpace(csvRecord)) throw new ArgumentNullException(nameof(csvRecord));
 
-        var csvValues = csvRecord.Trim().Split(",");
+        var csvValues = csvRecord.Trim().Split(new[] { ',' });
 
         if (csvValues == null || csvValues.Length < 1)
             throw new ArgumentException($"{nameof(csvRecord)} is wrongly formatted");
@@ -87,4 +88,4 @@ public class Tick : ITimedData
             throw;
         }
     }
-}
+}}

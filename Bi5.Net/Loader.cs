@@ -12,7 +12,8 @@ using Bi5.Net.Products;
 using Bi5.Net.Utils;
 using static Bi5.Net.Utils.DateTimeUtils;
 
-namespace Bi5.Net;
+namespace Bi5.Net
+{
 
 public class Loader
 {
@@ -129,7 +130,7 @@ public class Loader
     {
         var tickData = Array.Empty<Tick>();
 
-        WebFactory webFactory = new();
+        WebFactory webFactory = new WebFactory();
         var lastEndIndex = 0;
 
         await foreach (var currentTicks in Fetch(product, webFactory))
@@ -261,4 +262,4 @@ public class Loader
             .ToTickArray(date, product.Decimals).ToArray();
         return currentTicks;
     }
-}
+}}

@@ -2,7 +2,8 @@
 using System.Collections;
 using Bi5.Net.Models;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.IO
+{
 
 internal interface IFileWriter
 {
@@ -16,4 +17,4 @@ internal interface IFileWriter
     void Write(string product, QuoteSide side, IEnumerable data);
 
     string GetTickDataPath(string product, DateTime tickHour);
-}
+}}

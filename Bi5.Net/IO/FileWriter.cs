@@ -8,7 +8,8 @@ using Bi5.Net.Models;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.IO
+{
 
 public abstract class FileWriter<T> : IFileWriter
     where T : ITimedData
@@ -43,4 +44,4 @@ public abstract class FileWriter<T> : IFileWriter
     {
         return Path.Combine(FilePath, product, "Tick", $"{tickHour:yyyyMMddHH}00.csv");
     }
-}
+}}

@@ -3,8 +3,8 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <PackageId>Dukas.Net</PackageId>
-        <LangVersion>9</LangVersion>
-        <TargetFrameworks>net8.0;net9.0;net7.0</TargetFrameworks>
+        <LangVersion>8.0</LangVersion>
+        <TargetFramework>net9.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>

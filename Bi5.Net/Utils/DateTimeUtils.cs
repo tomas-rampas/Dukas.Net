@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
 internal static class DateTimeUtils
@@ -67,4 +68,4 @@ internal static class DateTimeUtils
     {
         return new DateTime((datetime - DateTime.MinValue).Round(roundingInterval).Ticks);
     }
-}
+}}

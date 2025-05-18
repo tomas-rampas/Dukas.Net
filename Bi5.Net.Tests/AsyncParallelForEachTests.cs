@@ -8,7 +8,8 @@ using Moq;
 using Moq.Protected;
 using Xunit;
 
-namespace Bi5.Net.Tests;
+namespace Bi5.Net.Tests
+{
 
 public class AsyncParallelForEachTests
 {
@@ -268,4 +269,4 @@ public class AsyncParallelForEachTests
             yield return item;
         }
     }
-}
+}}

@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Bi5.Net.Models;
+namespace Bi5.Net.Models
+{
 
 /// <summary>
 /// Common base interface for tick and OHLCV data  
@@ -8,4 +9,4 @@ namespace Bi5.Net.Models;
 public interface ITimedData
 {
     public DateTime Timestamp { get; }
-}
+}}

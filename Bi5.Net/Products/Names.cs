@@ -1,6 +1,7 @@
 ﻿// ReSharper disable InconsistentNaming
 
-namespace Bi5.Net.Products;
+namespace Bi5.Net.Products
+{
 
 public static class Names
 {
@@ -50,4 +51,4 @@ public static class Names
     public const string BUNDTREUR = "BUNDTREUR";
     public const string UKGILTTRGBP = "UKGILTTRGBP";
     public const string USTBONDTRUSD = "USTBONDTRUSD";
-}
+}}

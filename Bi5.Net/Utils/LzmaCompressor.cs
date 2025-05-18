@@ -5,7 +5,8 @@ using SevenZip.Compression.LZMA;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 public static class LzmaCompressor
 {
@@ -55,7 +56,7 @@ public static class LzmaCompressor
         if (inBytes == null) throw new ArgumentNullException(nameof(inBytes));
 
         using var inStream = new MemoryStream();
-        inStream.Write(inBytes);
+        inStream.Write(inBytes, 0, inBytes.Length);
         inStream.Position = 0;
         return DecompressLzmaStream(inStream);
     }
@@ -103,4 +104,4 @@ public static class LzmaCompressor
         output.Flush();
         output.Close();
     }
-}
+}}

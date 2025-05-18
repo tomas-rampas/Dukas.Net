@@ -5,14 +5,15 @@ using Bi5.Net.Models;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 public delegate DateTime GetResampledDateTime(DateTime timestamp, int minorScale);
 
 public static class TimeframeUtils
 {
     private static readonly Dictionary<DateTimePart, GetResampledDateTime> DatePartDelegates =
-        new()
+        new Dictionary<DateTimePart, GetResampledDateTime>()
         {
             {
                 DateTimePart.Second,
@@ -55,4 +56,4 @@ public static class TimeframeUtils
     {
         return DatePartDelegates[majorScale](timestamp, (int)minorScale);
     }
-}
+}}

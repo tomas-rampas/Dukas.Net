@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using Bi5.Net.Models;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.IO
+{
 
 public static class WriterFactory
 {
     internal static IFileWriter CreateWriter(IEnumerable<ITimedData> timedData, LoaderConfig loaderConfig)
     {
-        return timedData switch
+        if (timedData is IEnumerable<Tick>)
         {
-            IEnumerable<Tick> => new TickDataFileWriter(loaderConfig),
-            IEnumerable<Bar> => new OhlcvFileWriter(loaderConfig),
-            _ => throw new ArgumentException("Unknown Timed Data", nameof(timedData))
-        };
+            return new TickDataFileWriter(loaderConfig);
+        }
+        else if (timedData is IEnumerable<Bar>)
+        {
+            return new OhlcvFileWriter(loaderConfig);
+        }
+        else
+        {
+            throw new ArgumentException("Unknown Timed Data", nameof(timedData));
+        }
     }
-}
+}}

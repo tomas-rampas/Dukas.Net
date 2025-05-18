@@ -2,7 +2,8 @@
 using Bi5.Net.Models;
 using Xunit;
 
-namespace Bi5.Net.Tests.TestData;
+namespace Bi5.Net.Tests.TestData
+{
 
 public class TimestampForCandleDataTheoryData : TheoryData<DateTime, DateTime, DateTimePart, uint>
 {
@@ -24,4 +25,4 @@ public class TimestampForCandleDataTheoryData : TheoryData<DateTime, DateTime, D
         Add(new DateTime(today.AddYears(3).Year, 1, 1, 0, 0, 0, 0),
             today.AddYears(3), DateTimePart.Year, 1);
     }
-}
+}}

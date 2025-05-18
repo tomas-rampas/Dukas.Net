@@ -1,4 +1,5 @@
-﻿namespace Bi5.Net.Models;
+﻿namespace Bi5.Net.Models
+{
 
 /// <summary>
 /// Stores required attributes of the Dukascopy product
@@ -17,4 +18,4 @@ public class Product
 
     // ReSharper disable once UnusedAutoPropertyAccessor.Global
     public string Type { get; }
-}
+}}

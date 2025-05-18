@@ -5,7 +5,8 @@ using System.Linq;
 using Bi5.Net.Models;
 using Bi5.Net.Utils;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.IO
+{
 
 public class OhlcvFileWriter : FileWriter<Bar>
 {
@@ -102,4 +103,4 @@ public class OhlcvFileWriter : FileWriter<Bar>
             File.Delete(fileName);
         }
     }
-}
+}}

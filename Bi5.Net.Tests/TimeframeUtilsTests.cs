@@ -4,7 +4,8 @@ using Bi5.Net.Tests.TestData;
 using Bi5.Net.Utils;
 using Xunit;
 
-namespace Bi5.Net.Tests;
+namespace Bi5.Net.Tests
+{
 
 public class TimeframeUtilsTests
 {
@@ -16,4 +17,4 @@ public class TimeframeUtilsTests
         var result = TimeframeUtils.GetTimestampForCandle(testData, timePart, tfScale);
         Assert.True(expectedResult == result);
     }
-}
+}}
