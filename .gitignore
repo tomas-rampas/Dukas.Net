@@ -7,3 +7,6 @@ riderModule.iml
 cmd_samples.txt
 Dukas.Net.sln.DotSettings.user
 .idea/
+CoverageReport/
+Bi5.Net.Tests/TestResults/
+.claude/
