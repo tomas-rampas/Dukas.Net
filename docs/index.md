@@ -3,9 +3,9 @@ I'm thrilled to announce the release of Bi5.Net 1.0.0, a powerful and lightweigh
 
 #### ✨ Key Highlights
 
-.NET Standard 2.0 Support: Bi5.Net 1.0.0 targets .NET Standard 2.0, ensuring broad compatibility and robust cross-platform support for your projects.  
-Thoroughly Tested: The library has been rigorously tested across multiple frameworks, including .NET Framework 4.6.2 and 4.8, as well as .NET Core 7.0, 8.0, and 9.0, guaranteeing reliability and performance.  
-Ease of Use: Seamlessly integrate Bi5.Net into your workflow to process tick data with minimal setup and maximum efficiency.  
+* .NET Standard 2.0 Support: Bi5.Net 1.0.0 targets .NET Standard 2.0, ensuring broad compatibility and robust cross-platform support for your projects.  
+* Thoroughly Tested: The library has been rigorously tested across multiple frameworks, including .NET Framework 4.6.2 and 4.8, as well as .NET Core 7.0, 8.0, and 9.0, guaranteeing reliability and performance.  
+* Ease of Use: Seamlessly integrate Bi5.Net into your workflow to process tick data with minimal setup and maximum efficiency.  
 
 #### 📦 Get Started  
 You can install Bi5.Net 1.0.0 via NuGet:
