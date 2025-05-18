@@ -32,7 +32,7 @@ namespace FrameworkCompatibilityTest
                     gzipResult: false                   
                 );
                 
-                Console.WriteLine($"Initialized LoaderConfig successfully for eurusd");
+                Console.WriteLine($"Initialized LoaderConfig successfully for EURUSD");
                 
                 // Create a loader instance to test if it can be instantiated
                 var loader = new Loader(config);
