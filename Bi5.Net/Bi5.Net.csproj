@@ -1,26 +1,27 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <Title>Dukascopy Bi5.Net</Title>
-        <Authors>Tomas Rampas</Authors>
-        <Version>1.0.0-alpha</Version>
-        <Description>Download, convert, and export Dukascopy tick data with ease. This package transforms tick data from the proprietary Bi5 format into a standard CSV file, featuring OHLCV (Open, High, Low, Close, Volume) data resampled to a user-defined timeframe resolution.</Description>
-        <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>        
-        <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
-        <LangVersion>8.0</LangVersion>
-        <Copyright>2023 - 2025 Tomas Rampas</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <Nullable>disable</Nullable>
-    </PropertyGroup>
-    
-    <ItemGroup>
-      <PackageReference Include="LZMA-SDK" Version="22.1.1" />
-      <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-      <PackageReference Include="System.Threading.Tasks.Dataflow" Version="9.0.5" />
-      <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.5" />
-    </ItemGroup>
+  <PropertyGroup>
+    <Title>Dukascopy Bi5.Net</Title>
+    <Authors>Tomas Rampas</Authors>
+    <Version>1.0.0-alpha</Version>
+    <PackageVersion>1.0.0-alpha</PackageVersion>
+    <Description>Download, convert, and export Dukascopy tick data with ease. This package transforms tick data from the proprietary Bi5 format into a standard CSV file, featuring OHLCV (Open, High, Low, Close, Volume) data resampled to a user-defined timeframe resolution.</Description>
+    <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <RepositoryUrl>https://github.com/tomas-rampas/Dukas.Net</RepositoryUrl>
+    <PackageProjectUrl>https://tomas-rampas.github.io/Dukas.Net/</PackageProjectUrl>
+    <LangVersion>8.0</LangVersion>
+    <Copyright>2023 - 2025 Tomas Rampas</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LZMA-SDK" Version="22.1.1" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    <PackageReference Include="System.Threading.Tasks.Dataflow" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="9.0.5" />
+  </ItemGroup>
 
 </Project>
