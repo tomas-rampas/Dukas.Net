@@ -81,8 +81,25 @@ public class OhlcvFileWriter : FileWriter<Bar>
                 WriteFileScaledGroupedBars(side, groups, dirPath);
 
                 break;
-            case FileScale.Min:
             case FileScale.Hour:
+                groups =
+                    data
+                        .Select(b => new BarWithExtraDate
+                            {
+                                Bar = b,
+                                BarDateNoTime = new DateTime(b.Timestamp.Year, b.Timestamp.Month, b.Timestamp.Day, b.Timestamp.Hour, 0, 0)
+                            }
+                        )
+                        .GroupBy(x => x.BarDateNoTime)
+                        .Select((g, _) => new GroupedBars
+                            {
+                                BarGroup = g,
+                                FileFormat = "yyyyMMdd_HH"
+                            }
+                        );
+                WriteFileScaledGroupedBars(side, groups, dirPath);
+                break;
+            case FileScale.Minute:
             case FileScale.Week:
             default:
                 Console.WriteLine($"The {FileScale} writer is not implemented yet :( ");

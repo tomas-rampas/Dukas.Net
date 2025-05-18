@@ -8,7 +8,7 @@
 /// </summary>
 public enum FileScale
 {
-    Min,
+    Minute,
 
     /// <summary>
     /// Hour
