@@ -1,10 +1,13 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dukas.Net", "Dukas.Net\Dukas.Net.csproj", "{D26CE870-BB5A-4D95-A672-C12E6D676518}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bi5.Net", "Bi5.Net\Bi5.Net.csproj", "{0241A4EF-C3B3-4354-85ED-D4FA9025DEFC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bi5.Net.Tests", "Bi5.Net.Tests\Bi5.Net.Tests.csproj", "{5EF5E2BD-AD63-4970-B560-0F94741ECBD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkCompatibilityTest", "FrameworkCompatibilityTest46\FrameworkCompatibilityTest46.csproj", "{8CA3F635-8A37-4A60-8271-933B55D66E9D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkCompatibilityTest48", "FrameworkCompatibilityTest48\FrameworkCompatibilityTest48.csproj", "{F02A7235-4427-4A2A-B6C6-94E34DD8A45B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +27,13 @@ Global
 		{5EF5E2BD-AD63-4970-B560-0F94741ECBD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EF5E2BD-AD63-4970-B560-0F94741ECBD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EF5E2BD-AD63-4970-B560-0F94741ECBD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CA3F635-8A37-4A60-8271-933B55D66E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CA3F635-8A37-4A60-8271-933B55D66E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CA3F635-8A37-4A60-8271-933B55D66E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CA3F635-8A37-4A60-8271-933B55D66E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F02A7235-4427-4A2A-B6C6-94E34DD8A45B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F02A7235-4427-4A2A-B6C6-94E34DD8A45B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F02A7235-4427-4A2A-B6C6-94E34DD8A45B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F02A7235-4427-4A2A-B6C6-94E34DD8A45B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
