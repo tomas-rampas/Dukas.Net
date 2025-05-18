@@ -3,8 +3,8 @@
   <PropertyGroup>
     <Title>Dukascopy Bi5.Net</Title>
     <Authors>Tomas Rampas</Authors>
-    <Version>1.0.0-alpha</Version>
-    <PackageVersion>1.0.0-alpha</PackageVersion>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
     <Description>Download, convert, and export Dukascopy tick data with ease. This package transforms tick data from the proprietary Bi5 format into a standard CSV file, featuring OHLCV (Open, High, Low, Close, Volume) data resampled to a user-defined timeframe resolution.</Description>
     <PackageTags>dukascopy bi5 tickdata forex</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

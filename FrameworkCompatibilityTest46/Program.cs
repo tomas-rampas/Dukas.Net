@@ -29,7 +29,7 @@ namespace FrameworkCompatibilityTest
                     quoteSide: QuoteSide.Bid,
                     fileScale: FileScale.Hour,
                     writeHeader: true,
-                    gzipResult: false                   
+                    gzipResult: false                  
                 );
                 
                 Console.WriteLine($"Initialized LoaderConfig successfully for EURUSD");
