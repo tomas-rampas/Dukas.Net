@@ -25,4 +25,4 @@ Let’s make Bi5.Net even better together!
 
 Happy coding! 💻
 
-Tomas, the only one member of The Bi5.Net Team
+Tomas, the only one member of The Bi5.Net Team 😎
