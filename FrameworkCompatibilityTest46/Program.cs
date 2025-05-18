@@ -24,7 +24,7 @@ namespace FrameworkCompatibilityTest
                     endDate: new DateTime(2023, 1, 2),
                     products: new List<string> { "EURUSD" },
                     timeFrameMajorScale: DateTimePart.Minute,
-                    timeFrameMinorScale: 60, // 1 hour timeframe
+                    timeFrameMinorScale: 1,
                     outputFolder: tempDir,
                     quoteSide: QuoteSide.Bid,
                     fileScale: FileScale.Hour,
@@ -37,6 +37,7 @@ namespace FrameworkCompatibilityTest
                 // Create a loader instance to test if it can be instantiated
                 var loader = new Loader(config);
                 Console.WriteLine("Successfully created Loader instance");
+                Console.WriteLine($"Starting data fetch into {tempDir}...");
                 await loader.GetAndFlush();
                 Console.WriteLine("Compatibility test passed: Bi5.Net can be used with .NET Framework 4.6.2");
                 Console.WriteLine($"Note: Some dependencies have warnings about full compatibility with .NET Framework 4.6.2");
