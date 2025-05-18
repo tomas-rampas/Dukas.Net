@@ -1,4 +1,5 @@
-﻿namespace Bi5.Net.Models;
+﻿namespace Bi5.Net.Models
+{
 
 /// <summary>
 /// Time Frame Major scale.
@@ -43,4 +44,4 @@ public enum DateTimePart
     /// Year
     /// </summary>
     Year
-}
+}}

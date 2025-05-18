@@ -4,7 +4,8 @@ using Bi5.Net.Models;
 using Bi5.Net.Utils;
 using Xunit;
 
-namespace Bi5.Net.Tests;
+namespace Bi5.Net.Tests
+{
 
 public class ArrayUtilsTest
 {
@@ -459,4 +460,4 @@ public class ArrayUtilsTest
         
         #endregion
     
-}
+}}

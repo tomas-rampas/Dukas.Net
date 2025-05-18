@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 using Bi5.Net.Models;
 using static System.IO.Path;
 
-namespace Bi5.Net.IO;
+namespace Bi5.Net.IO
+{
 
 public class TickDataFileWriter : FileWriter<Tick>
 {
@@ -55,8 +56,8 @@ public class TickDataFileWriter : FileWriter<Tick>
             lines[i] = tickArray[i].ToString();
         }
 
-        // Use Task.Run with awaiter to prevent hanging tasks
-        Task.Run(() => File.WriteAllLinesAsync(filePath, lines))
+        // For .NET Standard 2.0, use synchronous WriteAllLines wrapped in Task.Run
+        Task.Run(() => File.WriteAllLines(filePath, lines))
             .ConfigureAwait(false);
 
         // Add file path to collection
@@ -67,9 +68,12 @@ public class TickDataFileWriter : FileWriter<Tick>
         var ticks = new List<Tick>();
         var filePath = ((IFileWriter)this).GetTickDataPath(product, date);
         if (filePath == "" || !File.Exists(filePath)) return null;
-        var lines = await File.ReadAllLinesAsync(filePath);
+        
+        // For .NET Standard 2.0, use synchronous ReadAllLines wrapped in Task.Run
+        var lines = await Task.Run(() => File.ReadAllLines(filePath));
+        
         if (lines.Length < 1) return ticks;
         Array.ForEach(lines, line => { ticks.Add(line); });
         return ticks;
     }
-}
+}}

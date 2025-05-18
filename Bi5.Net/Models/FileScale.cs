@@ -1,4 +1,5 @@
-﻿namespace Bi5.Net.Models;
+﻿namespace Bi5.Net.Models
+{
 
 /// <summary>
 /// Defines frequency of storing the data.
@@ -38,4 +39,4 @@ public enum FileScale
     /// All data in one file
     /// </summary>
     Full
-}
+}}

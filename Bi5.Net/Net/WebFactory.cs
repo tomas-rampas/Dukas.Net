@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.Net;
+namespace Bi5.Net.Net
+{
 
 public class WebFactory
 {
@@ -38,4 +39,4 @@ public class WebFactory
             return Array.Empty<byte>();
         return await httpResponse.Content.ReadAsByteArrayAsync();
     }
-}
+}}

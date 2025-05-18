@@ -2,7 +2,8 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 public static class GzipCompressor
 {
@@ -24,4 +25,4 @@ public static class GzipCompressor
             Console.WriteLine(ex.Message);
         }
     }
-}
+}}

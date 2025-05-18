@@ -108,7 +108,7 @@ namespace Bi5.Net.Tests.Products
             // Act & Assert
             // We can't directly try to add to the dictionary, but we can check
             // that the class inherits from ReadOnlyDictionary
-            Assert.True(catalogue.GetType().BaseType.Name.Contains("ReadOnlyDictionary"));
+            Assert.Contains("ReadOnlyDictionary", catalogue.GetType().BaseType.Name);
         }
 
         [Fact]

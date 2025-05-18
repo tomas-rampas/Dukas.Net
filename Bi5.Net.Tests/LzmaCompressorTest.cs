@@ -4,7 +4,8 @@ using System.Linq;
 using Bi5.Net.Utils;
 using Xunit;
 
-namespace Bi5.Net.Tests;
+namespace Bi5.Net.Tests
+{
 
 public class LzmaCompressorTest
 {
@@ -58,4 +59,4 @@ public class LzmaCompressorTest
         Assert.NotEmpty(result);
         Assert.True(result.SequenceEqual(expectedResult));
     }
-}
+}}

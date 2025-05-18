@@ -2,7 +2,8 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Bi5.Net.Net;
+namespace Bi5.Net.Net
+{
 
 /// <summary>
 /// Simple interface for HttpClient wrapper
@@ -10,4 +11,4 @@ namespace Bi5.Net.Net;
 public interface IBi5HttpClient
 {
     Task<HttpResponseMessage> GetAsync(Uri requestUri);
-}
+}}

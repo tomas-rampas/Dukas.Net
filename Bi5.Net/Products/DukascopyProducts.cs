@@ -3,14 +3,15 @@ using System.Collections.ObjectModel;
 using Bi5.Net.Models;
 using static Bi5.Net.Products.Names;
 
-namespace Bi5.Net.Products;
+namespace Bi5.Net.Products
+{
 
 /// <summary>
 /// Dukascopy product catalog
 /// </summary>
 public class DukascopyProducts : ReadOnlyDictionary<string, Product>
 {
-    public static DukascopyProducts Catalogue => new();
+    public static DukascopyProducts Catalogue => new DukascopyProducts();
 
     private DukascopyProducts() : base(
         new Dictionary<string, Product>
@@ -59,4 +60,4 @@ public class DukascopyProducts : ReadOnlyDictionary<string, Product>
     )
     {
     }
-}
+}}

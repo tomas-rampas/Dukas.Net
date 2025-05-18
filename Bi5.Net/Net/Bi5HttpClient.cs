@@ -3,7 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Bi5.Net.Net;
+namespace Bi5.Net.Net
+{
 
 /// <summary>
 /// Custom Http client due allowing unit testing
@@ -11,7 +12,7 @@ namespace Bi5.Net.Net;
 [SuppressMessage("Performance", "CA1822:Mark members as static")]
 public class Bi5HttpClient : IBi5HttpClient
 {
-    private static readonly HttpClient Client = new();
+    private static readonly HttpClient Client = new HttpClient();
 
     // ReSharper disable once UnusedMember.Global
     public async Task<HttpResponseMessage> GetAsync(string requestUri)
@@ -23,4 +24,4 @@ public class Bi5HttpClient : IBi5HttpClient
     {
         return await Client.GetAsync(requestUri);
     }
-}
+}}

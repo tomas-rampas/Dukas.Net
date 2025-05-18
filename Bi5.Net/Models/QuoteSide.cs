@@ -1,4 +1,5 @@
-﻿namespace Bi5.Net.Models;
+﻿namespace Bi5.Net.Models
+{
 
 /// <summary>
 /// Defines sides of the price quote
@@ -21,4 +22,4 @@ public enum QuoteSide
     /// Both
     /// </summary>
     Both
-}
+}}

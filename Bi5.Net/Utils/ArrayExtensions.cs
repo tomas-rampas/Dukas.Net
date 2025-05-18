@@ -7,7 +7,8 @@ using Bi5.Net.Models;
 
 [assembly: InternalsVisibleTo("Bi5.Net.Tests")]
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 /// <summary>
 /// Byte Array extension methods.
@@ -52,14 +53,32 @@ internal static class ArrayExtensions
         var k = 0;
         for (var i = 0; i < bytes.Length; i += TickItemByteSize, k++)
         {
-            var milliseconds = BitConverter.ToInt32(bytes[new Range(new Index(i), new Index(i + 4))].Bi5ToArray());
+            byte[] slice = new byte[4];
+            Array.Copy(bytes, i, slice, 0, 4);
+            byte[] reversedSlice = slice.Bi5ToArray();
+            var milliseconds = BitConverter.ToInt32(reversedSlice, 0);
             var tickTimestamp = new DateTime(date.Year, date.Month, date.Day, date.Hour, 0, 0)
                 .AddMilliseconds(milliseconds);
 
-            var i1 = BitConverter.ToInt32(bytes[new Range(i + 4, i + 8)].Bi5ToArray());
-            var i2 = BitConverter.ToInt32(bytes[new Range(i + 8, i + 12)].Bi5ToArray());
-            var f1 = BitConverter.ToSingle(bytes[new Range(i + 12, i + 16)].Bi5ToArray());
-            var f2 = BitConverter.ToSingle(bytes[new Range(i + 16, i + 20)].Bi5ToArray());
+            byte[] slice1 = new byte[4];
+            Array.Copy(bytes, i + 4, slice1, 0, 4);
+            byte[] reversedSlice1 = slice1.Bi5ToArray();
+            var i1 = BitConverter.ToInt32(reversedSlice1, 0);
+            
+            byte[] slice2 = new byte[4];
+            Array.Copy(bytes, i + 8, slice2, 0, 4);
+            byte[] reversedSlice2 = slice2.Bi5ToArray();
+            var i2 = BitConverter.ToInt32(reversedSlice2, 0);
+            
+            byte[] slice3 = new byte[4];
+            Array.Copy(bytes, i + 12, slice3, 0, 4);
+            byte[] reversedSlice3 = slice3.Bi5ToArray();
+            var f1 = BitConverter.ToSingle(reversedSlice3, 0);
+            
+            byte[] slice4 = new byte[4];
+            Array.Copy(bytes, i + 16, slice4, 0, 4);
+            byte[] reversedSlice4 = slice4.Bi5ToArray();
+            var f2 = BitConverter.ToSingle(reversedSlice4, 0);
             var tick = new Tick(tickTimestamp)
             {
                 Bid = i2 / Math.Pow(10, decimals),
@@ -86,7 +105,8 @@ internal static class ArrayExtensions
         , uint minorScale, QuoteSide side = QuoteSide.Bid)
     {
         // Validate input and convert to array if not already
-        if (ticks is not Tick[] tickArray)
+        Tick[] tickArray = ticks as Tick[];
+        if (tickArray == null)
         {
             tickArray = ticks.ToArray();
         }
@@ -181,4 +201,4 @@ internal static class ArrayExtensions
     }
 
     internal static byte[] Bi5ToArray(this IEnumerable<byte> bytes) => bytes.Reverse().ToArray();
-}
+}}

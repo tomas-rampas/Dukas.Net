@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
-namespace Bi5.Net.Models;
+namespace Bi5.Net.Models
+{
 
 public class LoaderConfig
 {
@@ -48,4 +49,4 @@ public class LoaderConfig
     public FileScale FileScale { get; }
     public bool WriteHeader { get; }
     public bool GzipResult { get; }
-}
+}}

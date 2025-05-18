@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 
-namespace Bi5.Net.Utils;
+namespace Bi5.Net.Utils
+{
 
 public static class Extensions
 {
@@ -17,7 +18,7 @@ public static class Extensions
     /// <param name="scheduler"></param>
     /// <typeparam name="T"></typeparam>
     public static async Task AsyncParallelForEach<T>(this IAsyncEnumerable<T> source, Func<T, Task> body,
-        int maxDegreeOfParallelism = 4, TaskScheduler scheduler = null)
+        int maxDegreeOfParallelism = 4, TaskScheduler scheduler = default(TaskScheduler))
     {
         var options = new ExecutionDataflowBlockOptions
         {
@@ -39,4 +40,4 @@ public static class Extensions
 
         await block.Completion;
     }
-}
+}}

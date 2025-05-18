@@ -7,7 +7,8 @@ using Bi5.Net.Net;
 using NSubstitute;
 using Xunit;
 
-namespace Bi5.Net.Tests;
+namespace Bi5.Net.Tests
+{
 
 public class WebFactoryTests
 {
@@ -29,4 +30,4 @@ public class WebFactoryTests
         Assert.True(response.Length > 0);
         Assert.True(response.SequenceEqual(contentBytes));
     }
-}
+}}
