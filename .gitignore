@@ -11,3 +11,4 @@ CoverageReport/
 Bi5.Net.Tests/TestResults/
 .claude/
 resharper-report.xml
+.vscode/
