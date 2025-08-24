@@ -1,5 +1,8 @@
 name: CI - Code
 
+permissions:
+  contents: read
+
 on:
   push:
   workflow_dispatch:
